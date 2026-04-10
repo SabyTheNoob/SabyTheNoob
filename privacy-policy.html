@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — SabyTheNoob</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #05050a;
+  --bg1:     #0b0b14;
+  --bg2:     #10101c;
+  --bg3:     #17172a;
+  --border:  rgba(120,100,255,0.12);
+  --border2: rgba(120,100,255,0.28);
+  --purple:  #7c5cfc;
+  --purple2: #a580ff;
+  --orange:  #ff6b2b;
+  --orange2: #ffaa6b;
+  --green:   #36d96e;
+  --red:     #ff5555;
+  --amber:   #ffaa44;
+  --text:    #eeeaf8;
+  --muted:   #7a7596;
+  --muted2:  #9e9ab8;
+  --card-bg: #0e0e1c;
+}
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+  pointer-events: none; z-index: 9998;
+}
+nav {
+  position: sticky; top:0; left:0; right:0; z-index:500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 64px;
+  background: rgba(5,5,10,0.92);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem; letter-spacing: 0.08em;
+  color: var(--text); text-decoration: none;
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-dot { width:7px; height:7px; background:var(--orange); border-radius:50%; box-shadow:0 0 8px var(--orange); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+.back-a {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted2); text-decoration: none;
+  display: flex; align-items: center; gap: 6px;
+  transition: color 0.2s;
+}
+.back-a:hover { color: var(--text); }
+
+/* PAGE HEADER */
+.ph {
+  padding: 80px 24px 60px; text-align: center;
+  background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(124,92,252,0.1) 0%, transparent 70%);
+  border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.ph-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(124,92,252,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124,92,252,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 10%, transparent 80%);
+}
+.ph-inner { position:relative; z-index:1; }
+.ph-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600; font-size: 0.72rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--purple2);
+  border: 1px solid var(--border2);
+  background: rgba(124,92,252,0.08);
+  padding: 5px 18px;
+  clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  margin-bottom: 20px;
+}
+.ph h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  letter-spacing: 0.05em; line-height: 1; margin-bottom: 14px;
+}
+.ph-sub { font-size: 1rem; font-weight: 300; color: var(--muted2); max-width: 440px; margin: 0 auto 12px; }
+.ph-date {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* LAYOUT */
+.layout {
+  max-width: 1120px; margin: 0 auto;
+  padding: 60px 24px 100px;
+  display: grid; grid-template-columns: 240px 1fr;
+  gap: 52px; align-items: start;
+}
+@media(max-width:800px){ .layout{grid-template-columns:1fr;} .sb{display:none;} nav{padding:0 18px;} }
+
+/* SIDEBAR */
+.sb { position: sticky; top: 80px; }
+.sb-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 10px;
+}
+.sb-nav { list-style: none; }
+.sb-nav li { margin-bottom: 2px; }
+.sb-nav a {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 11px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.88rem; font-weight: 500;
+  color: var(--muted2); text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+  border-left: 2px solid transparent;
+}
+.sb-nav a:hover { color: var(--text); }
+.sb-nav a.active { color: var(--purple2); border-left-color: var(--purple2); background: rgba(124,92,252,0.06); }
+.sb-div { height:1px; background:var(--border); margin:14px 0; }
+.sb-note {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-left: 2px solid var(--orange);
+  padding: 12px 14px;
+  font-size: 0.78rem; font-weight: 300; color: var(--muted2); line-height: 1.6;
+}
+.sb-note strong { color: var(--orange); }
+
+/* CONTENT */
+.pol-sec { margin-bottom: 64px; scroll-margin-top: 90px; }
+.sec-tag {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--orange2); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sec-tag::after {
+  content:''; flex:1; height:1px;
+  background:linear-gradient(to right,rgba(255,170,107,0.3),transparent);
+  max-width:80px;
+}
+h2.pol-h {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem; letter-spacing: 0.05em;
+  line-height: 1; margin-bottom: 18px;
+}
+h3.pol-h3 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--purple2); margin: 26px 0 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+h3.pol-h3::before { content:''; width:3px; height:14px; background:var(--purple); display:inline-block; }
+p { color: var(--muted2); font-weight: 300; margin-bottom: 14px; font-size: 0.95rem; }
+strong { color: var(--text); font-weight: 500; }
+ul { color: var(--muted2); padding-left: 20px; margin-bottom: 14px; font-weight: 300; font-size: 0.92rem; }
+ul li { margin-bottom: 6px; }
+
+/* CARDS */
+.pol-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--purple);
+  padding: 26px 28px; margin-bottom: 18px;
+  position: relative; overflow: hidden;
+}
+.pol-card::after {
+  content:''; position:absolute; inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(124,92,252,0.015) 3px,rgba(124,92,252,0.015) 6px);
+  pointer-events:none;
+}
+.pc-hd {
+  display:flex; align-items:center; gap:14px;
+  margin-bottom:16px; padding-bottom:16px;
+  border-bottom:1px solid var(--border);
+}
+.pc-ico { width:44px; height:44px; object-fit:cover; border:1px solid var(--border2); flex-shrink:0; }
+.pc-ico-ph { width:44px; height:44px; border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; background:var(--bg3); }
+.pc-nm { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:0.06em; }
+.pc-gn { font-family:'Rajdhani',sans-serif; font-size:0.7rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--orange); margin-top:2px; }
+.pc-play {
+  margin-left:auto;
+  font-family:'Rajdhani',sans-serif; font-size:0.75rem; font-weight:700;
+  letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--muted2); border:1px solid var(--border);
+  padding:5px 14px; text-decoration:none;
+  clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
+  transition:color 0.2s, border-color 0.2s; white-space:nowrap;
+}
+.pc-play:hover { color:var(--text); border-color:var(--border2); }
+
+/* DATA TABLE */
+.dt {
+  width:100%; border-collapse:collapse;
+  margin:14px 0 22px; font-size:0.87rem;
+}
+.dt th {
+  text-align:left; padding:9px 14px;
+  background:rgba(255,255,255,0.04);
+  font-family:'Rajdhani',sans-serif; font-size:0.7rem;
+  font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1px solid var(--border);
+}
+.dt td {
+  padding:9px 14px; color:var(--muted2); font-weight:300;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  vertical-align:top;
+}
+.dt tr:last-child td { border-bottom:none; }
+.bdg {
+  display:inline-block; padding:2px 10px; border-radius:2px;
+  font-family:'Rajdhani',sans-serif; font-size:0.72rem;
+  font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);
+}
+.bdg-no  { background:rgba(54,217,110,0.12); color:var(--green); border:1px solid rgba(54,217,110,0.25); }
+.bdg-ads { background:rgba(255,170,68,0.1); color:var(--amber); border:1px solid rgba(255,170,68,0.25); }
+.bdg-yes { background:rgba(124,92,252,0.12); color:var(--purple2); border:1px solid var(--border2); }
+
+/* CONTACT BOX */
+.cbox {
+  background:rgba(124,92,252,0.06);
+  border:1px solid var(--border2);
+  border-left:3px solid var(--purple);
+  padding:28px 32px;
+}
+.cbox a { color:var(--purple2); text-decoration:none; }
+.cbox a:hover { text-decoration:underline; }
+
+/* INFO CARD */
+.info-card {
+  background:var(--bg2); border:1px solid var(--border);
+  border-left:2px solid var(--purple);
+  padding:18px 22px; margin-bottom:16px;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><span class="logo-dot"></span>SabyTheNoob</a>
+  <a class="back-a" href="index.html">← Back to Home</a>
+</nav>
+
+<div class="ph">
+  <div class="ph-grid"></div>
+  <div class="ph-inner">
+    <div class="ph-chip">🔒 Legal Documentation</div>
+    <h1>Privacy Policy</h1>
+    <p class="ph-sub">How SabyTheNoob collects, uses, and protects data across all apps.</p>
+    <p class="ph-date">Last updated: April 2024 · Applies to all SabyTheNoob apps</p>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sb">
+    <p class="sb-title">General Policy</p>
+    <ul class="sb-nav">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#data-collected">Data Collected</a></li>
+      <li><a href="#third-party">Third-Party Services</a></li>
+      <li><a href="#children">Children's Privacy</a></li>
+      <li><a href="#your-rights">Your Rights</a></li>
+      <li><a href="#contact">Contact Us</a></li>
+    </ul>
+    <div class="sb-div"></div>
+    <p class="sb-title">Per-App Policies</p>
+    <ul class="sb-nav">
+      <li><a href="#planet-explorer">🪐 Planet Explorer</a></li>
+      <li><a href="#crafty-adventure">🗺️ Crafty Adventure</a></li>
+      <li><a href="#the-friction">🏘️ The Friction</a></li>
+      <li><a href="#scrubble">🪙 Scrubble</a></li>
+    </ul>
+    <div class="sb-div"></div>
+    <div class="sb-note">Questions?<br>Email: <strong>sabythenoob@gmail.com</strong></div>
+  </aside>
+
+  <div class="content">
+
+    <div class="pol-sec" id="overview">
+      <p class="sec-tag">Overview</p>
+      <h2 class="pol-h">Our Commitment to Privacy</h2>
+      <p>SabyTheNoob ("we", "our", or "us") is an indie game and app studio based in Tambaram, Chennai, Tamil Nadu, India. This Privacy Policy explains how we handle information when you use any of our Android applications published on Google Play.</p>
+      <p>We take your privacy seriously. Our apps are designed to be fun and accessible — we do <strong>not</strong> sell your personal data to third parties, and we collect only what is necessary to run the apps and display ads.</p>
+      <p>By using any of our apps, you agree to the practices described in this policy.</p>
+    </div>
+
+    <div class="pol-sec" id="data-collected">
+      <p class="sec-tag">Data Collection</p>
+      <h2 class="pol-h">What Data We Collect</h2>
+      <p>Our apps collect minimal data. Here is a summary:</p>
+      <table class="dt">
+        <thead><tr><th>Data Type</th><th>Collected?</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Personal Identifiers</strong></td><td><span class="bdg bdg-no">Not Collected</span></td><td>No names or emails collected</td></tr>
+          <tr><td><strong>Device Information</strong></td><td><span class="bdg bdg-ads">Via Ads</span></td><td>Used by Google AdMob for ad serving</td></tr>
+          <tr><td><strong>Gameplay / Usage Data</strong></td><td><span class="bdg bdg-no">Not Collected</span></td><td>Not collected by us directly</td></tr>
+          <tr><td><strong>Location Data</strong></td><td><span class="bdg bdg-no">Not Collected</span></td><td>We do not access GPS or location</td></tr>
+          <tr><td><strong>Crash Reports</strong></td><td><span class="bdg bdg-ads">Via Platform</span></td><td>Android/Google Play may collect crash data</td></tr>
+          <tr><td><strong>Ad Identifiers</strong></td><td><span class="bdg bdg-ads">Via Ads</span></td><td>Google AdMob uses advertising IDs</td></tr>
+        </tbody>
+      </table>
+      <h3 class="pol-h3">Automatically Collected Data</h3>
+      <p>When you use our apps, standard Android and Google Play services may automatically collect technical information such as device type, OS version, and app performance data. This is handled by Google and governed by their Privacy Policy.</p>
+    </div>
+
+    <div class="pol-sec" id="third-party">
+      <p class="sec-tag">Third Parties</p>
+      <h2 class="pol-h">Third-Party Services</h2>
+      <div class="info-card">
+        <h3 class="pol-h3">Google AdMob</h3>
+        <p style="margin-bottom:6px">Our apps that display ads use Google AdMob. AdMob may collect device identifiers and usage data to serve relevant ads. You can opt out of personalized advertising in your Android device settings under <em>Google → Ads → Opt out of Ads Personalization</em>.</p>
+        <a href="https://policies.google.com/privacy" target="_blank" style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--purple2);text-decoration:none;">Google Privacy Policy →</a>
+      </div>
+      <div class="info-card">
+        <h3 class="pol-h3">Google Play Services</h3>
+        <p style="margin-bottom:6px">Our apps use Google Play Services for app distribution, updates, and crash reporting. Google Play Services may collect certain device and usage data as described in their own privacy policy.</p>
+        <a href="https://policies.google.com/privacy" target="_blank" style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--purple2);text-decoration:none;">Google Privacy Policy →</a>
+      </div>
+      <p>We do <strong>not</strong> share your personal data with any third party other than the ad networks and platform services listed above.</p>
+    </div>
+
+    <div class="pol-sec" id="children">
+      <p class="sec-tag">Children</p>
+      <h2 class="pol-h">Children's Privacy</h2>
+      <p>Our apps are rated <strong>Everyone / Everyone 3+</strong> on Google Play. We do not knowingly collect personal information from children under 13.</p>
+      <p>If you are a parent or guardian and believe your child has provided personal information through one of our apps, please contact us at <strong>sabythenoob@gmail.com</strong> and we will take steps to delete that information.</p>
+    </div>
+
+    <div class="pol-sec" id="your-rights">
+      <p class="sec-tag">Your Rights</p>
+      <h2 class="pol-h">Your Rights &amp; Choices</h2>
+      <ul>
+        <li><strong>Right to Know:</strong> You can ask us what data we hold about you.</li>
+        <li><strong>Right to Delete:</strong> You can request deletion of any personal data we hold.</li>
+        <li><strong>Opt-out of Ads:</strong> Opt out of personalized ads in your Android device settings.</li>
+        <li><strong>Uninstall:</strong> You can stop all data collection by uninstalling the app at any time.</li>
+      </ul>
+      <h3 class="pol-h3">Changes to This Policy</h3>
+      <p>We may update this Privacy Policy from time to time. Continued use of our apps after changes constitutes acceptance of the updated policy.</p>
+    </div>
+
+    <!-- PER-APP SECTIONS -->
+
+    <div class="pol-sec" id="planet-explorer">
+      <p class="sec-tag">App-Specific Policy</p>
+      <h2 class="pol-h">🪐 Planet Explorer</h2>
+      <div class="pol-card">
+        <div class="pc-hd">
+          <img class="pc-ico" src="https://play-lh.googleusercontent.com/gCooWTxeG9g04gdBLS115Uw5Ct3aGAUp4-RP63J0qQYDakuqpAPr9m6f5KStCIKo22U=s256" alt="Planet Explorer" onerror="this.outerHTML='<div class=pc-ico-ph>🪐</div>'">
+          <div><div class="pc-nm">Planet Explorer</div><div class="pc-gn">Educational · Simulation · 10K+ Downloads</div></div>
+          <a class="pc-play" href="https://play.google.com/store/apps/details?id=com.Sabeythenoob.Planet_Explorer" target="_blank">▶ Play Store</a>
+        </div>
+        <p>Explore other planets in our Solar System as a human being. Educational and immersive simulation.</p>
+        <table class="dt">
+          <tr><th>Type</th><th>Status</th><th>Note</th></tr>
+          <tr><td>Personal Data</td><td><span class="bdg bdg-no">Not Collected</span></td><td>No accounts required</td></tr>
+          <tr><td>Advertisements</td><td><span class="bdg bdg-ads">Contains Ads</span></td><td>Google AdMob</td></tr>
+          <tr><td>Location</td><td><span class="bdg bdg-no">Not Collected</span></td><td>No GPS access</td></tr>
+          <tr><td>Camera / Mic</td><td><span class="bdg bdg-no">Not Used</span></td><td>Not required</td></tr>
+        </table>
+        <h3 class="pol-h3">Permissions</h3>
+        <ul><li><strong>Internet Access:</strong> Required for displaying ads and checking for updates.</li></ul>
+      </div>
+    </div>
+
+    <div class="pol-sec" id="crafty-adventure">
+      <p class="sec-tag">App-Specific Policy</p>
+      <h2 class="pol-h">🗺️ Crafty Adventure</h2>
+      <div class="pol-card">
+        <div class="pc-hd">
+          <img class="pc-ico" src="https://play-lh.googleusercontent.com/RxoOYOcaRe6mzVBwe179KcvUyuyuOKmqDOs3eqqa7hlHXupcwzDLl7vZxH4-3-H-djM=s256" alt="Crafty Adventure" onerror="this.outerHTML='<div class=pc-ico-ph>🗺️</div>'">
+          <div><div class="pc-nm">Crafty Adventure</div><div class="pc-gn">Adventure · Puzzle</div></div>
+          <a class="pc-play" href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Crafty_Adventure" target="_blank">▶ Play Store</a>
+        </div>
+        <p>A fun adventure game for all ages, filled with puzzles, exploration, and surprises.</p>
+        <table class="dt">
+          <tr><th>Type</th><th>Status</th><th>Note</th></tr>
+          <tr><td>Personal Data</td><td><span class="bdg bdg-no">Not Collected</span></td><td>No accounts required</td></tr>
+          <tr><td>Advertisements</td><td><span class="bdg bdg-ads">Contains Ads</span></td><td>Google AdMob</td></tr>
+          <tr><td>Location</td><td><span class="bdg bdg-no">Not Collected</span></td><td></td></tr>
+          <tr><td>Camera / Mic</td><td><span class="bdg bdg-no">Not Used</span></td><td></td></tr>
+        </table>
+        <h3 class="pol-h3">Permissions</h3>
+        <ul><li><strong>Internet Access:</strong> Required for displaying ads.</li></ul>
+      </div>
+    </div>
+
+    <div class="pol-sec" id="the-friction">
+      <p class="sec-tag">App-Specific Policy</p>
+      <h2 class="pol-h">🏘️ The Friction</h2>
+      <div class="pol-card">
+        <div class="pc-hd">
+          <img class="pc-ico" src="https://play-lh.googleusercontent.com/sCce9tSpIFrpZe94phL_PG9FJ4OOEBtjoKYnagnRkyQC_S_zZxCezY1Lnb4VU4nGHg=s256" alt="The Friction" onerror="this.outerHTML='<div class=pc-ico-ph>🏘️</div>'">
+          <div><div class="pc-nm">The Friction</div><div class="pc-gn">Adventure · Escape</div></div>
+          <a class="pc-play" href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Friction" target="_blank">▶ Play Store</a>
+        </div>
+        <p>You're stuck in a village-type city. Navigate and find the keys to escape in this adventure game.</p>
+        <table class="dt">
+          <tr><th>Type</th><th>Status</th><th>Note</th></tr>
+          <tr><td>Personal Data</td><td><span class="bdg bdg-no">Not Collected</span></td><td>No accounts required</td></tr>
+          <tr><td>Advertisements</td><td><span class="bdg bdg-ads">Contains Ads</span></td><td>Google AdMob</td></tr>
+          <tr><td>Location</td><td><span class="bdg bdg-no">Not Collected</span></td><td></td></tr>
+          <tr><td>Camera / Mic</td><td><span class="bdg bdg-no">Not Used</span></td><td></td></tr>
+        </table>
+        <h3 class="pol-h3">Permissions</h3>
+        <ul><li><strong>Internet Access:</strong> Required for displaying ads.</li></ul>
+      </div>
+    </div>
+
+    <div class="pol-sec" id="scrubble">
+      <p class="sec-tag">App-Specific Policy</p>
+      <h2 class="pol-h">🪙 Scrubble</h2>
+      <div class="pol-card">
+        <div class="pc-hd">
+          <div class="pc-ico-ph" style="background:linear-gradient(135deg,#060c1e,#0c1836);">🪙</div>
+          <div><div class="pc-nm">Scrubble</div><div class="pc-gn">Adventure · Coin Collector · 50+ Downloads</div></div>
+          <a class="pc-play" href="https://play.google.com/store/apps/details?id=com.scruble.sabeythenoob" target="_blank">▶ Play Store</a>
+        </div>
+        <p>Play the original Scrubble — collect every coin to escape. Classic and addictive.</p>
+        <table class="dt">
+          <tr><th>Type</th><th>Status</th><th>Note</th></tr>
+          <tr><td>Personal Data</td><td><span class="bdg bdg-no">Not Collected</span></td><td>No accounts required</td></tr>
+          <tr><td>Advertisements</td><td><span class="bdg bdg-no">No Ads</span></td><td>This app does not display ads</td></tr>
+          <tr><td>Location</td><td><span class="bdg bdg-no">Not Collected</span></td><td></td></tr>
+          <tr><td>Camera / Mic</td><td><span class="bdg bdg-no">Not Used</span></td><td></td></tr>
+        </table>
+        <h3 class="pol-h3">Permissions</h3>
+        <ul><li>No special permissions required.</li></ul>
+      </div>
+    </div>
+
+    <div class="pol-sec" id="contact">
+      <div class="cbox">
+        <h3 class="pol-h3">Contact Us</h3>
+        <p>If you have any questions or requests regarding this Privacy Policy or data we hold, reach out:</p>
+        <p><strong>Email:</strong> <a href="mailto:sabythenoob@gmail.com">sabythenoob@gmail.com</a></p>
+        <p><strong>Developer:</strong> S. Sabesh Kumar (SabyTheNoob)</p>
+        <p><strong>Address:</strong> No 3, Raghavendra Colony, Tambaram, Chennai, Tamil Nadu 600126, India</p>
+        <p style="margin-bottom:0;">We aim to respond to all privacy-related inquiries within 7 business days.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer style="background:var(--bg1);border-top:1px solid var(--border);padding:28px 48px;text-align:center;">
+  <p style="font-size:0.82rem;font-weight:300;color:var(--muted);">
+    © 2024 SabyTheNoob ·
+    <a href="index.html" style="color:var(--purple2);text-decoration:none;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:0.06em;">← Back to Home</a> ·
+    <a href="mailto:sabythenoob@gmail.com" style="color:var(--muted2);text-decoration:none;">sabythenoob@gmail.com</a>
+  </p>
+</footer>
+
+<script>
+const sections = document.querySelectorAll('[id]');
+const links = document.querySelectorAll('.sb-nav a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 110) cur = s.id; });
+  links.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+  });
+});
+</script>
+</body>
+</html>

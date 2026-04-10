@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SabyTheNoob — Indie Game & App Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #05050a;
+  --bg1:     #0b0b14;
+  --bg2:     #10101c;
+  --bg3:     #17172a;
+  --border:  rgba(120,100,255,0.12);
+  --border2: rgba(120,100,255,0.28);
+  --purple:  #7c5cfc;
+  --purple2: #a580ff;
+  --orange:  #ff6b2b;
+  --orange2: #ffaa6b;
+  --text:    #eeeaf8;
+  --muted:   #7a7596;
+  --muted2:  #9e9ab8;
+  --card-bg: #0e0e1c;
+}
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+  pointer-events: none; z-index: 9998;
+}
+
+/* NAV */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 64px;
+  background: rgba(5,5,10,0.88);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem; letter-spacing: 0.08em;
+  color: var(--text); text-decoration: none;
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-dot {
+  width: 8px; height: 8px; background: var(--orange);
+  border-radius: 50%; box-shadow: 0 0 10px var(--orange);
+  animation: blink 2s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+nav ul { display: flex; gap: 32px; list-style: none; }
+nav ul a {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600; font-size: 0.95rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted2); text-decoration: none;
+  transition: color 0.2s;
+}
+nav ul a:hover { color: var(--text); }
+.nav-cta {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700; font-size: 0.85rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #000 !important;
+  background: var(--orange); padding: 8px 22px;
+  clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+  text-decoration: none; transition: opacity 0.2s;
+  display: inline-block;
+}
+.nav-cta:hover { opacity: 0.85; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 120px 24px 80px;
+  position: relative; overflow: hidden;
+}
+.hero-orb1 {
+  position: absolute; border-radius: 50%;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(124,92,252,0.18) 0%, transparent 65%);
+  top: -200px; left: 50%; transform: translateX(-50%);
+  pointer-events: none;
+}
+.hero-orb2 {
+  position: absolute; border-radius: 50%;
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, rgba(255,107,43,0.12) 0%, transparent 65%);
+  bottom: 0; right: 8%; pointer-events: none;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(124,92,252,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124,92,252,0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 20%, transparent 75%);
+}
+.hero-inner { position: relative; z-index:1; max-width: 860px; }
+
+.hero-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600; font-size: 0.78rem;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--orange2);
+  border: 1px solid rgba(255,107,43,0.35);
+  background: rgba(255,107,43,0.08);
+  padding: 5px 18px;
+  clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  margin-bottom: 28px;
+  animation: fadeUp 0.5s ease both;
+}
+.hero-chip-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--orange); animation: blink 1.5s infinite;
+}
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 11vw, 9.5rem);
+  line-height: 0.9; letter-spacing: 0.04em;
+  animation: fadeUp 0.5s 0.08s ease both;
+}
+.hero-title .l1 { color: var(--text); display: block; }
+.hero-title .l2 { color: var(--purple2); display: block; }
+.hero-title .l3 { color: var(--orange); display: block; }
+.hero-sub {
+  font-size: 1.05rem; font-weight: 300; color: var(--muted2);
+  max-width: 460px; margin: 22px auto 38px;
+  line-height: 1.75;
+  animation: fadeUp 0.5s 0.16s ease both;
+}
+.hero-btns {
+  display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+  animation: fadeUp 0.5s 0.24s ease both;
+}
+.btn-p {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700; font-size: 0.9rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  background: var(--purple); color: #fff;
+  padding: 13px 32px;
+  clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  text-decoration: none; transition: filter 0.2s, transform 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-p:hover { filter: brightness(1.2); transform: translateY(-2px); }
+.btn-g {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700; font-size: 0.9rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text); border: 1px solid var(--border2);
+  padding: 12px 28px; text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-g:hover { border-color: rgba(124,92,252,0.55); background: rgba(124,92,252,0.06); }
+
+/* STATS */
+.stats-strip {
+  display: flex; justify-content: center; flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg1);
+}
+.stat-i {
+  padding: 28px 60px; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat-i:last-child { border-right: none; }
+.stat-n {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem; letter-spacing: 0.06em;
+  color: var(--text); display: block; line-height: 1;
+}
+.stat-n .ac { color: var(--orange); }
+.stat-l {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted); margin-top: 4px;
+}
+
+/* SECTION SHELL */
+section { padding: 96px 24px; }
+.container { max-width: 1120px; margin: 0 auto; }
+.sec-lbl {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--purple2);
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 10px;
+}
+.sec-lbl::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(to right, var(--border2), transparent);
+  max-width: 100px;
+}
+.sec-h {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  letter-spacing: 0.04em; line-height: 1; margin-bottom: 10px;
+}
+.sec-d {
+  font-weight: 300; color: var(--muted2); font-size: 1rem;
+  max-width: 450px; margin-bottom: 52px; line-height: 1.7;
+}
+
+/* APPS */
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.app-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  text-decoration: none; color: var(--text);
+  display: block; position: relative; overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.app-card::before {
+  content: ''; position: absolute; top:0; right:0;
+  width: 28px; height: 28px; background: var(--purple);
+  clip-path: polygon(0 0,100% 0,100% 100%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.app-card:hover { border-color: var(--border2); transform: translateY(-5px); }
+.app-card:hover::before { opacity: 1; }
+.app-banner-ph {
+  width: 100%; height: 148px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3.2rem; position: relative; overflow: hidden;
+}
+.app-body { padding: 20px 22px 22px; }
+.app-hd { display: flex; align-items: center; gap: 14px; margin-bottom: 13px; }
+.app-ico {
+  width: 50px; height: 50px; object-fit: cover;
+  border: 1px solid var(--border2); flex-shrink: 0;
+}
+.app-ico-ph {
+  width: 50px; height: 50px;
+  border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0; background: var(--bg3);
+}
+.app-nm {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem; letter-spacing: 0.06em;
+}
+.app-gn {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--orange); margin-top: 2px;
+}
+.app-dsc {
+  font-size: 0.87rem; font-weight: 300; color: var(--muted2);
+  line-height: 1.65; margin-bottom: 17px;
+}
+.app-ft {
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 8px;
+}
+.app-mt {
+  display: flex; gap: 12px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--muted); letter-spacing: 0.06em;
+}
+.pill-p {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--purple2);
+  border: 1px solid rgba(124,92,252,0.35);
+  background: rgba(124,92,252,0.08);
+  padding: 4px 13px;
+  clip-path: polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
+  transition: background 0.2s;
+}
+.app-card:hover .pill-p { background: rgba(124,92,252,0.18); }
+.pill-pv {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted2); border: 1px solid var(--border);
+  padding: 4px 11px; text-decoration: none;
+  transition: color 0.2s, border-color 0.2s;
+}
+.pill-pv:hover { color: var(--text); border-color: var(--border2); }
+
+/* YOUTUBE */
+.yt-sec { background: var(--bg1); }
+.yt-ch-link {
+  display: flex; align-items: center; gap: 18px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-left: 3px solid #ff4444;
+  padding: 18px 24px; margin-bottom: 44px;
+  text-decoration: none; color: var(--text);
+  transition: border-color 0.2s; max-width: 500px;
+}
+.yt-ch-link:hover { border-color: rgba(255,68,68,0.5); }
+.yt-ico { width:46px; height:46px; background:#ff4444; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+.yt-nm { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:0.06em; }
+.yt-sb { font-size:0.8rem; color:var(--muted2); font-weight:300; margin-top:2px; }
+.yt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; }
+.yt-card {
+  background:var(--card-bg); border:1px solid var(--border);
+  text-decoration:none; color:var(--text); display:block;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.yt-card:hover { border-color:rgba(255,68,68,0.35); transform:translateY(-4px); }
+.yt-tw { position:relative; aspect-ratio:16/9; overflow:hidden; }
+.yt-tp {
+  width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:3rem;
+}
+.yt-ov {
+  position:absolute; inset:0; background:rgba(0,0,0,0.35);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transition:opacity 0.2s;
+}
+.yt-card:hover .yt-ov { opacity:1; }
+.yt-pb {
+  width:48px; height:48px; background:#ff4444;
+  clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1rem;
+}
+.yt-inf { padding:14px 16px; }
+.yt-ti {
+  font-family:'Rajdhani',sans-serif; font-size:1rem; font-weight:600;
+  line-height:1.35; margin-bottom:5px;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.yt-me { font-size:0.78rem; color:var(--muted); font-weight:300; }
+
+/* ABOUT */
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+@media(max-width:760px){.about-grid{grid-template-columns:1fr;gap:40px;}}
+.about-text p { font-size:0.95rem; font-weight:300; color:var(--muted2); line-height:1.8; margin-bottom:16px; }
+.tag-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.tag {
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.72rem; font-weight:700;
+  letter-spacing:0.12em; text-transform:uppercase;
+  border:1px solid var(--border2); color:var(--purple2);
+  padding:5px 13px;
+  clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+}
+.dev-card {
+  background:var(--bg2); border:1px solid var(--border);
+  border-top:2px solid var(--purple);
+  padding:36px 32px; position:relative; overflow:hidden;
+}
+.dev-card::after {
+  content:''; position:absolute; inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(124,92,252,0.02) 3px,rgba(124,92,252,0.02) 6px);
+  pointer-events:none;
+}
+.dev-nm { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:0.06em; line-height:1; margin-bottom:4px; }
+.dev-rl { font-family:'Rajdhani',sans-serif; font-size:0.8rem; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:var(--orange); margin-bottom:20px; }
+.dev-inf { display:flex; flex-direction:column; gap:10px; margin-top:20px; }
+.dev-rw { display:flex; align-items:center; gap:10px; font-size:0.87rem; font-weight:300; color:var(--muted2); }
+.dev-rw .ic { font-size:0.9rem; width:18px; }
+
+/* FOOTER */
+footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px 48px 36px; }
+.foot-grid { max-width:1120px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px; margin-bottom:48px; }
+@media(max-width:680px){.foot-grid{grid-template-columns:1fr;}}
+.foot-logo { font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:0.08em; color:var(--text); text-decoration:none; display:inline-block; margin-bottom:12px; }
+.foot-logo span { color:var(--orange); }
+.foot-desc { font-size:0.85rem; font-weight:300; color:var(--muted2); max-width:250px; line-height:1.7; }
+.foot-col h4 { font-family:'Rajdhani',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:16px; }
+.foot-col ul { list-style:none; }
+.foot-col li { margin-bottom:10px; }
+.foot-col a { font-size:0.87rem; font-weight:300; color:var(--muted2); text-decoration:none; transition:color 0.2s; }
+.foot-col a:hover { color:var(--text); }
+.foot-btm { max-width:1120px; margin:0 auto; padding-top:24px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+.foot-btm p { font-size:0.8rem; font-weight:300; color:var(--muted); }
+.socials { display:flex; gap:12px; }
+.soc-btn {
+  font-family:'Rajdhani',sans-serif; font-size:0.7rem; font-weight:700;
+  letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--muted2); border:1px solid var(--border);
+  padding:5px 14px; text-decoration:none;
+  clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
+  transition:color 0.2s, border-color 0.2s;
+}
+.soc-btn:hover { color:var(--text); border-color:var(--border2); }
+
+/* ANIM */
+@keyframes fadeUp { from{opacity:0;transform:translateY(22px);} to{opacity:1;transform:translateY(0);} }
+.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.55s ease, transform 0.55s ease; }
+.reveal.on { opacity:1; transform:translateY(0); }
+
+@media(max-width:768px){
+  nav{padding:0 18px;}
+  nav ul{display:none;}
+  .stat-i{padding:22px 26px;}
+  footer{padding:48px 20px 28px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><span class="logo-dot"></span>SabyTheNoob</a>
+  <ul>
+    <li><a href="#apps">Apps</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="privacy-policy.html">Privacy</a></li>
+  </ul>
+  <a href="https://play.google.com/store/apps/dev?id=8287816356133610844" target="_blank" class="nav-cta">▶ Play Store</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-orb1"></div>
+  <div class="hero-orb2"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-chip"><span class="hero-chip-dot"></span>Indie Game &amp; App Studio — Chennai, India</div>
+    <h1 class="hero-title">
+      <span class="l1">We Build</span>
+      <span class="l2">Games &amp;</span>
+      <span class="l3">Apps</span>
+    </h1>
+    <p class="hero-sub">From space simulators to escape adventures — SabyTheNoob crafts mobile experiences built for everyone on Android.</p>
+    <div class="hero-btns">
+      <a href="#apps" class="btn-p">▶ Explore Apps</a>
+      <a href="https://www.youtube.com/sabeythenoob" target="_blank" class="btn-g">◈ YouTube Channel</a>
+    </div>
+  </div>
+</section>
+
+<div class="stats-strip">
+  <div class="stat-i"><span class="stat-n">4<span class="ac">+</span></span><div class="stat-l">Published Apps</div></div>
+  <div class="stat-i"><span class="stat-n">10<span class="ac">K+</span></span><div class="stat-l">Downloads</div></div>
+  <div class="stat-i"><span class="stat-n">253<span class="ac">+</span></span><div class="stat-l">Reviews</div></div>
+  <div class="stat-i"><span class="stat-n">20<span class="ac">21</span></span><div class="stat-l">Est.</div></div>
+</div>
+
+<section id="apps">
+  <div class="container">
+    <p class="sec-lbl">Our Products</p>
+    <h2 class="sec-h">Apps on Google Play</h2>
+    <p class="sec-d">All apps are free to download. Tap any card to visit on the Play Store.</p>
+    <div class="apps-grid">
+
+      <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.Sabeythenoob.Planet_Explorer" target="_blank">
+        <div class="app-banner-ph" style="background:linear-gradient(135deg,#08082a,#12105e,#080e35);">
+          <img src="https://play-lh.googleusercontent.com/rgT2PLYxhVZu9IGX4SDAdb_JtNiFoKayhofB6eGWRZdcN52PnmEn18znl8GtMBicKlzh=w526-h296" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">
+          🪐
+        </div>
+        <div class="app-body">
+          <div class="app-hd">
+            <img class="app-ico" src="https://play-lh.googleusercontent.com/gCooWTxeG9g04gdBLS115Uw5Ct3aGAUp4-RP63J0qQYDakuqpAPr9m6f5KStCIKo22U=s256" alt="Planet Explorer" onerror="this.outerHTML='<div class=app-ico-ph>🪐</div>'">
+            <div><div class="app-nm">Planet Explorer</div><div class="app-gn">Educational · Simulation</div></div>
+          </div>
+          <p class="app-dsc">Walk on other planets in our Solar System as a human being. Explore environments that don't exist on Earth.</p>
+          <div class="app-ft">
+            <div class="app-mt"><span>★ 3.0</span><span>↓ 10K+</span></div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span class="pill-p">▶ Play Store</span>
+              <a href="privacy-policy.html#planet-explorer" class="pill-pv" onclick="event.stopPropagation()">🔒 Privacy</a>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Crafty_Adventure" target="_blank">
+        <div class="app-banner-ph" style="background:linear-gradient(135deg,#081a06,#163410,#081a0e);">
+          <img src="https://play-lh.googleusercontent.com/RxoOYOcaRe6mzVBwe179KcvUyuyuOKmqDOs3eqqa7hlHXupcwzDLl7vZxH4-3-H-djM=s256" alt="" style="width:72px;height:72px;object-fit:cover;border:1px solid rgba(255,255,255,0.12);z-index:1;" onerror="this.style.display='none'">
+          🗺️
+        </div>
+        <div class="app-body">
+          <div class="app-hd">
+            <img class="app-ico" src="https://play-lh.googleusercontent.com/RxoOYOcaRe6mzVBwe179KcvUyuyuOKmqDOs3eqqa7hlHXupcwzDLl7vZxH4-3-H-djM=s256" alt="Crafty Adventure" onerror="this.outerHTML='<div class=app-ico-ph>🗺️</div>'">
+            <div><div class="app-nm">Crafty Adventure</div><div class="app-gn">Adventure · Puzzle</div></div>
+          </div>
+          <p class="app-dsc">Embark on a crafty adventure full of puzzles, exploration and surprises. Fun for all ages.</p>
+          <div class="app-ft">
+            <div class="app-mt"><span>★ —</span><span>↓ —</span></div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span class="pill-p">▶ Play Store</span>
+              <a href="privacy-policy.html#crafty-adventure" class="pill-pv" onclick="event.stopPropagation()">🔒 Privacy</a>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Friction" target="_blank">
+        <div class="app-banner-ph" style="background:linear-gradient(135deg,#1c0c04,#300e06,#140a02);">
+          <img src="https://play-lh.googleusercontent.com/sCce9tSpIFrpZe94phL_PG9FJ4OOEBtjoKYnagnRkyQC_S_zZxCezY1Lnb4VU4nGHg=s256" alt="" style="width:72px;height:72px;object-fit:cover;border:1px solid rgba(255,255,255,0.12);z-index:1;" onerror="this.style.display='none'">
+          🏘️
+        </div>
+        <div class="app-body">
+          <div class="app-hd">
+            <img class="app-ico" src="https://play-lh.googleusercontent.com/sCce9tSpIFrpZe94phL_PG9FJ4OOEBtjoKYnagnRkyQC_S_zZxCezY1Lnb4VU4nGHg=s256" alt="The Friction" onerror="this.outerHTML='<div class=app-ico-ph>🏘️</div>'">
+            <div><div class="app-nm">The Friction</div><div class="app-gn">Adventure · Escape</div></div>
+          </div>
+          <p class="app-dsc">Stuck in a village city — find the keys and escape. A gripping adventure with real tension.</p>
+          <div class="app-ft">
+            <div class="app-mt"><span>★ —</span><span>↓ —</span></div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span class="pill-p">▶ Play Store</span>
+              <a href="privacy-policy.html#the-friction" class="pill-pv" onclick="event.stopPropagation()">🔒 Privacy</a>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.scruble.sabeythenoob" target="_blank">
+        <div class="app-banner-ph" style="background:linear-gradient(135deg,#060c1e,#0c1836,#060e1c);">🪙</div>
+        <div class="app-body">
+          <div class="app-hd">
+            <div class="app-ico-ph" style="background:linear-gradient(135deg,#060c1e,#0c1836);">🪙</div>
+            <div><div class="app-nm">Scrubble</div><div class="app-gn">Adventure · Coin Collector</div></div>
+          </div>
+          <p class="app-dsc">Play the original Scrubble — collect every coin to escape. Classic, addictive, free.</p>
+          <div class="app-ft">
+            <div class="app-mt"><span>★ —</span><span>↓ 50+</span></div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span class="pill-p">▶ Play Store</span>
+              <a href="privacy-policy.html#scrubble" class="pill-pv" onclick="event.stopPropagation()">🔒 Privacy</a>
+            </div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section id="videos" class="yt-sec">
+  <div class="container">
+    <p class="sec-lbl">Content</p>
+    <h2 class="sec-h">YouTube Channel</h2>
+    <p class="sec-d">Gameplay videos, walkthroughs and dev updates from SabyTheNoob.</p>
+    <a class="yt-ch-link" href="https://www.youtube.com/sabeythenoob" target="_blank">
+      <div class="yt-ico">▶</div>
+      <div>
+        <div class="yt-nm">SabyTheNoob</div>
+        <div class="yt-sb">youtube.com/sabeythenoob · Games, Dev Logs &amp; More</div>
+      </div>
+      <div style="margin-left:auto;font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted2);">Subscribe →</div>
+    </a>
+    <div class="yt-grid">
+      <a class="yt-card reveal" href="https://www.youtube.com/sabeythenoob" target="_blank">
+        <div class="yt-tw"><div class="yt-tp" style="background:linear-gradient(135deg,#08082a,#12105e);">🪐</div><div class="yt-ov"><div class="yt-pb">▶</div></div></div>
+        <div class="yt-inf"><div class="yt-ti">Planet Explorer — Gameplay &amp; Walkthrough</div><div class="yt-me">SabyTheNoob · Watch on YouTube</div></div>
+      </a>
+      <a class="yt-card reveal" href="https://www.youtube.com/sabeythenoob" target="_blank">
+        <div class="yt-tw"><div class="yt-tp" style="background:linear-gradient(135deg,#081a06,#163410);">🗺️</div><div class="yt-ov"><div class="yt-pb">▶</div></div></div>
+        <div class="yt-inf"><div class="yt-ti">Crafty Adventure — Full Gameplay</div><div class="yt-me">SabyTheNoob · Watch on YouTube</div></div>
+      </a>
+      <a class="yt-card reveal" href="https://www.youtube.com/sabeythenoob" target="_blank">
+        <div class="yt-tw"><div class="yt-tp" style="background:linear-gradient(135deg,#1c0c04,#300e06);">🏘️</div><div class="yt-ov"><div class="yt-pb">▶</div></div></div>
+        <div class="yt-inf"><div class="yt-ti">The Friction — Escape the Village!</div><div class="yt-me">SabyTheNoob · Watch on YouTube</div></div>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <a href="https://www.youtube.com/sabeythenoob" target="_blank" class="btn-g">◈ View All Videos</a>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <p class="sec-lbl">About</p>
+    <h2 class="sec-h">The Studio</h2>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>SabyTheNoob is an indie game and app studio built and run by Sabesh Kumar from Tambaram, Chennai, Tamil Nadu, India.</p>
+        <p>The studio was born out of a love for games and the drive to create something real — from space simulation in Planet Explorer to escape adventures in The Friction, every app is crafted with intention.</p>
+        <p>Publishing on Google Play since 2021, growing one game at a time.</p>
+        <div class="tag-row">
+          <span class="tag">Game Dev</span>
+          <span class="tag">Android</span>
+          <span class="tag">Made in India</span>
+          <span class="tag">Unity</span>
+          <span class="tag">Indie</span>
+        </div>
+      </div>
+      <div class="dev-card">
+        <div class="dev-nm">Sabesh Kumar</div>
+        <div class="dev-rl">Founder &amp; Developer</div>
+        <p style="font-size:0.88rem;font-weight:300;color:var(--muted2);line-height:1.75;">Building games from Tamil Nadu. Passionate about creating interactive experiences for Android users worldwide.</p>
+        <div class="dev-inf">
+          <div class="dev-rw"><span class="ic">✉</span><span>sabythenoob@gmail.com</span></div>
+          <div class="dev-rw"><span class="ic">◎</span><span>Tambaram, Chennai, Tamil Nadu</span></div>
+          <div class="dev-rw"><span class="ic">⊕</span><span>sabythenoob.com</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <a class="foot-logo" href="index.html">Saby<span>TheNoob</span></a>
+      <p class="foot-desc">Indie game &amp; app studio from Tamil Nadu, India. Building mobile experiences on Android since 2021.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Apps</h4>
+      <ul>
+        <li><a href="https://play.google.com/store/apps/details?id=com.Sabeythenoob.Planet_Explorer" target="_blank">Planet Explorer</a></li>
+        <li><a href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Crafty_Adventure" target="_blank">Crafty Adventure</a></li>
+        <li><a href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Friction" target="_blank">The Friction</a></li>
+        <li><a href="https://play.google.com/store/apps/details?id=com.scruble.sabeythenoob" target="_blank">Scrubble</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="https://play.google.com/store/apps/dev?id=8287816356133610844" target="_blank">Play Store Page</a></li>
+        <li><a href="https://www.youtube.com/sabeythenoob" target="_blank">YouTube</a></li>
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="mailto:sabythenoob@gmail.com">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-btm">
+    <p>© 2024 SabyTheNoob. All rights reserved.</p>
+    <div class="socials">
+      <a href="https://www.youtube.com/sabeythenoob" target="_blank" class="soc-btn">YT</a>
+      <a href="https://play.google.com/store/apps/dev?id=8287816356133610844" target="_blank" class="soc-btn">Play</a>
+      <a href="https://www.instagram.com/sabythenoob/" target="_blank" class="soc-btn">IG</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('on'), i*90); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
