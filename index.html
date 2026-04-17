@@ -4,10 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SabyTheNoob — Indie Game & App Studio</title>
+<meta name="description" content="SabyTheNoob is an indie game & app studio from Chennai, India. Play our games on Android — Planet Explorer, Crafty Adventure, The Friction, Scrubble & more.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+/* ============================================
+   SabyTheNoob — Gaming Studio Website
+   ============================================ */
 :root {
   --bg:      #05050a;
   --bg1:     #0b0b14;
@@ -19,6 +23,8 @@
   --purple2: #a580ff;
   --orange:  #ff6b2b;
   --orange2: #ffaa6b;
+  --red:     #ff4444;
+  --green:   #00e676;
   --text:    #eeeaf8;
   --muted:   #7a7596;
   --muted2:  #9e9ab8;
@@ -37,11 +43,12 @@ body {
 body::after {
   content: '';
   position: fixed; inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
   pointer-events: none; z-index: 9998;
 }
+a { color: inherit; }
 
-/* NAV */
+/* ========== NAV ========== */
 nav {
   position: fixed; top:0; left:0; right:0; z-index:500;
   display: flex; align-items: center; justify-content: space-between;
@@ -49,7 +56,9 @@ nav {
   background: rgba(5,5,10,0.88);
   backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border);
+  transition: background 0.3s;
 }
+nav.scrolled { background: rgba(5,5,10,0.96); }
 .nav-logo {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 1.6rem; letter-spacing: 0.08em;
@@ -62,47 +71,93 @@ nav {
   animation: blink 2s infinite;
 }
 @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
-nav ul { display: flex; gap: 32px; list-style: none; }
-nav ul a {
+
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
   font-family: 'Rajdhani', sans-serif;
   font-weight: 600; font-size: 0.95rem;
   letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--muted2); text-decoration: none;
   transition: color 0.2s;
+  position: relative;
 }
-nav ul a:hover { color: var(--text); }
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 2px; background: var(--purple);
+  transition: width 0.3s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { width: 100%; }
+
 .nav-cta {
   font-family: 'Rajdhani', sans-serif;
   font-weight: 700; font-size: 0.85rem;
   letter-spacing: 0.12em; text-transform: uppercase;
-  color: #000 !important;
-  background: var(--orange); padding: 8px 22px;
+  color: #000 !important; background: var(--orange);
+  padding: 8px 22px;
   clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
-  text-decoration: none; transition: opacity 0.2s;
+  text-decoration: none; transition: opacity 0.2s, transform 0.2s;
   display: inline-block;
 }
-.nav-cta:hover { opacity: 0.85; }
+.nav-cta:hover { opacity: 0.85; transform: scale(1.03); }
 
-/* HERO */
+/* Hamburger */
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; z-index: 600; background: none; border: none; padding: 8px;
+}
+.hamburger span {
+  width: 24px; height: 2px; background: var(--text);
+  transition: transform 0.3s, opacity 0.3s;
+  display: block;
+}
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* Mobile menu overlay */
+.mobile-menu {
+  position: fixed; inset: 0; z-index: 550;
+  background: rgba(5,5,10,0.97);
+  backdrop-filter: blur(32px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 28px;
+  opacity: 0; pointer-events: none; transition: opacity 0.35s;
+}
+.mobile-menu.open { opacity: 1; pointer-events: auto; }
+.mobile-menu a {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.4rem; letter-spacing: 0.08em;
+  color: var(--muted2); text-decoration: none;
+  transition: color 0.2s, transform 0.2s;
+}
+.mobile-menu a:hover { color: var(--orange); transform: scale(1.05); }
+
+/* ========== HERO ========== */
 .hero {
   min-height: 100vh;
   display: flex; align-items: center; justify-content: center;
   text-align: center; padding: 120px 24px 80px;
   position: relative; overflow: hidden;
 }
+#hero-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none;
+}
 .hero-orb1 {
   position: absolute; border-radius: 50%;
   width: 700px; height: 700px;
   background: radial-gradient(circle, rgba(124,92,252,0.18) 0%, transparent 65%);
   top: -200px; left: 50%; transform: translateX(-50%);
-  pointer-events: none;
+  pointer-events: none; animation: float 8s ease-in-out infinite;
 }
 .hero-orb2 {
   position: absolute; border-radius: 50%;
   width: 380px; height: 380px;
   background: radial-gradient(circle, rgba(255,107,43,0.12) 0%, transparent 65%);
-  bottom: 0; right: 8%; pointer-events: none;
+  bottom: 0; right: 8%; pointer-events: none; animation: float 6s ease-in-out infinite reverse;
 }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
 .hero-grid {
   position: absolute; inset: 0;
   background-image:
@@ -124,7 +179,7 @@ nav ul a:hover { color: var(--text); }
   padding: 5px 18px;
   clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
   margin-bottom: 28px;
-  animation: fadeUp 0.5s ease both;
+  animation: fadeUp 0.6s ease both;
 }
 .hero-chip-dot {
   width: 6px; height: 6px; border-radius: 50%;
@@ -134,20 +189,20 @@ nav ul a:hover { color: var(--text); }
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(4rem, 11vw, 9.5rem);
   line-height: 0.9; letter-spacing: 0.04em;
-  animation: fadeUp 0.5s 0.08s ease both;
+  animation: fadeUp 0.6s 0.1s ease both;
 }
 .hero-title .l1 { color: var(--text); display: block; }
 .hero-title .l2 { color: var(--purple2); display: block; }
 .hero-title .l3 { color: var(--orange); display: block; }
 .hero-sub {
   font-size: 1.05rem; font-weight: 300; color: var(--muted2);
-  max-width: 460px; margin: 22px auto 38px;
+  max-width: 480px; margin: 22px auto 38px;
   line-height: 1.75;
-  animation: fadeUp 0.5s 0.16s ease both;
+  animation: fadeUp 0.6s 0.2s ease both;
 }
 .hero-btns {
   display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
-  animation: fadeUp 0.5s 0.24s ease both;
+  animation: fadeUp 0.6s 0.3s ease both;
 }
 .btn-p {
   font-family: 'Rajdhani', sans-serif;
@@ -158,6 +213,7 @@ nav ul a:hover { color: var(--text); }
   clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
   text-decoration: none; transition: filter 0.2s, transform 0.2s;
   display: inline-flex; align-items: center; gap: 8px;
+  border: none; cursor: pointer;
 }
 .btn-p:hover { filter: brightness(1.2); transform: translateY(-2px); }
 .btn-g {
@@ -165,13 +221,14 @@ nav ul a:hover { color: var(--text); }
   font-weight: 700; font-size: 0.9rem;
   letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--text); border: 1px solid var(--border2);
-  padding: 12px 28px; text-decoration: none;
-  transition: border-color 0.2s, background 0.2s;
+  padding: 12px 28px; text-decoration: none; background: transparent;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
   display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer;
 }
-.btn-g:hover { border-color: rgba(124,92,252,0.55); background: rgba(124,92,252,0.06); }
+.btn-g:hover { border-color: rgba(124,92,252,0.55); background: rgba(124,92,252,0.06); transform: translateY(-2px); }
 
-/* STATS */
+/* ========== STATS ========== */
 .stats-strip {
   display: flex; justify-content: center; flex-wrap: wrap;
   border-top: 1px solid var(--border);
@@ -196,7 +253,7 @@ nav ul a:hover { color: var(--text); }
   color: var(--muted); margin-top: 4px;
 }
 
-/* SECTION SHELL */
+/* ========== SECTION SHELL ========== */
 section { padding: 96px 24px; }
 .container { max-width: 1120px; margin: 0 auto; }
 .sec-lbl {
@@ -222,7 +279,7 @@ section { padding: 96px 24px; }
   max-width: 450px; margin-bottom: 52px; line-height: 1.7;
 }
 
-/* APPS */
+/* ========== GAME CARDS ========== */
 .apps-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -233,32 +290,46 @@ section { padding: 96px 24px; }
   border: 1px solid var(--border);
   text-decoration: none; color: var(--text);
   display: block; position: relative; overflow: hidden;
-  transition: border-color 0.3s, transform 0.3s;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 .app-card::before {
   content: ''; position: absolute; top:0; right:0;
   width: 28px; height: 28px; background: var(--purple);
   clip-path: polygon(0 0,100% 0,100% 100%);
   opacity: 0; transition: opacity 0.3s;
+  z-index: 2;
 }
-.app-card:hover { border-color: var(--border2); transform: translateY(-5px); }
+.app-card:hover {
+  border-color: var(--border2); transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(124,92,252,0.08);
+}
 .app-card:hover::before { opacity: 1; }
-.app-banner-ph {
-  width: 100%; height: 148px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 3.2rem; position: relative; overflow: hidden;
+.app-banner {
+  width: 100%; height: 170px;
+  position: relative; overflow: hidden;
+}
+.app-banner img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s;
+}
+.app-card:hover .app-banner img { transform: scale(1.05); }
+.app-banner-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(14,14,28,0.95));
 }
 .app-body { padding: 20px 22px 22px; }
 .app-hd { display: flex; align-items: center; gap: 14px; margin-bottom: 13px; }
 .app-ico {
   width: 50px; height: 50px; object-fit: cover;
   border: 1px solid var(--border2); flex-shrink: 0;
+  border-radius: 12px;
 }
 .app-ico-ph {
   width: 50px; height: 50px;
   border: 1px solid var(--border2);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.4rem; flex-shrink: 0; background: var(--bg3);
+  border-radius: 12px;
 }
 .app-nm {
   font-family: 'Bebas Neue', sans-serif;
@@ -306,57 +377,158 @@ section { padding: 96px 24px; }
 }
 .pill-pv:hover { color: var(--text); border-color: var(--border2); }
 
-/* YOUTUBE */
+/* ========== COMING SOON CARD ========== */
+.app-card.coming-soon { cursor: default; }
+.app-card.coming-soon:hover { border-color: rgba(255,107,43,0.45); box-shadow: 0 12px 40px rgba(255,107,43,0.08); }
+.coming-soon-banner {
+  width: 100%; height: 170px;
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a0a0a 50%, #0a0a1a 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.coming-soon-banner::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0, transparent 48px,
+    rgba(255,107,43,0.03) 48px, rgba(255,107,43,0.03) 49px
+  ),
+  repeating-linear-gradient(
+    0deg,
+    transparent 0, transparent 48px,
+    rgba(255,107,43,0.03) 48px, rgba(255,107,43,0.03) 49px
+  );
+}
+.coming-soon-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.6rem; letter-spacing: 0.15em;
+  color: rgba(255,107,43,0.25);
+  position: relative; z-index: 1;
+  animation: glitch 3s infinite;
+}
+@keyframes glitch {
+  0%,92%,100% { transform: translate(0); opacity: 0.25; }
+  93% { transform: translate(-2px, 1px); opacity: 0.4; }
+  94% { transform: translate(2px, -1px); opacity: 0.3; }
+  95% { transform: translate(-1px, -1px); opacity: 0.5; }
+  96% { transform: translate(1px, 2px); opacity: 0.25; }
+}
+.coming-soon-pulse {
+  position: absolute;
+  width: 120px; height: 120px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,107,43,0.15), transparent 70%);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%,100% { transform: scale(0.8); opacity: 0.3; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+.pill-coming {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--orange);
+  border: 1px solid rgba(255,107,43,0.4);
+  background: rgba(255,107,43,0.1);
+  padding: 4px 14px;
+  clip-path: polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
+  animation: blink 2s infinite;
+}
+
+/* ========== YOUTUBE ========== */
 .yt-sec { background: var(--bg1); }
 .yt-ch-link {
   display: flex; align-items: center; gap: 18px;
   background: var(--bg2);
   border: 1px solid var(--border);
-  border-left: 3px solid #ff4444;
+  border-left: 3px solid var(--red);
   padding: 18px 24px; margin-bottom: 44px;
   text-decoration: none; color: var(--text);
-  transition: border-color 0.2s; max-width: 500px;
+  transition: border-color 0.2s, background 0.2s; max-width: 560px;
 }
-.yt-ch-link:hover { border-color: rgba(255,68,68,0.5); }
-.yt-ico { width:46px; height:46px; background:#ff4444; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+.yt-ch-link:hover { border-color: rgba(255,68,68,0.5); background: var(--bg3); }
+.yt-ico {
+  width:46px; height:46px; background:var(--red);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; border-radius: 8px;
+}
+.yt-ico svg { width: 22px; height: 22px; fill: #fff; }
 .yt-nm { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:0.06em; }
 .yt-sb { font-size:0.8rem; color:var(--muted2); font-weight:300; margin-top:2px; }
-.yt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; }
+.yt-subscribe-text {
+  margin-left:auto; font-family:'Rajdhani',sans-serif;
+  font-size:0.75rem; font-weight:700;
+  letter-spacing:0.1em; text-transform:uppercase; color:var(--muted2);
+}
+
+.yt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px; }
 .yt-card {
   background:var(--card-bg); border:1px solid var(--border);
   text-decoration:none; color:var(--text); display:block;
-  transition: border-color 0.2s, transform 0.2s;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
-.yt-card:hover { border-color:rgba(255,68,68,0.35); transform:translateY(-4px); }
-.yt-tw { position:relative; aspect-ratio:16/9; overflow:hidden; }
-.yt-tp {
-  width:100%; height:100%;
-  display:flex; align-items:center; justify-content:center;
-  font-size:3rem;
+.yt-card:hover {
+  border-color:rgba(255,68,68,0.35); transform:translateY(-4px);
+  box-shadow: 0 8px 30px rgba(255,68,68,0.06);
 }
+.yt-tw { position:relative; aspect-ratio:16/9; overflow:hidden; background: var(--bg3); }
+.yt-tw img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s;
+}
+.yt-card:hover .yt-tw img { transform: scale(1.05); }
 .yt-ov {
-  position:absolute; inset:0; background:rgba(0,0,0,0.35);
+  position:absolute; inset:0; background:rgba(0,0,0,0.4);
   display:flex; align-items:center; justify-content:center;
-  opacity:0; transition:opacity 0.2s;
+  opacity:0; transition:opacity 0.3s;
 }
 .yt-card:hover .yt-ov { opacity:1; }
 .yt-pb {
-  width:48px; height:48px; background:#ff4444;
-  clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+  width:52px; height:52px; background:var(--red);
+  border-radius: 50%;
   display:flex; align-items:center; justify-content:center;
-  font-size:1rem;
+  transition: transform 0.2s;
 }
-.yt-inf { padding:14px 16px; }
+.yt-card:hover .yt-pb { transform: scale(1.1); }
+.yt-pb svg { width: 20px; height: 20px; fill: #fff; margin-left: 2px; }
+.yt-duration {
+  position: absolute; bottom: 8px; right: 8px;
+  background: rgba(0,0,0,0.85); color: #fff;
+  font-family: 'Rajdhani', sans-serif; font-weight: 600;
+  font-size: 0.75rem; padding: 2px 8px; border-radius: 3px;
+  letter-spacing: 0.04em;
+}
+.yt-inf { padding:16px 18px; }
 .yt-ti {
-  font-family:'Rajdhani',sans-serif; font-size:1rem; font-weight:600;
-  line-height:1.35; margin-bottom:5px;
+  font-family:'Rajdhani',sans-serif; font-size:1.02rem; font-weight:600;
+  line-height:1.4; margin-bottom:6px;
   display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
 }
 .yt-me { font-size:0.78rem; color:var(--muted); font-weight:300; }
 
-/* ABOUT */
+/* YT loading skeleton */
+.yt-skeleton {
+  background: var(--card-bg); border: 1px solid var(--border);
+  overflow: hidden;
+}
+.yt-skeleton .sk-thumb {
+  aspect-ratio: 16/9; background: var(--bg3);
+  animation: shimmer 1.5s infinite;
+}
+.yt-skeleton .sk-body { padding: 16px 18px; }
+.yt-skeleton .sk-line {
+  height: 14px; background: var(--bg3); border-radius: 4px;
+  margin-bottom: 8px; animation: shimmer 1.5s infinite;
+}
+.yt-skeleton .sk-line:last-child { width: 60%; }
+@keyframes shimmer {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+/* ========== ABOUT ========== */
 .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
-@media(max-width:760px){.about-grid{grid-template-columns:1fr;gap:40px;}}
 .about-text p { font-size:0.95rem; font-weight:300; color:var(--muted2); line-height:1.8; margin-bottom:16px; }
 .tag-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
 .tag {
@@ -366,7 +538,9 @@ section { padding: 96px 24px; }
   border:1px solid var(--border2); color:var(--purple2);
   padding:5px 13px;
   clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+  transition: background 0.2s;
 }
+.tag:hover { background: rgba(124,92,252,0.08); }
 .dev-card {
   background:var(--bg2); border:1px solid var(--border);
   border-top:2px solid var(--purple);
@@ -383,13 +557,12 @@ section { padding: 96px 24px; }
 .dev-rw { display:flex; align-items:center; gap:10px; font-size:0.87rem; font-weight:300; color:var(--muted2); }
 .dev-rw .ic { font-size:0.9rem; width:18px; }
 
-/* FOOTER */
+/* ========== FOOTER ========== */
 footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px 48px 36px; }
 .foot-grid { max-width:1120px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px; margin-bottom:48px; }
-@media(max-width:680px){.foot-grid{grid-template-columns:1fr;}}
 .foot-logo { font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:0.08em; color:var(--text); text-decoration:none; display:inline-block; margin-bottom:12px; }
 .foot-logo span { color:var(--orange); }
-.foot-desc { font-size:0.85rem; font-weight:300; color:var(--muted2); max-width:250px; line-height:1.7; }
+.foot-desc { font-size:0.85rem; font-weight:300; color:var(--muted2); max-width:280px; line-height:1.7; }
 .foot-col h4 { font-family:'Rajdhani',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:16px; }
 .foot-col ul { list-style:none; }
 .foot-col li { margin-bottom:10px; }
@@ -404,202 +577,290 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
   color:var(--muted2); border:1px solid var(--border);
   padding:5px 14px; text-decoration:none;
   clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
-  transition:color 0.2s, border-color 0.2s;
+  transition:color 0.2s, border-color 0.2s, background 0.2s;
 }
-.soc-btn:hover { color:var(--text); border-color:var(--border2); }
+.soc-btn:hover { color:var(--text); border-color:var(--border2); background: rgba(124,92,252,0.06); }
 
-/* ANIM */
+/* ========== SCROLL TO TOP ========== */
+.scroll-top {
+  position: fixed; bottom: 28px; right: 28px; z-index: 400;
+  width: 44px; height: 44px;
+  background: var(--purple); color: #fff; border: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; cursor: pointer;
+  clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.3s, transform 0.3s, filter 0.2s;
+  pointer-events: none;
+}
+.scroll-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.scroll-top:hover { filter: brightness(1.2); }
+
+/* ========== ANIMATIONS ========== */
 @keyframes fadeUp { from{opacity:0;transform:translateY(22px);} to{opacity:1;transform:translateY(0);} }
-.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.55s ease, transform 0.55s ease; }
+.reveal { opacity:0; transform:translateY(30px); transition:opacity 0.6s ease, transform 0.6s ease; }
 .reveal.on { opacity:1; transform:translateY(0); }
 
-@media(max-width:768px){
-  nav{padding:0 18px;}
-  nav ul{display:none;}
-  .stat-i{padding:22px 26px;}
-  footer{padding:48px 20px 28px;}
+/* Stagger children */
+.reveal-stagger > .reveal:nth-child(1) { transition-delay: 0s; }
+.reveal-stagger > .reveal:nth-child(2) { transition-delay: 0.08s; }
+.reveal-stagger > .reveal:nth-child(3) { transition-delay: 0.16s; }
+.reveal-stagger > .reveal:nth-child(4) { transition-delay: 0.24s; }
+.reveal-stagger > .reveal:nth-child(5) { transition-delay: 0.32s; }
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:960px) {
+  .about-grid { grid-template-columns:1fr; gap:40px; }
+}
+@media(max-width:768px) {
+  nav { padding: 0 18px; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .nav-cta { display: none; }
+  .stat-i { padding: 22px 26px; }
+  .hero-title { font-size: clamp(3rem, 14vw, 5rem); }
+  .hero-sub { font-size: 0.95rem; }
+  section { padding: 64px 18px; }
+  .sec-h { font-size: clamp(2rem, 8vw, 3rem); }
+  .apps-grid { grid-template-columns: 1fr; gap: 16px; }
+  .yt-grid { grid-template-columns: 1fr; gap: 16px; }
+  .foot-grid { grid-template-columns: 1fr; gap: 32px; }
+  footer { padding: 48px 20px 28px; }
+  .yt-ch-link { flex-wrap: wrap; gap: 12px; }
+  .yt-subscribe-text { margin-left: 0; }
+}
+@media(max-width:480px) {
+  .stats-strip { flex-direction: column; }
+  .stat-i { border-right: none; border-bottom: 1px solid var(--border); padding: 18px 20px; }
+  .stat-i:last-child { border-bottom: none; }
+  .hero { padding: 100px 16px 60px; }
+  .app-ft { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 </style>
 </head>
 <body>
 
-<nav>
+<!-- ========== NAV ========== -->
+<nav id="mainNav">
   <a class="nav-logo" href="index.html"><span class="logo-dot"></span>SabyTheNoob</a>
-  <ul>
-    <li><a href="#apps">Apps</a></li>
+  <ul class="nav-links">
+    <li><a href="#apps">Games</a></li>
     <li><a href="#videos">Videos</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="privacy-policy.html">Privacy</a></li>
   </ul>
-  <a href="https://play.google.com/store/apps/dev?id=8287816356133610844" target="_blank" class="nav-cta">▶ Play Store</a>
+  <a href="https://play.google.com/store/apps/dev?id=8287816356133610844" target="_blank" class="nav-cta">&#9654; Play Store</a>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#apps" onclick="closeMenu()">Games</a>
+  <a href="#videos" onclick="closeMenu()">Videos</a>
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="privacy-policy.html">Privacy</a>
+  <a href="https://play.google.com/store/apps/dev?id=8287816356133610844" target="_blank" style="color:var(--orange);">Play Store</a>
+</div>
+
+<!-- ========== HERO ========== -->
 <section class="hero">
+  <canvas id="hero-canvas"></canvas>
   <div class="hero-orb1"></div>
   <div class="hero-orb2"></div>
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <div class="hero-chip"><span class="hero-chip-dot"></span>Indie Game &amp; App Studio — Chennai, India</div>
+    <div class="hero-chip"><span class="hero-chip-dot"></span>Indie Game &amp; App Studio &mdash; Chennai, India</div>
     <h1 class="hero-title">
       <span class="l1">We Build</span>
       <span class="l2">Games &amp;</span>
       <span class="l3">Apps</span>
     </h1>
-    <p class="hero-sub">From space simulators to escape adventures — SabyTheNoob crafts mobile experiences built for everyone on Android.</p>
+    <p class="hero-sub">From space simulators to escape adventures &mdash; SabyTheNoob crafts mobile experiences built for everyone on Android.</p>
     <div class="hero-btns">
-      <a href="#apps" class="btn-p">▶ Explore Apps</a>
-      <a href="https://www.youtube.com/sabeythenoob" target="_blank" class="btn-g">◈ YouTube Channel</a>
+      <a href="#apps" class="btn-p">&#9654; Explore Games</a>
+      <a href="https://www.youtube.com/@sabythenoob" target="_blank" class="btn-g">&#9670; YouTube Channel</a>
     </div>
   </div>
 </section>
 
+<!-- ========== STATS ========== -->
 <div class="stats-strip">
-  <div class="stat-i"><span class="stat-n">4<span class="ac">+</span></span><div class="stat-l">Published Apps</div></div>
-  <div class="stat-i"><span class="stat-n">10<span class="ac">K+</span></span><div class="stat-l">Downloads</div></div>
-  <div class="stat-i"><span class="stat-n">253<span class="ac">+</span></span><div class="stat-l">Reviews</div></div>
-  <div class="stat-i"><span class="stat-n">20<span class="ac">21</span></span><div class="stat-l">Est.</div></div>
+  <div class="stat-i"><span class="stat-n" data-count="5">0<span class="ac">+</span></span><div class="stat-l">Published Apps</div></div>
+  <div class="stat-i"><span class="stat-n" data-count="10">0<span class="ac">K+</span></span><div class="stat-l">Downloads</div></div>
+  <div class="stat-i"><span class="stat-n" data-count="253">0<span class="ac">+</span></span><div class="stat-l">Reviews</div></div>
+  <div class="stat-i"><span class="stat-n" data-count="2021">0</span><div class="stat-l">Est.</div></div>
 </div>
 
+<!-- ========== GAMES ========== -->
 <section id="apps">
   <div class="container">
-    <p class="sec-lbl">Our Products</p>
-    <h2 class="sec-h">Apps on Google Play</h2>
-    <p class="sec-d">All apps are free to download. Tap any card to visit on the Play Store.</p>
-    <div class="apps-grid">
+    <p class="sec-lbl reveal">Our Games</p>
+    <h2 class="sec-h reveal">Games on Google Play</h2>
+    <p class="sec-d reveal">All games are free to download. Tap any card to visit on the Play Store.</p>
+    <div class="apps-grid reveal-stagger">
 
+      <!-- Planet Explorer -->
       <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.Sabeythenoob.Planet_Explorer" target="_blank">
-        <div class="app-banner-ph" style="background:linear-gradient(135deg,#08082a,#12105e,#080e35);">
-          <img src="https://play-lh.googleusercontent.com/rgT2PLYxhVZu9IGX4SDAdb_JtNiFoKayhofB6eGWRZdcN52PnmEn18znl8GtMBicKlzh=w526-h296" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">
-          🪐
+        <div class="app-banner">
+          <img src="https://play-lh.googleusercontent.com/rgT2PLYxhVZu9IGX4SDAdb_JtNiFoKayhofB6eGWRZdcN52PnmEn18znl8GtMBicKlzh=w2048-h1024" alt="Planet Explorer Banner" loading="lazy">
+          <div class="app-banner-overlay"></div>
         </div>
         <div class="app-body">
           <div class="app-hd">
-            <img class="app-ico" src="https://play-lh.googleusercontent.com/gCooWTxeG9g04gdBLS115Uw5Ct3aGAUp4-RP63J0qQYDakuqpAPr9m6f5KStCIKo22U=s256" alt="Planet Explorer" onerror="this.outerHTML='<div class=app-ico-ph>🪐</div>'">
-            <div><div class="app-nm">Planet Explorer</div><div class="app-gn">Educational · Simulation</div></div>
+            <img class="app-ico" src="https://play-lh.googleusercontent.com/gCooWTxeG9g04gdBLS115Uw5Ct3aGAUp4-RP63J0qQYDakuqpAPr9m6f5KStCIKo22U=s256" alt="Planet Explorer" onerror="this.outerHTML='<div class=app-ico-ph>&#127756;</div>'">
+            <div><div class="app-nm">Planet Explorer</div><div class="app-gn">Educational &middot; Simulation</div></div>
           </div>
           <p class="app-dsc">Walk on other planets in our Solar System as a human being. Explore environments that don't exist on Earth.</p>
           <div class="app-ft">
-            <div class="app-mt"><span>★ 3.0</span><span>↓ 10K+</span></div>
+            <div class="app-mt"><span>&#9733; 3.0</span><span>&#8595; 10K+</span></div>
             <div style="display:flex;gap:8px;align-items:center;">
-              <span class="pill-p">▶ Play Store</span>
-              <a href="privacy-policy.html#planet-explorer" class="pill-pv" onclick="event.stopPropagation()">🔒 Privacy</a>
+              <span class="pill-p">&#9654; Play Store</span>
+              <a href="privacy-policy.html#planet-explorer" class="pill-pv" onclick="event.stopPropagation()">&#128274; Privacy</a>
             </div>
           </div>
         </div>
       </a>
 
+      <!-- Crafty Adventure -->
       <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Crafty_Adventure" target="_blank">
-        <div class="app-banner-ph" style="background:linear-gradient(135deg,#081a06,#163410,#081a0e);">
-          <img src="https://play-lh.googleusercontent.com/RxoOYOcaRe6mzVBwe179KcvUyuyuOKmqDOs3eqqa7hlHXupcwzDLl7vZxH4-3-H-djM=s256" alt="" style="width:72px;height:72px;object-fit:cover;border:1px solid rgba(255,255,255,0.12);z-index:1;" onerror="this.style.display='none'">
-          🗺️
+        <div class="app-banner">
+          <img src="https://play-lh.googleusercontent.com/RxoOYOcaRe6mzVBwe179KcvUyuyuOKmqDOs3eqqa7hlHXupcwzDLl7vZxH4-3-H-djM=w2048-h1024" alt="Crafty Adventure Banner" loading="lazy">
+          <div class="app-banner-overlay"></div>
         </div>
         <div class="app-body">
           <div class="app-hd">
-            <img class="app-ico" src="https://play-lh.googleusercontent.com/RxoOYOcaRe6mzVBwe179KcvUyuyuOKmqDOs3eqqa7hlHXupcwzDLl7vZxH4-3-H-djM=s256" alt="Crafty Adventure" onerror="this.outerHTML='<div class=app-ico-ph>🗺️</div>'">
-            <div><div class="app-nm">Crafty Adventure</div><div class="app-gn">Adventure · Puzzle</div></div>
+            <img class="app-ico" src="https://play-lh.googleusercontent.com/RxoOYOcaRe6mzVBwe179KcvUyuyuOKmqDOs3eqqa7hlHXupcwzDLl7vZxH4-3-H-djM=s256" alt="Crafty Adventure" onerror="this.outerHTML='<div class=app-ico-ph>&#128506;</div>'">
+            <div><div class="app-nm">Crafty Adventure</div><div class="app-gn">Adventure &middot; Puzzle</div></div>
           </div>
           <p class="app-dsc">Embark on a crafty adventure full of puzzles, exploration and surprises. Fun for all ages.</p>
           <div class="app-ft">
-            <div class="app-mt"><span>★ —</span><span>↓ —</span></div>
+            <div class="app-mt"><span>&#9733; &mdash;</span><span>&#8595; &mdash;</span></div>
             <div style="display:flex;gap:8px;align-items:center;">
-              <span class="pill-p">▶ Play Store</span>
-              <a href="privacy-policy.html#crafty-adventure" class="pill-pv" onclick="event.stopPropagation()">🔒 Privacy</a>
+              <span class="pill-p">&#9654; Play Store</span>
+              <a href="privacy-policy.html#crafty-adventure" class="pill-pv" onclick="event.stopPropagation()">&#128274; Privacy</a>
             </div>
           </div>
         </div>
       </a>
 
+      <!-- The Friction -->
       <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Friction" target="_blank">
-        <div class="app-banner-ph" style="background:linear-gradient(135deg,#1c0c04,#300e06,#140a02);">
-          <img src="https://play-lh.googleusercontent.com/sCce9tSpIFrpZe94phL_PG9FJ4OOEBtjoKYnagnRkyQC_S_zZxCezY1Lnb4VU4nGHg=s256" alt="" style="width:72px;height:72px;object-fit:cover;border:1px solid rgba(255,255,255,0.12);z-index:1;" onerror="this.style.display='none'">
-          🏘️
+        <div class="app-banner">
+          <img src="https://play-lh.googleusercontent.com/sCce9tSpIFrpZe94phL_PG9FJ4OOEBtjoKYnagnRkyQC_S_zZxCezY1Lnb4VU4nGHg=w2048-h1024" alt="The Friction Banner" loading="lazy">
+          <div class="app-banner-overlay"></div>
         </div>
         <div class="app-body">
           <div class="app-hd">
-            <img class="app-ico" src="https://play-lh.googleusercontent.com/sCce9tSpIFrpZe94phL_PG9FJ4OOEBtjoKYnagnRkyQC_S_zZxCezY1Lnb4VU4nGHg=s256" alt="The Friction" onerror="this.outerHTML='<div class=app-ico-ph>🏘️</div>'">
-            <div><div class="app-nm">The Friction</div><div class="app-gn">Adventure · Escape</div></div>
+            <img class="app-ico" src="https://play-lh.googleusercontent.com/sCce9tSpIFrpZe94phL_PG9FJ4OOEBtjoKYnagnRkyQC_S_zZxCezY1Lnb4VU4nGHg=s256" alt="The Friction" onerror="this.outerHTML='<div class=app-ico-ph>&#127960;</div>'">
+            <div><div class="app-nm">The Friction</div><div class="app-gn">Adventure &middot; Escape</div></div>
           </div>
-          <p class="app-dsc">Stuck in a village city — find the keys and escape. A gripping adventure with real tension.</p>
+          <p class="app-dsc">Stuck in a village city &mdash; find the keys and escape. A gripping adventure with real tension.</p>
           <div class="app-ft">
-            <div class="app-mt"><span>★ —</span><span>↓ —</span></div>
+            <div class="app-mt"><span>&#9733; &mdash;</span><span>&#8595; &mdash;</span></div>
             <div style="display:flex;gap:8px;align-items:center;">
-              <span class="pill-p">▶ Play Store</span>
-              <a href="privacy-policy.html#the-friction" class="pill-pv" onclick="event.stopPropagation()">🔒 Privacy</a>
+              <span class="pill-p">&#9654; Play Store</span>
+              <a href="privacy-policy.html#the-friction" class="pill-pv" onclick="event.stopPropagation()">&#128274; Privacy</a>
             </div>
           </div>
         </div>
       </a>
 
+      <!-- Scrubble -->
       <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.scruble.sabeythenoob" target="_blank">
-        <div class="app-banner-ph" style="background:linear-gradient(135deg,#060c1e,#0c1836,#060e1c);">🪙</div>
+        <div class="app-banner">
+          <img src="https://play-lh.googleusercontent.com/060XjgaADfTMbVOWRzJ-VVNw6X4vF7DPdJSwMW-T6RNNE_1OgR2mF08UkVYQ9NtSjA=w2048-h1024" alt="Scrubble Banner" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#060c1e,#0c1836,#060e1c)'; this.style.display='none';">
+          <div class="app-banner-overlay"></div>
+        </div>
         <div class="app-body">
           <div class="app-hd">
-            <div class="app-ico-ph" style="background:linear-gradient(135deg,#060c1e,#0c1836);">🪙</div>
-            <div><div class="app-nm">Scrubble</div><div class="app-gn">Adventure · Coin Collector</div></div>
+            <img class="app-ico" src="https://play-lh.googleusercontent.com/060XjgaADfTMbVOWRzJ-VVNw6X4vF7DPdJSwMW-T6RNNE_1OgR2mF08UkVYQ9NtSjA=s256" alt="Scrubble" onerror="this.outerHTML='<div class=app-ico-ph>&#129689;</div>'">
+            <div><div class="app-nm">Scrubble</div><div class="app-gn">Adventure &middot; Coin Collector</div></div>
           </div>
-          <p class="app-dsc">Play the original Scrubble — collect every coin to escape. Classic, addictive, free.</p>
+          <p class="app-dsc">Play the original Scrubble &mdash; collect every coin to escape. Classic, addictive, free.</p>
           <div class="app-ft">
-            <div class="app-mt"><span>★ —</span><span>↓ 50+</span></div>
+            <div class="app-mt"><span>&#9733; &mdash;</span><span>&#8595; 50+</span></div>
             <div style="display:flex;gap:8px;align-items:center;">
-              <span class="pill-p">▶ Play Store</span>
-              <a href="privacy-policy.html#scrubble" class="pill-pv" onclick="event.stopPropagation()">🔒 Privacy</a>
+              <span class="pill-p">&#9654; Play Store</span>
+              <a href="privacy-policy.html#scrubble" class="pill-pv" onclick="event.stopPropagation()">&#128274; Privacy</a>
             </div>
           </div>
         </div>
       </a>
+
+      <!-- OFFICE PANIC — COMING SOON -->
+      <div class="app-card coming-soon reveal">
+        <div class="coming-soon-banner">
+          <div class="coming-soon-pulse"></div>
+          <div class="coming-soon-text">COMING SOON</div>
+        </div>
+        <div class="app-body">
+          <div class="app-hd">
+            <div class="app-ico-ph" style="background:linear-gradient(135deg,#2a0a0a,#1a0a2a); border-color:rgba(255,107,43,0.4); font-size:1.6rem;">&#128165;</div>
+            <div><div class="app-nm">Office Panic</div><div class="app-gn">Top-Down Shooter &middot; Meme &middot; Action</div></div>
+          </div>
+          <p class="app-dsc">An employee who turned his anger about corporate life into chaos. Meme-style top-down shooter &mdash; unleash office mayhem!</p>
+          <div class="app-ft">
+            <div class="app-mt"><span style="color:var(--orange);">&#9679; In Development</span></div>
+            <span class="pill-coming">&#128293; Coming Soon</span>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>
 </section>
 
+<!-- ========== YOUTUBE ========== -->
 <section id="videos" class="yt-sec">
   <div class="container">
-    <p class="sec-lbl">Content</p>
-    <h2 class="sec-h">YouTube Channel</h2>
-    <p class="sec-d">Gameplay videos, walkthroughs and dev updates from SabyTheNoob.</p>
-    <a class="yt-ch-link" href="https://www.youtube.com/sabeythenoob" target="_blank">
-      <div class="yt-ico">▶</div>
+    <p class="sec-lbl reveal">Content</p>
+    <h2 class="sec-h reveal">Latest Videos</h2>
+    <p class="sec-d reveal">Live from our YouTube channel — gameplay, walkthroughs & dev updates. Auto-updates when we upload!</p>
+
+    <a class="yt-ch-link reveal" href="https://www.youtube.com/@sabythenoob" target="_blank">
+      <div class="yt-ico">
+        <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.5 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+      </div>
       <div>
         <div class="yt-nm">SabyTheNoob</div>
-        <div class="yt-sb">youtube.com/sabeythenoob · Games, Dev Logs &amp; More</div>
+        <div class="yt-sb">youtube.com/@sabythenoob &middot; Games, Dev Logs &amp; More</div>
       </div>
-      <div style="margin-left:auto;font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted2);">Subscribe →</div>
+      <div class="yt-subscribe-text">Subscribe &rarr;</div>
     </a>
-    <div class="yt-grid">
-      <a class="yt-card reveal" href="https://www.youtube.com/sabeythenoob" target="_blank">
-        <div class="yt-tw"><div class="yt-tp" style="background:linear-gradient(135deg,#08082a,#12105e);">🪐</div><div class="yt-ov"><div class="yt-pb">▶</div></div></div>
-        <div class="yt-inf"><div class="yt-ti">Planet Explorer — Gameplay &amp; Walkthrough</div><div class="yt-me">SabyTheNoob · Watch on YouTube</div></div>
-      </a>
-      <a class="yt-card reveal" href="https://www.youtube.com/sabeythenoob" target="_blank">
-        <div class="yt-tw"><div class="yt-tp" style="background:linear-gradient(135deg,#081a06,#163410);">🗺️</div><div class="yt-ov"><div class="yt-pb">▶</div></div></div>
-        <div class="yt-inf"><div class="yt-ti">Crafty Adventure — Full Gameplay</div><div class="yt-me">SabyTheNoob · Watch on YouTube</div></div>
-      </a>
-      <a class="yt-card reveal" href="https://www.youtube.com/sabeythenoob" target="_blank">
-        <div class="yt-tw"><div class="yt-tp" style="background:linear-gradient(135deg,#1c0c04,#300e06);">🏘️</div><div class="yt-ov"><div class="yt-pb">▶</div></div></div>
-        <div class="yt-inf"><div class="yt-ti">The Friction — Escape the Village!</div><div class="yt-me">SabyTheNoob · Watch on YouTube</div></div>
-      </a>
+
+    <!-- Video grid — populated by JS -->
+    <div class="yt-grid" id="ytGrid">
+      <!-- Loading skeletons -->
+      <div class="yt-skeleton"><div class="sk-thumb"></div><div class="sk-body"><div class="sk-line"></div><div class="sk-line"></div></div></div>
+      <div class="yt-skeleton"><div class="sk-thumb"></div><div class="sk-body"><div class="sk-line"></div><div class="sk-line"></div></div></div>
+      <div class="yt-skeleton"><div class="sk-thumb"></div><div class="sk-body"><div class="sk-line"></div><div class="sk-line"></div></div></div>
     </div>
-    <div style="text-align:center;margin-top:40px;">
-      <a href="https://www.youtube.com/sabeythenoob" target="_blank" class="btn-g">◈ View All Videos</a>
+
+    <div style="text-align:center;margin-top:40px;" class="reveal">
+      <a href="https://www.youtube.com/@sabythenoob" target="_blank" class="btn-g">&#9670; View All Videos</a>
     </div>
   </div>
 </section>
 
+<!-- ========== ABOUT ========== -->
 <section id="about">
   <div class="container">
-    <p class="sec-lbl">About</p>
-    <h2 class="sec-h">The Studio</h2>
+    <p class="sec-lbl reveal">About</p>
+    <h2 class="sec-h reveal">The Studio</h2>
     <div class="about-grid reveal">
       <div class="about-text">
         <p>SabyTheNoob is an indie game and app studio built and run by Sabesh Kumar from Tambaram, Chennai, Tamil Nadu, India.</p>
-        <p>The studio was born out of a love for games and the drive to create something real — from space simulation in Planet Explorer to escape adventures in The Friction, every app is crafted with intention.</p>
-        <p>Publishing on Google Play since 2021, growing one game at a time.</p>
+        <p>The studio was born out of a love for games and the drive to create something real &mdash; from space simulation in Planet Explorer to escape adventures in The Friction, every app is crafted with intention.</p>
+        <p>Publishing on Google Play since 2021, growing one game at a time. Next up: <strong style="color:var(--orange)">Office Panic</strong> &mdash; a meme-style top-down shooter!</p>
         <div class="tag-row">
           <span class="tag">Game Dev</span>
           <span class="tag">Android</span>
           <span class="tag">Made in India</span>
           <span class="tag">Unity</span>
           <span class="tag">Indie</span>
+          <span class="tag">C#</span>
         </div>
       </div>
       <div class="dev-card">
@@ -607,15 +868,16 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
         <div class="dev-rl">Founder &amp; Developer</div>
         <p style="font-size:0.88rem;font-weight:300;color:var(--muted2);line-height:1.75;">Building games from Tamil Nadu. Passionate about creating interactive experiences for Android users worldwide.</p>
         <div class="dev-inf">
-          <div class="dev-rw"><span class="ic">✉</span><span>sabythenoob@gmail.com</span></div>
-          <div class="dev-rw"><span class="ic">◎</span><span>Tambaram, Chennai, Tamil Nadu</span></div>
-          <div class="dev-rw"><span class="ic">⊕</span><span>sabythenoob.com</span></div>
+          <div class="dev-rw"><span class="ic">&#9993;</span><span>sabythenoob@gmail.com</span></div>
+          <div class="dev-rw"><span class="ic">&#9678;</span><span>Tambaram, Chennai, Tamil Nadu</span></div>
+          <div class="dev-rw"><span class="ic">&#8853;</span><span>sabythenoob.com</span></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ========== FOOTER ========== -->
 <footer>
   <div class="foot-grid">
     <div>
@@ -623,39 +885,321 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
       <p class="foot-desc">Indie game &amp; app studio from Tamil Nadu, India. Building mobile experiences on Android since 2021.</p>
     </div>
     <div class="foot-col">
-      <h4>Apps</h4>
+      <h4>Games</h4>
       <ul>
         <li><a href="https://play.google.com/store/apps/details?id=com.Sabeythenoob.Planet_Explorer" target="_blank">Planet Explorer</a></li>
         <li><a href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Crafty_Adventure" target="_blank">Crafty Adventure</a></li>
         <li><a href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Friction" target="_blank">The Friction</a></li>
         <li><a href="https://play.google.com/store/apps/details?id=com.scruble.sabeythenoob" target="_blank">Scrubble</a></li>
+        <li><a href="#apps" style="color:var(--orange);">Office Panic (Soon)</a></li>
       </ul>
     </div>
     <div class="foot-col">
       <h4>Links</h4>
       <ul>
         <li><a href="https://play.google.com/store/apps/dev?id=8287816356133610844" target="_blank">Play Store Page</a></li>
-        <li><a href="https://www.youtube.com/sabeythenoob" target="_blank">YouTube</a></li>
+        <li><a href="https://www.youtube.com/@sabythenoob" target="_blank">YouTube</a></li>
         <li><a href="privacy-policy.html">Privacy Policy</a></li>
         <li><a href="mailto:sabythenoob@gmail.com">Contact</a></li>
       </ul>
     </div>
   </div>
   <div class="foot-btm">
-    <p>© 2024 SabyTheNoob. All rights reserved.</p>
+    <p>&copy; 2024 &ndash; 2026 SabyTheNoob. All rights reserved.</p>
     <div class="socials">
-      <a href="https://www.youtube.com/sabeythenoob" target="_blank" class="soc-btn">YT</a>
+      <a href="https://www.youtube.com/@sabythenoob" target="_blank" class="soc-btn">YT</a>
       <a href="https://play.google.com/store/apps/dev?id=8287816356133610844" target="_blank" class="soc-btn">Play</a>
       <a href="https://www.instagram.com/sabythenoob/" target="_blank" class="soc-btn">IG</a>
     </div>
   </div>
 </footer>
 
+<!-- Scroll to top -->
+<button class="scroll-top" id="scrollTopBtn" aria-label="Scroll to top">&#8593;</button>
+
 <script>
-const obs = new IntersectionObserver(entries => {
-  entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('on'), i*90); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+/* ============================================
+   SabyTheNoob Website — Scripts
+   ============================================ */
+
+// ===== CONFIG =====
+// Replace with your YouTube Channel ID (starts with UC...)
+// To find it: go to your YouTube channel > View Page Source > search for "channelId"
+const YT_CHANNEL_ID = 'UC6G1KjZdnipvXxgrUt5_A0A';
+const YT_HANDLE = 'sabythenoob';
+const MAX_VIDEOS = 6;
+
+// ===== MOBILE MENU =====
+const hamburger = document.getElementById('hamburgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+
+function closeMenu() {
+  hamburger.classList.remove('active');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ===== NAV SCROLL EFFECT =====
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ===== SCROLL TO TOP =====
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+window.addEventListener('scroll', () => {
+  scrollTopBtn.classList.toggle('show', window.scrollY > 600);
+});
+scrollTopBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ===== REVEAL ANIMATIONS =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('on'), i * 80);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ===== COUNTER ANIMATION =====
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseInt(el.dataset.count);
+      const suffix = el.innerHTML.match(/<span class="ac">.*?<\/span>/)?.[0] || '';
+      const duration = 1500;
+      const start = performance.now();
+
+      function update(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(eased * target);
+        el.innerHTML = current + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+        else el.innerHTML = target + suffix;
+      }
+      requestAnimationFrame(update);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-n[data-count]').forEach(el => counterObserver.observe(el));
+
+// ===== HERO PARTICLE CANVAS =====
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let w, h;
+
+  function resize() {
+    w = canvas.width = canvas.offsetWidth;
+    h = canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.size = Math.random() * 1.5 + 0.5;
+      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.speedY = (Math.random() - 0.5) * 0.3;
+      this.opacity = Math.random() * 0.5 + 0.1;
+      this.color = Math.random() > 0.5 ? '124,92,252' : '255,107,43';
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${this.color},${this.opacity})`;
+      ctx.fill();
+    }
+  }
+
+  const count = Math.min(80, Math.floor(w * h / 12000));
+  for (let i = 0; i < count; i++) particles.push(new Particle());
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => { p.update(); p.draw(); });
+    // Draw lines between close particles
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(124,92,252,${0.06 * (1 - dist / 120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ===== YOUTUBE LIVE FEED =====
+(function() {
+  const grid = document.getElementById('ytGrid');
+  if (!grid) return;
+
+  // Method 1: Try RSS feed via CORS proxy (if channel ID is set)
+  // Method 2: Try RSS feed via handle
+  // Method 3: Fallback to static content
+
+  const CORS_PROXIES = [
+    'https://api.allorigins.win/raw?url=',
+    'https://corsproxy.io/?'
+  ];
+
+  async function fetchWithProxy(url) {
+    for (const proxy of CORS_PROXIES) {
+      try {
+        const res = await fetch(proxy + encodeURIComponent(url), { signal: AbortSignal.timeout(8000) });
+        if (res.ok) return await res.text();
+      } catch(e) { continue; }
+    }
+    return null;
+  }
+
+  function parseRSS(xml) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xml, 'text/xml');
+    const entries = doc.querySelectorAll('entry');
+    const videos = [];
+
+    entries.forEach((entry, i) => {
+      if (i >= MAX_VIDEOS) return;
+      const title = entry.querySelector('title')?.textContent || 'Untitled';
+      const videoId = entry.querySelector('id')?.textContent?.split(':').pop() || '';
+      const published = entry.querySelector('published')?.textContent || '';
+      const mediaGroup = entry.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'group')[0];
+      const thumbnail = mediaGroup?.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'thumbnail')[0]?.getAttribute('url') || '';
+      const views = mediaGroup?.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'community')[0]
+        ?.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'statistics')[0]
+        ?.getAttribute('views') || '';
+
+      videos.push({ title, videoId, published, thumbnail, views });
+    });
+    return videos;
+  }
+
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    const now = new Date();
+    const diff = now - d;
+    const days = Math.floor(diff / 86400000);
+    if (days < 1) return 'Today';
+    if (days === 1) return 'Yesterday';
+    if (days < 30) return days + ' days ago';
+    if (days < 365) return Math.floor(days / 30) + ' months ago';
+    return Math.floor(days / 365) + ' years ago';
+  }
+
+  function formatViews(n) {
+    if (!n) return '';
+    const num = parseInt(n);
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M views';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K views';
+    return num + ' views';
+  }
+
+  function renderVideos(videos) {
+    if (!videos.length) {
+      renderFallback();
+      return;
+    }
+    grid.innerHTML = videos.map(v => `
+      <a class="yt-card reveal on" href="https://www.youtube.com/watch?v=${v.videoId}" target="_blank" rel="noopener">
+        <div class="yt-tw">
+          <img src="${v.thumbnail || 'https://img.youtube.com/vi/' + v.videoId + '/hqdefault.jpg'}" alt="${v.title}" loading="lazy">
+          <div class="yt-ov">
+            <div class="yt-pb">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="yt-inf">
+          <div class="yt-ti">${v.title}</div>
+          <div class="yt-me">SabyTheNoob${v.views ? ' &middot; ' + formatViews(v.views) : ''}${v.published ? ' &middot; ' + formatDate(v.published) : ''}</div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  function renderFallback() {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1; text-align:center; padding:48px 20px;">
+        <div style="font-size:3rem; margin-bottom:16px; opacity:0.4;">&#127909;</div>
+        <p style="font-family:'Rajdhani',sans-serif; font-size:1.1rem; font-weight:600; color:var(--muted2); margin-bottom:8px;">
+          Videos loading from YouTube...
+        </p>
+        <p style="font-size:0.85rem; color:var(--muted); max-width:400px; margin:0 auto 20px; line-height:1.6;">
+          Visit our YouTube channel directly to watch all our gameplay videos, dev logs, and walkthroughs.
+        </p>
+        <a href="https://www.youtube.com/@sabythenoob" target="_blank" class="btn-p" style="display:inline-flex;">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.5 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+          Watch on YouTube
+        </a>
+      </div>
+    `;
+  }
+
+  async function loadVideos() {
+    let xml = null;
+
+    // Try with channel ID first
+    if (YT_CHANNEL_ID && YT_CHANNEL_ID !== 'PUT_YOUR_CHANNEL_ID_HERE') {
+      xml = await fetchWithProxy(`https://www.youtube.com/feeds/videos.xml?channel_id=${YT_CHANNEL_ID}`);
+    }
+
+    // Try with handle/username as fallback
+    if (!xml) {
+      xml = await fetchWithProxy(`https://www.youtube.com/feeds/videos.xml?user=${YT_HANDLE}`);
+    }
+
+    if (xml) {
+      try {
+        const videos = parseRSS(xml);
+        if (videos.length > 0) {
+          renderVideos(videos);
+          return;
+        }
+      } catch(e) {
+        console.warn('RSS parse error:', e);
+      }
+    }
+
+    // Fallback
+    renderFallback();
+  }
+
+  loadVideos();
+})();
 </script>
 </body>
 </html>
