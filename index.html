@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SabyTheNoob — Indie Game & App Studio</title>
-<meta name="description" content="SabyTheNoob is an indie game & app studio from Chennai, India. Play our games on Android — Planet Explorer, Crafty Adventure, The Friction, Scrubble & more.">
+<meta name="description" content="SabyTheNoob — indie studio from India building games, mobile apps, VR experiences and virtual simulations. Play our games on Android.">
+<link rel="icon" id="favicon" type="image/png" href="">
+<link rel="apple-touch-icon" id="apple-icon" href="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -13,22 +15,23 @@
    SabyTheNoob — Gaming Studio Website
    ============================================ */
 :root {
-  --bg:      #05050a;
-  --bg1:     #0b0b14;
-  --bg2:     #10101c;
-  --bg3:     #17172a;
-  --border:  rgba(120,100,255,0.12);
-  --border2: rgba(120,100,255,0.28);
-  --purple:  #7c5cfc;
-  --purple2: #a580ff;
-  --orange:  #ff6b2b;
-  --orange2: #ffaa6b;
+  /* Brand Palette — Purple (Innovation/Tech) + Orange (Energy/Action) */
+  --bg:      #06060c;
+  --bg1:     #0a0a16;
+  --bg2:     #0f0f1e;
+  --bg3:     #161630;
+  --border:  rgba(110,90,255,0.12);
+  --border2: rgba(110,90,255,0.28);
+  --purple:  #6c4ff6;
+  --purple2: #9b7aff;
+  --orange:  #ff6a28;
+  --orange2: #ffa265;
   --red:     #ff4444;
-  --green:   #00e676;
-  --text:    #eeeaf8;
-  --muted:   #7a7596;
-  --muted2:  #9e9ab8;
-  --card-bg: #0e0e1c;
+  --green:   #34d399;
+  --text:    #f0ecfa;
+  --muted:   #6e6a8a;
+  --muted2:  #9994b8;
+  --card-bg: #0c0c1a;
 }
 *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
 html { scroll-behavior: smooth; }
@@ -65,6 +68,12 @@ nav.scrolled { background: rgba(5,5,10,0.96); }
   color: var(--text); text-decoration: none;
   display: flex; align-items: center; gap: 10px;
 }
+.nav-logo-img {
+  width: 30px; height: 30px; border-radius: 50%;
+  object-fit: cover; border: 2px solid var(--border2);
+}
+.nav-logo-img.loaded + .logo-dot { display: none; }
+.logo-accent { color: var(--orange); }
 .logo-dot {
   width: 8px; height: 8px; background: var(--orange);
   border-radius: 50%; box-shadow: 0 0 10px var(--orange);
@@ -282,136 +291,86 @@ section { padding: 96px 24px; }
 /* ========== GAME CARDS ========== */
 .apps-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 20px;
 }
 .app-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
   text-decoration: none; color: var(--text);
-  display: block; position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  overflow: hidden;
   transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-}
-.app-card::before {
-  content: ''; position: absolute; top:0; right:0;
-  width: 28px; height: 28px; background: var(--purple);
-  clip-path: polygon(0 0,100% 0,100% 100%);
-  opacity: 0; transition: opacity 0.3s;
-  z-index: 2;
 }
 .app-card:hover {
   border-color: var(--border2); transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(124,92,252,0.08);
+  box-shadow: 0 12px 40px rgba(124,92,252,0.1);
 }
-.app-card:hover::before { opacity: 1; }
-.app-banner {
-  width: 100%; height: 170px;
-  position: relative; overflow: hidden;
+
+/* Image */
+.app-img {
+  width: 100%; aspect-ratio: 16/9;
+  overflow: hidden; background: var(--bg3);
 }
-.app-banner img {
+.app-img img {
   width: 100%; height: 100%; object-fit: cover;
-  transition: transform 0.5s;
+  display: block;
+  transition: transform 0.5s ease;
 }
-.app-card:hover .app-banner img { transform: scale(1.05); }
-.app-banner-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, rgba(14,14,28,0.95));
-}
-.app-body { padding: 20px 22px 22px; }
-.app-hd { display: flex; align-items: center; gap: 14px; margin-bottom: 13px; }
-.app-ico {
-  width: 50px; height: 50px; object-fit: cover;
-  border: 1px solid var(--border2); flex-shrink: 0;
-  border-radius: 12px;
-}
-.app-ico-ph {
-  width: 50px; height: 50px;
-  border: 1px solid var(--border2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.4rem; flex-shrink: 0; background: var(--bg3);
-  border-radius: 12px;
+.app-card:hover .app-img img { transform: scale(1.06); }
+
+/* Info below image */
+.app-info {
+  padding: 18px 20px 20px;
+  display: flex; flex-direction: column; flex: 1;
 }
 .app-nm {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.3rem; letter-spacing: 0.06em;
+  font-size: 1.45rem; letter-spacing: 0.06em;
+  line-height: 1.1; margin-bottom: 14px;
 }
-.app-gn {
+.app-actions {
+  display: flex; gap: 10px; margin-top: auto;
+}
+.btn-play {
   font-family: 'Rajdhani', sans-serif;
-  font-size: 0.7rem; font-weight: 600;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--orange); margin-top: 2px;
-}
-.app-dsc {
-  font-size: 0.87rem; font-weight: 300; color: var(--muted2);
-  line-height: 1.65; margin-bottom: 17px;
-}
-.app-ft {
-  display: flex; align-items: center;
-  justify-content: space-between; flex-wrap: wrap; gap: 8px;
-}
-.app-mt {
-  display: flex; gap: 12px;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 0.78rem; font-weight: 600;
-  color: var(--muted); letter-spacing: 0.06em;
-}
-.pill-p {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 0.75rem; font-weight: 700;
+  font-weight: 700; font-size: 0.78rem;
   letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--purple2);
-  border: 1px solid rgba(124,92,252,0.35);
-  background: rgba(124,92,252,0.08);
-  padding: 4px 13px;
-  clip-path: polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
-  transition: background 0.2s;
+  color: #fff; background: var(--purple);
+  padding: 8px 18px; border: none;
+  clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+  text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+  transition: filter 0.2s;
+  cursor: pointer;
 }
-.app-card:hover .pill-p { background: rgba(124,92,252,0.18); }
-.pill-pv {
+.btn-play:hover { filter: brightness(1.2); }
+.btn-privacy {
   font-family: 'Rajdhani', sans-serif;
-  font-size: 0.7rem; font-weight: 600;
+  font-weight: 600; font-size: 0.78rem;
   letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--muted2); border: 1px solid var(--border);
-  padding: 4px 11px; text-decoration: none;
+  color: var(--muted2); background: transparent;
+  border: 1px solid var(--border);
+  padding: 7px 14px; text-decoration: none;
+  display: inline-flex; align-items: center;
   transition: color 0.2s, border-color 0.2s;
+  cursor: pointer;
 }
-.pill-pv:hover { color: var(--text); border-color: var(--border2); }
+.btn-privacy:hover { color: var(--text); border-color: var(--border2); }
 
 /* ========== COMING SOON CARD ========== */
 .app-card.coming-soon { cursor: default; }
-.app-card.coming-soon:hover { border-color: rgba(255,107,43,0.45); box-shadow: 0 12px 40px rgba(255,107,43,0.08); }
-.coming-soon-banner {
-  width: 100%; height: 170px;
-  position: relative; overflow: hidden;
+.app-card.coming-soon:hover { border-color: rgba(255,107,43,0.45); box-shadow: 0 12px 40px rgba(255,107,43,0.12); }
+.coming-soon-img {
+  width: 100%; aspect-ratio: 16/9;
   background: linear-gradient(135deg, #0a0a1a 0%, #1a0a0a 50%, #0a0a1a 100%);
   display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
 }
-.coming-soon-banner::before {
+.coming-soon-img::before {
   content: ''; position: absolute; inset: 0;
-  background: repeating-linear-gradient(
-    90deg,
-    transparent 0, transparent 48px,
-    rgba(255,107,43,0.03) 48px, rgba(255,107,43,0.03) 49px
-  ),
-  repeating-linear-gradient(
-    0deg,
-    transparent 0, transparent 48px,
-    rgba(255,107,43,0.03) 48px, rgba(255,107,43,0.03) 49px
-  );
-}
-.coming-soon-text {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2.6rem; letter-spacing: 0.15em;
-  color: rgba(255,107,43,0.25);
-  position: relative; z-index: 1;
-  animation: glitch 3s infinite;
-}
-@keyframes glitch {
-  0%,92%,100% { transform: translate(0); opacity: 0.25; }
-  93% { transform: translate(-2px, 1px); opacity: 0.4; }
-  94% { transform: translate(2px, -1px); opacity: 0.3; }
-  95% { transform: translate(-1px, -1px); opacity: 0.5; }
-  96% { transform: translate(1px, 2px); opacity: 0.25; }
+  background:
+    repeating-linear-gradient(90deg, transparent 0, transparent 48px, rgba(255,107,43,0.04) 48px, rgba(255,107,43,0.04) 49px),
+    repeating-linear-gradient(0deg, transparent 0, transparent 48px, rgba(255,107,43,0.04) 48px, rgba(255,107,43,0.04) 49px);
 }
 .coming-soon-pulse {
   position: absolute;
@@ -423,16 +382,30 @@ section { padding: 96px 24px; }
   0%,100% { transform: scale(0.8); opacity: 0.3; }
   50% { transform: scale(1.4); opacity: 0.6; }
 }
-.pill-coming {
+.coming-soon-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem; letter-spacing: 0.2em;
+  color: rgba(255,107,43,0.35);
+  position: relative; z-index: 1;
+  animation: glitch 3s infinite;
+}
+@keyframes glitch {
+  0%,92%,100% { transform: translate(0); opacity: 0.35; }
+  93% { transform: translate(-2px, 1px); opacity: 0.5; }
+  94% { transform: translate(2px, -1px); opacity: 0.4; }
+  95% { transform: translate(-1px, -1px); opacity: 0.6; }
+  96% { transform: translate(1px, 2px); opacity: 0.35; }
+}
+.btn-coming {
   font-family: 'Rajdhani', sans-serif;
-  font-size: 0.7rem; font-weight: 700;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--orange);
+  font-weight: 700; font-size: 0.78rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--orange); background: transparent;
   border: 1px solid rgba(255,107,43,0.4);
-  background: rgba(255,107,43,0.1);
-  padding: 4px 14px;
-  clip-path: polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
+  padding: 7px 16px;
+  clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
   animation: blink 2s infinite;
+  cursor: default;
 }
 
 /* ========== YOUTUBE ========== */
@@ -642,7 +615,7 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
 
 <!-- ========== NAV ========== -->
 <nav id="mainNav">
-  <a class="nav-logo" href="index.html"><span class="logo-dot"></span>SabyTheNoob</a>
+  <a class="nav-logo" href="index.html"><img id="navLogo" class="nav-logo-img" src="" alt="" style="display:none;"><span class="logo-dot"></span>SabyThe<span class="logo-accent">Noob</span></a>
   <ul class="nav-links">
     <li><a href="#apps">Games</a></li>
     <li><a href="#videos">Videos</a></li>
@@ -671,15 +644,15 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
   <div class="hero-orb2"></div>
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <div class="hero-chip"><span class="hero-chip-dot"></span>Indie Game &amp; App Studio &mdash; Chennai, India</div>
+    <div class="hero-chip"><span class="hero-chip-dot"></span>Games &middot; Apps &middot; VR &middot; Simulations</div>
     <h1 class="hero-title">
-      <span class="l1">We Build</span>
-      <span class="l2">Games &amp;</span>
-      <span class="l3">Apps</span>
+      <span class="l1">We Create</span>
+      <span class="l2">Digital</span>
+      <span class="l3">Experiences</span>
     </h1>
-    <p class="hero-sub">From space simulators to escape adventures &mdash; SabyTheNoob crafts mobile experiences built for everyone on Android.</p>
+    <p class="hero-sub">Games, mobile apps, VR projects and virtual simulations &mdash; <strong>SabyThe<span style="color:var(--orange)">Noob</span></strong> builds immersive experiences that push boundaries on Android and beyond.</p>
     <div class="hero-btns">
-      <a href="#apps" class="btn-p">&#9654; Explore Games</a>
+      <a href="#apps" class="btn-p">&#9654; Explore Our Work</a>
       <a href="https://www.youtube.com/@sabythenoob" target="_blank" class="btn-g">&#9670; YouTube Channel</a>
     </div>
   </div>
@@ -687,7 +660,7 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
 
 <!-- ========== STATS ========== -->
 <div class="stats-strip">
-  <div class="stat-i"><span class="stat-n" data-count="5">0<span class="ac">+</span></span><div class="stat-l">Published Apps</div></div>
+  <div class="stat-i"><span class="stat-n" data-count="4">0<span class="ac">+</span></span><div class="stat-l">Published Apps</div></div>
   <div class="stat-i"><span class="stat-n" data-count="10">0<span class="ac">K+</span></span><div class="stat-l">Downloads</div></div>
   <div class="stat-i"><span class="stat-n" data-count="253">0<span class="ac">+</span></span><div class="stat-l">Reviews</div></div>
   <div class="stat-i"><span class="stat-n" data-count="2021">0</span><div class="stat-l">Est.</div></div>
@@ -702,108 +675,57 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
     <div class="apps-grid reveal-stagger">
 
       <!-- Planet Explorer -->
-      <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.Sabeythenoob.Planet_Explorer" target="_blank">
-        <div class="app-banner">
-          <img src="https://play-lh.googleusercontent.com/rgT2PLYxhVZu9IGX4SDAdb_JtNiFoKayhofB6eGWRZdcN52PnmEn18znl8GtMBicKlzh=w2048-h1024" alt="Planet Explorer Banner" loading="lazy">
-          <div class="app-banner-overlay"></div>
+      <div class="app-card reveal">
+        <div class="app-img">
+          <img src="https://play-lh.googleusercontent.com/rgT2PLYxhVZu9IGX4SDAdb_JtNiFoKayhofB6eGWRZdcN52PnmEn18znl8GtMBicKlzh=w2048-h1024" alt="Planet Explorer" loading="lazy">
         </div>
-        <div class="app-body">
-          <div class="app-hd">
-            <img class="app-ico" src="https://play-lh.googleusercontent.com/gCooWTxeG9g04gdBLS115Uw5Ct3aGAUp4-RP63J0qQYDakuqpAPr9m6f5KStCIKo22U=s256" alt="Planet Explorer" onerror="this.outerHTML='<div class=app-ico-ph>&#127756;</div>'">
-            <div><div class="app-nm">Planet Explorer</div><div class="app-gn">Educational &middot; Simulation</div></div>
-          </div>
-          <p class="app-dsc">Walk on other planets in our Solar System as a human being. Explore environments that don't exist on Earth.</p>
-          <div class="app-ft">
-            <div class="app-mt"><span>&#9733; 3.0</span><span>&#8595; 10K+</span></div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <span class="pill-p">&#9654; Play Store</span>
-              <a href="privacy-policy.html#planet-explorer" class="pill-pv" onclick="event.stopPropagation()">&#128274; Privacy</a>
-            </div>
+        <div class="app-info">
+          <div class="app-nm">Planet Explorer</div>
+          <div class="app-actions">
+            <a href="https://play.google.com/store/apps/details?id=com.Sabeythenoob.Planet_Explorer" target="_blank" class="btn-play">&#9654; Google Play</a>
+            <a href="privacy-policy.html#planet-explorer" class="btn-privacy">Privacy</a>
           </div>
         </div>
-      </a>
+      </div>
 
       <!-- Crafty Adventure -->
-      <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Crafty_Adventure" target="_blank">
-        <div class="app-banner">
-          <img src="https://play-lh.googleusercontent.com/RxoOYOcaRe6mzVBwe179KcvUyuyuOKmqDOs3eqqa7hlHXupcwzDLl7vZxH4-3-H-djM=w2048-h1024" alt="Crafty Adventure Banner" loading="lazy">
-          <div class="app-banner-overlay"></div>
+      <div class="app-card reveal">
+        <div class="app-img">
+          <img src="https://play-lh.googleusercontent.com/RxoOYOcaRe6mzVBwe179KcvUyuyuOKmqDOs3eqqa7hlHXupcwzDLl7vZxH4-3-H-djM=w2048-h1024" alt="Crafty Adventure" loading="lazy">
         </div>
-        <div class="app-body">
-          <div class="app-hd">
-            <img class="app-ico" src="https://play-lh.googleusercontent.com/RxoOYOcaRe6mzVBwe179KcvUyuyuOKmqDOs3eqqa7hlHXupcwzDLl7vZxH4-3-H-djM=s256" alt="Crafty Adventure" onerror="this.outerHTML='<div class=app-ico-ph>&#128506;</div>'">
-            <div><div class="app-nm">Crafty Adventure</div><div class="app-gn">Adventure &middot; Puzzle</div></div>
-          </div>
-          <p class="app-dsc">Embark on a crafty adventure full of puzzles, exploration and surprises. Fun for all ages.</p>
-          <div class="app-ft">
-            <div class="app-mt"><span>&#9733; &mdash;</span><span>&#8595; &mdash;</span></div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <span class="pill-p">&#9654; Play Store</span>
-              <a href="privacy-policy.html#crafty-adventure" class="pill-pv" onclick="event.stopPropagation()">&#128274; Privacy</a>
-            </div>
+        <div class="app-info">
+          <div class="app-nm">Crafty Adventure</div>
+          <div class="app-actions">
+            <a href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Crafty_Adventure" target="_blank" class="btn-play">&#9654; Google Play</a>
+            <a href="privacy-policy.html#crafty-adventure" class="btn-privacy">Privacy</a>
           </div>
         </div>
-      </a>
+      </div>
 
       <!-- The Friction -->
-      <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Friction" target="_blank">
-        <div class="app-banner">
-          <img src="https://play-lh.googleusercontent.com/sCce9tSpIFrpZe94phL_PG9FJ4OOEBtjoKYnagnRkyQC_S_zZxCezY1Lnb4VU4nGHg=w2048-h1024" alt="The Friction Banner" loading="lazy">
-          <div class="app-banner-overlay"></div>
+      <div class="app-card reveal">
+        <div class="app-img">
+          <img src="https://play-lh.googleusercontent.com/sCce9tSpIFrpZe94phL_PG9FJ4OOEBtjoKYnagnRkyQC_S_zZxCezY1Lnb4VU4nGHg=w2048-h1024" alt="The Friction" loading="lazy">
         </div>
-        <div class="app-body">
-          <div class="app-hd">
-            <img class="app-ico" src="https://play-lh.googleusercontent.com/sCce9tSpIFrpZe94phL_PG9FJ4OOEBtjoKYnagnRkyQC_S_zZxCezY1Lnb4VU4nGHg=s256" alt="The Friction" onerror="this.outerHTML='<div class=app-ico-ph>&#127960;</div>'">
-            <div><div class="app-nm">The Friction</div><div class="app-gn">Adventure &middot; Escape</div></div>
-          </div>
-          <p class="app-dsc">Stuck in a village city &mdash; find the keys and escape. A gripping adventure with real tension.</p>
-          <div class="app-ft">
-            <div class="app-mt"><span>&#9733; &mdash;</span><span>&#8595; &mdash;</span></div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <span class="pill-p">&#9654; Play Store</span>
-              <a href="privacy-policy.html#the-friction" class="pill-pv" onclick="event.stopPropagation()">&#128274; Privacy</a>
-            </div>
+        <div class="app-info">
+          <div class="app-nm">The Friction</div>
+          <div class="app-actions">
+            <a href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Friction" target="_blank" class="btn-play">&#9654; Google Play</a>
+            <a href="privacy-policy.html#the-friction" class="btn-privacy">Privacy</a>
           </div>
         </div>
-      </a>
-
-      <!-- Scrubble -->
-      <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.scruble.sabeythenoob" target="_blank">
-        <div class="app-banner">
-          <img src="https://play-lh.googleusercontent.com/060XjgaADfTMbVOWRzJ-VVNw6X4vF7DPdJSwMW-T6RNNE_1OgR2mF08UkVYQ9NtSjA=w2048-h1024" alt="Scrubble Banner" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#060c1e,#0c1836,#060e1c)'; this.style.display='none';">
-          <div class="app-banner-overlay"></div>
-        </div>
-        <div class="app-body">
-          <div class="app-hd">
-            <img class="app-ico" src="https://play-lh.googleusercontent.com/060XjgaADfTMbVOWRzJ-VVNw6X4vF7DPdJSwMW-T6RNNE_1OgR2mF08UkVYQ9NtSjA=s256" alt="Scrubble" onerror="this.outerHTML='<div class=app-ico-ph>&#129689;</div>'">
-            <div><div class="app-nm">Scrubble</div><div class="app-gn">Adventure &middot; Coin Collector</div></div>
-          </div>
-          <p class="app-dsc">Play the original Scrubble &mdash; collect every coin to escape. Classic, addictive, free.</p>
-          <div class="app-ft">
-            <div class="app-mt"><span>&#9733; &mdash;</span><span>&#8595; 50+</span></div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <span class="pill-p">&#9654; Play Store</span>
-              <a href="privacy-policy.html#scrubble" class="pill-pv" onclick="event.stopPropagation()">&#128274; Privacy</a>
-            </div>
-          </div>
-        </div>
-      </a>
+      </div>
 
       <!-- OFFICE PANIC — COMING SOON -->
       <div class="app-card coming-soon reveal">
-        <div class="coming-soon-banner">
+        <div class="coming-soon-img">
           <div class="coming-soon-pulse"></div>
-          <div class="coming-soon-text">COMING SOON</div>
+          <div class="coming-soon-label">COMING SOON</div>
         </div>
-        <div class="app-body">
-          <div class="app-hd">
-            <div class="app-ico-ph" style="background:linear-gradient(135deg,#2a0a0a,#1a0a2a); border-color:rgba(255,107,43,0.4); font-size:1.6rem;">&#128165;</div>
-            <div><div class="app-nm">Office Panic</div><div class="app-gn">Top-Down Shooter &middot; Meme &middot; Action</div></div>
-          </div>
-          <p class="app-dsc">An employee who turned his anger about corporate life into chaos. Meme-style top-down shooter &mdash; unleash office mayhem!</p>
-          <div class="app-ft">
-            <div class="app-mt"><span style="color:var(--orange);">&#9679; In Development</span></div>
-            <span class="pill-coming">&#128293; Coming Soon</span>
+        <div class="app-info">
+          <div class="app-nm">Office Panic</div>
+          <div class="app-actions">
+            <span class="btn-coming">&#128293; Coming Soon</span>
           </div>
         </div>
       </div>
@@ -851,25 +773,27 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
     <h2 class="sec-h reveal">The Studio</h2>
     <div class="about-grid reveal">
       <div class="about-text">
-        <p>SabyTheNoob is an indie game and app studio built and run by Sabesh Kumar from Tambaram, Chennai, Tamil Nadu, India.</p>
-        <p>The studio was born out of a love for games and the drive to create something real &mdash; from space simulation in Planet Explorer to escape adventures in The Friction, every app is crafted with intention.</p>
-        <p>Publishing on Google Play since 2021, growing one game at a time. Next up: <strong style="color:var(--orange)">Office Panic</strong> &mdash; a meme-style top-down shooter!</p>
+        <p>SabyTheNoob is an indie studio built and run by Sabesh Kumar from Tamil Nadu, India &mdash; creating games, mobile applications, VR projects, and virtual simulations.</p>
+        <p>What started as a passion for game development has grown into a studio that explores interactive experiences across platforms &mdash; from space simulation in Planet Explorer to APET applications, train simulations, and immersive VR projects.</p>
+        <p>Publishing on Google Play since 2021 and constantly expanding. Next up: <strong style="color:var(--orange)">Office Panic</strong> &mdash; a meme-style top-down shooter!</p>
         <div class="tag-row">
           <span class="tag">Game Dev</span>
+          <span class="tag">Mobile Apps</span>
+          <span class="tag">VR</span>
+          <span class="tag">Simulations</span>
+          <span class="tag">Unity</span>
           <span class="tag">Android</span>
           <span class="tag">Made in India</span>
-          <span class="tag">Unity</span>
-          <span class="tag">Indie</span>
           <span class="tag">C#</span>
         </div>
       </div>
       <div class="dev-card">
         <div class="dev-nm">Sabesh Kumar</div>
         <div class="dev-rl">Founder &amp; Developer</div>
-        <p style="font-size:0.88rem;font-weight:300;color:var(--muted2);line-height:1.75;">Building games from Tamil Nadu. Passionate about creating interactive experiences for Android users worldwide.</p>
+        <p style="font-size:0.88rem;font-weight:300;color:var(--muted2);line-height:1.75;">Building games, apps, VR experiences and virtual simulations from India. Passionate about creating interactive digital products for users worldwide.</p>
         <div class="dev-inf">
           <div class="dev-rw"><span class="ic">&#9993;</span><span>sabythenoob@gmail.com</span></div>
-          <div class="dev-rw"><span class="ic">&#9678;</span><span>Tambaram, Chennai, Tamil Nadu</span></div>
+          <div class="dev-rw"><span class="ic">&#9678;</span><span>Tamil Nadu, India</span></div>
           <div class="dev-rw"><span class="ic">&#8853;</span><span>sabythenoob.com</span></div>
         </div>
       </div>
@@ -881,8 +805,8 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
 <footer>
   <div class="foot-grid">
     <div>
-      <a class="foot-logo" href="index.html">Saby<span>TheNoob</span></a>
-      <p class="foot-desc">Indie game &amp; app studio from Tamil Nadu, India. Building mobile experiences on Android since 2021.</p>
+      <a class="foot-logo" href="index.html">SabyThe<span>Noob</span></a>
+      <p class="foot-desc">Indie studio from Tamil Nadu, India. Building games, apps, VR and simulations since 2021.</p>
     </div>
     <div class="foot-col">
       <h4>Games</h4>
@@ -890,7 +814,6 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
         <li><a href="https://play.google.com/store/apps/details?id=com.Sabeythenoob.Planet_Explorer" target="_blank">Planet Explorer</a></li>
         <li><a href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Crafty_Adventure" target="_blank">Crafty Adventure</a></li>
         <li><a href="https://play.google.com/store/apps/details?id=com.sabeythenoob.Friction" target="_blank">The Friction</a></li>
-        <li><a href="https://play.google.com/store/apps/details?id=com.scruble.sabeythenoob" target="_blank">Scrubble</a></li>
         <li><a href="#apps" style="color:var(--orange);">Office Panic (Soon)</a></li>
       </ul>
     </div>
@@ -905,7 +828,7 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
     </div>
   </div>
   <div class="foot-btm">
-    <p>&copy; 2024 &ndash; 2026 SabyTheNoob. All rights reserved.</p>
+    <p>&copy; 2024 &ndash; <span id="currentYear"></span> SabyTheNoob. All rights reserved.</p>
     <div class="socials">
       <a href="https://www.youtube.com/@sabythenoob" target="_blank" class="soc-btn">YT</a>
       <a href="https://play.google.com/store/apps/dev?id=8287816356133610844" target="_blank" class="soc-btn">Play</a>
@@ -928,6 +851,65 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
 const YT_CHANNEL_ID = 'UC6G1KjZdnipvXxgrUt5_A0A';
 const YT_HANDLE = 'sabythenoob';
 const MAX_VIDEOS = 6;
+
+// ===== DYNAMIC COPYRIGHT YEAR =====
+document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+// ===== FETCH CHANNEL LOGO (favicon + nav) =====
+(function() {
+  const RSS_LOGO_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=' + YT_CHANNEL_ID)}`;
+
+  async function fetchLogo() {
+    try {
+      const res = await fetch(RSS_LOGO_URL, { signal: AbortSignal.timeout(8000) });
+      const data = await res.json();
+      // rss2json returns feed.image which is the channel avatar
+      const logoUrl = data?.feed?.image;
+      if (logoUrl) {
+        setLogo(logoUrl);
+        return;
+      }
+    } catch(e) {}
+
+    // Fallback: try allorigins + parse XML for channel logo
+    try {
+      const res = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=' + YT_CHANNEL_ID), { signal: AbortSignal.timeout(8000) });
+      const xml = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xml, 'text/xml');
+      // YouTube RSS has <media:thumbnail> in the feed author
+      const authorUri = doc.querySelector('feed > author > uri')?.textContent;
+      if (authorUri) {
+        // Use YouTube's public thumbnail endpoint
+        const channelThumb = `https://yt3.googleusercontent.com/ytc/${YT_CHANNEL_ID}`;
+        // Actually try the parsed thumbnail
+        const thumbEl = doc.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'thumbnail');
+        if (thumbEl.length > 0) {
+          setLogo(thumbEl[0].getAttribute('url'));
+          return;
+        }
+      }
+    } catch(e) {}
+  }
+
+  function setLogo(url) {
+    // Set favicon
+    const favicon = document.getElementById('favicon');
+    const appleIcon = document.getElementById('apple-icon');
+    if (favicon) favicon.href = url;
+    if (appleIcon) appleIcon.href = url;
+
+    // Set nav logo
+    const navLogo = document.getElementById('navLogo');
+    if (navLogo) {
+      navLogo.src = url;
+      navLogo.style.display = 'block';
+      navLogo.classList.add('loaded');
+    }
+  }
+
+  fetchLogo();
+})();
 
 // ===== MOBILE MENU =====
 const hamburger = document.getElementById('hamburgerBtn');
@@ -1066,31 +1048,47 @@ document.querySelectorAll('.stat-n[data-count]').forEach(el => counterObserver.o
   const grid = document.getElementById('ytGrid');
   if (!grid) return;
 
-  // Method 1: Try RSS feed via CORS proxy (if channel ID is set)
-  // Method 2: Try RSS feed via handle
-  // Method 3: Fallback to static content
+  const RSS_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${YT_CHANNEL_ID}`;
 
-  const CORS_PROXIES = [
-    'https://api.allorigins.win/raw?url=',
-    'https://corsproxy.io/?'
+  // Multiple fetching strategies for maximum reliability
+  const FETCH_METHODS = [
+    // Method 1: rss2json.com (most reliable, built for RSS-to-JSON)
+    async () => {
+      const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`, { signal: AbortSignal.timeout(10000) });
+      const data = await res.json();
+      if (data.status !== 'ok' || !data.items?.length) return null;
+      return data.items.slice(0, MAX_VIDEOS).map(item => {
+        const videoId = item.link?.match(/[?&]v=([^&]+)/)?.[1] || '';
+        return {
+          title: item.title || 'Untitled',
+          videoId,
+          published: item.pubDate || '',
+          thumbnail: item.thumbnail || `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+          description: item.description || ''
+        };
+      });
+    },
+    // Method 2: allorigins CORS proxy + XML parse
+    async () => {
+      const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(RSS_URL)}`, { signal: AbortSignal.timeout(10000) });
+      const xml = await res.text();
+      return parseRSSXml(xml);
+    },
+    // Method 3: corsproxy.io
+    async () => {
+      const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(RSS_URL)}`, { signal: AbortSignal.timeout(10000) });
+      const xml = await res.text();
+      return parseRSSXml(xml);
+    }
   ];
 
-  async function fetchWithProxy(url) {
-    for (const proxy of CORS_PROXIES) {
-      try {
-        const res = await fetch(proxy + encodeURIComponent(url), { signal: AbortSignal.timeout(8000) });
-        if (res.ok) return await res.text();
-      } catch(e) { continue; }
-    }
-    return null;
-  }
-
-  function parseRSS(xml) {
+  function parseRSSXml(xml) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(xml, 'text/xml');
+    if (doc.querySelector('parsererror')) return null;
     const entries = doc.querySelectorAll('entry');
+    if (!entries.length) return null;
     const videos = [];
-
     entries.forEach((entry, i) => {
       if (i >= MAX_VIDEOS) return;
       const title = entry.querySelector('title')?.textContent || 'Untitled';
@@ -1101,10 +1099,9 @@ document.querySelectorAll('.stat-n[data-count]').forEach(el => counterObserver.o
       const views = mediaGroup?.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'community')[0]
         ?.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'statistics')[0]
         ?.getAttribute('views') || '';
-
       videos.push({ title, videoId, published, thumbnail, views });
     });
-    return videos;
+    return videos.length ? videos : null;
   }
 
   function formatDate(dateStr) {
@@ -1115,7 +1112,8 @@ document.querySelectorAll('.stat-n[data-count]').forEach(el => counterObserver.o
     const days = Math.floor(diff / 86400000);
     if (days < 1) return 'Today';
     if (days === 1) return 'Yesterday';
-    if (days < 30) return days + ' days ago';
+    if (days < 7) return days + ' days ago';
+    if (days < 30) return Math.floor(days / 7) + ' weeks ago';
     if (days < 365) return Math.floor(days / 30) + ' months ago';
     return Math.floor(days / 365) + ' years ago';
   }
@@ -1129,14 +1127,11 @@ document.querySelectorAll('.stat-n[data-count]').forEach(el => counterObserver.o
   }
 
   function renderVideos(videos) {
-    if (!videos.length) {
-      renderFallback();
-      return;
-    }
     grid.innerHTML = videos.map(v => `
       <a class="yt-card reveal on" href="https://www.youtube.com/watch?v=${v.videoId}" target="_blank" rel="noopener">
         <div class="yt-tw">
-          <img src="${v.thumbnail || 'https://img.youtube.com/vi/' + v.videoId + '/hqdefault.jpg'}" alt="${v.title}" loading="lazy">
+          <img src="${v.thumbnail || 'https://img.youtube.com/vi/' + v.videoId + '/hqdefault.jpg'}" alt="${v.title}" loading="lazy"
+               onerror="this.src='https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg'">
           <div class="yt-ov">
             <div class="yt-pb">
               <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -1156,12 +1151,12 @@ document.querySelectorAll('.stat-n[data-count]').forEach(el => counterObserver.o
       <div style="grid-column:1/-1; text-align:center; padding:48px 20px;">
         <div style="font-size:3rem; margin-bottom:16px; opacity:0.4;">&#127909;</div>
         <p style="font-family:'Rajdhani',sans-serif; font-size:1.1rem; font-weight:600; color:var(--muted2); margin-bottom:8px;">
-          Videos loading from YouTube...
+          Check out our videos on YouTube
         </p>
         <p style="font-size:0.85rem; color:var(--muted); max-width:400px; margin:0 auto 20px; line-height:1.6;">
-          Visit our YouTube channel directly to watch all our gameplay videos, dev logs, and walkthroughs.
+          Watch gameplay videos, dev logs, and walkthroughs on our channel.
         </p>
-        <a href="https://www.youtube.com/@sabythenoob" target="_blank" class="btn-p" style="display:inline-flex;">
+        <a href="https://www.youtube.com/channel/${YT_CHANNEL_ID}" target="_blank" class="btn-p" style="display:inline-flex;">
           <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.5 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
           Watch on YouTube
         </a>
@@ -1170,31 +1165,20 @@ document.querySelectorAll('.stat-n[data-count]').forEach(el => counterObserver.o
   }
 
   async function loadVideos() {
-    let xml = null;
-
-    // Try with channel ID first
-    if (YT_CHANNEL_ID && YT_CHANNEL_ID !== 'PUT_YOUR_CHANNEL_ID_HERE') {
-      xml = await fetchWithProxy(`https://www.youtube.com/feeds/videos.xml?channel_id=${YT_CHANNEL_ID}`);
-    }
-
-    // Try with handle/username as fallback
-    if (!xml) {
-      xml = await fetchWithProxy(`https://www.youtube.com/feeds/videos.xml?user=${YT_HANDLE}`);
-    }
-
-    if (xml) {
+    // Try each method in order until one works
+    for (const method of FETCH_METHODS) {
       try {
-        const videos = parseRSS(xml);
-        if (videos.length > 0) {
+        const videos = await method();
+        if (videos && videos.length > 0) {
           renderVideos(videos);
           return;
         }
       } catch(e) {
-        console.warn('RSS parse error:', e);
+        console.warn('YT fetch method failed:', e.message);
+        continue;
       }
     }
-
-    // Fallback
+    // All methods failed — show fallback
     renderFallback();
   }
 
