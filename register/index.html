@@ -305,7 +305,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
 
 <nav class="topbar">
   <div class="topbar-logo">
-    <span class="dot">●</span> SABYTHE<span class="noob">NOOB</span>
+    <img src="/assets/sabythenoob.png" alt="SabyTheNoob" style="height:28px;">
   </div>
 </nav>
 
@@ -336,19 +336,19 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
 
           <div class="form-group">
             <label class="form-label" for="first-name">First Name <span class="req">*</span></label>
-            <input type="text" class="form-input" id="first-name" placeholder="e.g. Sabesh" autocomplete="given-name">
+            <input type="text" class="form-input" id="first-name" placeholder="First name" autocomplete="given-name">
             <span class="field-err" id="err-first-name">⚠ Required</span>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="last-name">Last Name <span class="req">*</span></label>
-            <input type="text" class="form-input" id="last-name" placeholder="e.g. Kumar" autocomplete="family-name">
+            <input type="text" class="form-input" id="last-name" placeholder="Last name" autocomplete="family-name">
             <span class="field-err" id="err-last-name">⚠ Required</span>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="nick-name">Nick Name <span class="req">*</span></label>
-            <input type="text" class="form-input" id="nick-name" placeholder="e.g. Sab">
+            <input type="text" class="form-input" id="nick-name" placeholder="Your nick name">
             <span class="field-err" id="err-nick-name">⚠ Required</span>
           </div>
 
@@ -360,13 +360,13 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
 
           <div class="form-group span-2">
             <label class="form-label" for="email">Email Address <span class="req">*</span></label>
-            <input type="email" class="form-input" id="email" placeholder="e.g. sab@example.com" autocomplete="email">
+            <input type="email" class="form-input" id="email" placeholder="Your email address" autocomplete="email">
             <span class="field-err" id="err-email">⚠ Enter a valid email address</span>
           </div>
 
           <div class="form-group span-2">
             <label class="form-label" for="father-name">Father's Name <span class="req">*</span></label>
-            <input type="text" class="form-input" id="father-name" placeholder="e.g. Rajesh Kumar">
+            <input type="text" class="form-input" id="father-name" placeholder="Father's full name">
             <span class="field-err" id="err-father-name">⚠ Required</span>
           </div>
 
@@ -445,13 +445,13 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
 
           <div class="form-group">
             <label class="form-label" for="bank-name">Bank Name <span class="req">*</span></label>
-            <input type="text" class="form-input" id="bank-name" placeholder="e.g. State Bank of India">
+            <input type="text" class="form-input" id="bank-name" placeholder="Bank name">
             <span class="field-err" id="err-bank-name">⚠ Required</span>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="ifsc">IFSC Code <span class="req">*</span></label>
-            <input type="text" class="form-input" id="ifsc" placeholder="e.g. SBIN0001234"
+            <input type="text" class="form-input" id="ifsc" placeholder="11-character IFSC code"
                    maxlength="11" style="text-transform:uppercase">
             <span class="field-err" id="err-ifsc">⚠ Enter a valid 11-character IFSC code</span>
           </div>
@@ -562,6 +562,16 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
     <p>Your details have been submitted successfully.<br>
        The admin will review and activate your Scrum board access.</p>
     <div class="success-details" id="success-details"></div>
+    <a href="/scrumboard" style="
+      display:inline-flex; align-items:center; gap:8px; margin-top:24px;
+      padding:14px 32px; background:var(--orange); color:#fff;
+      border-radius:10px; font-size:14px; font-weight:800;
+      letter-spacing:1px; text-transform:uppercase; text-decoration:none;
+      box-shadow:0 4px 16px rgba(255,102,0,.35);
+      transition:background .2s;
+    " onmouseover="this.style.background='#FF8833'" onmouseout="this.style.background='var(--orange)'">
+      ▶ &nbsp;Go to Scrum Board
+    </a>
   </div>
 
   <!-- Privacy -->

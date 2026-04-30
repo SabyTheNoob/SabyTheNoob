@@ -19,6 +19,35 @@
   --border: rgba(255,255,255,0.07);
   --shadow: 0 24px 64px rgba(0,0,0,.6);
 }
+
+/* ── LIGHT MODE ──────────────────────────────────────── */
+body.light {
+  --bg:     #F4F4F8;
+  --bg2:    #FFFFFF;
+  --bg3:    #EBEBF2;
+  --bg4:    #D8D8E8;
+  --white:  #1A1A2E;
+  --gray:   #7070A0;
+  --border: rgba(0,0,0,0.09);
+  --shadow: 0 24px 64px rgba(0,0,0,.12);
+}
+body.light .lock-screen-bg {
+  background:
+    radial-gradient(ellipse 70% 60% at 75% 25%, rgba(255,102,0,.10) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 70% at 20% 85%, rgba(123,94,167,.10) 0%, transparent 65%),
+    var(--bg);
+}
+body.light input[type="date"]::-webkit-calendar-picker-indicator { filter:none; }
+body.light option { background:#EBEBF2; color:#1A1A2E; }
+
+/* ── THEME TOGGLE BUTTON ─────────────────────────────── */
+.theme-toggle {
+  background:none; border:1px solid var(--border);
+  border-radius:8px; color:var(--gray);
+  font-size:16px; line-height:1; padding:5px 8px;
+  cursor:pointer; transition:all .2s; flex-shrink:0;
+}
+.theme-toggle:hover { border-color:var(--orange); color:var(--orange); }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -485,9 +514,11 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
 <body>
 
 <!-- ── LOCK SCREEN ──────────────────────────────────────── -->
-<div id="lock-screen">
+<div id="lock-screen" style="display:none">
   <div class="lock-box">
-    <div class="lock-brand"><span class="dot">●</span> SABYTHE<span class="noob">NOOB</span></div>
+    <div class="lock-brand">
+      <img src="/assets/sabythenoob.png" alt="SabyTheNoob" style="height:36px;margin-bottom:4px;">
+    </div>
     <div class="lock-icon">🎮</div>
     <div class="lock-title">Scrum Board</div>
     <div class="lock-sub">Team access only · Sign in with your registered account</div>
@@ -514,7 +545,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
 <div id="board-app">
 
   <header class="board-header">
-    <div class="h-logo"><span class="dot">●</span> SABYTHE<span class="noob">NOOB</span></div>
+    <img src="/assets/sabythenoob.png" alt="SabyTheNoob" class="h-logo" style="height:28px;">
     <div class="h-divider"></div>
     <div class="h-sprint">Sprint <strong id="h-sprint-name"></strong></div>
     <div class="h-spacer"></div>
@@ -523,6 +554,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
       <span id="sync-label">Synced</span>
     </div>
     <div class="h-divider"></div>
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark">🌙</button>
     <div class="h-user">
       <div class="h-avatar" id="h-avatar"></div>
       <span id="h-username"></span>
@@ -659,16 +691,55 @@ let ctxId        = null;
 let dragId       = null;
 
 /* ============================================================
+   THEME
+   ============================================================ */
+const THEME_KEY = 'stn_theme';
+(function applyTheme() {
+  const saved = localStorage.getItem(THEME_KEY) || 'dark';
+  if (saved === 'light') document.body.classList.add('light');
+})();
+
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light');
+  localStorage.setItem(THEME_KEY, isLight ? 'light' : 'dark');
+  document.getElementById('theme-btn').textContent = isLight ? '☀️' : '🌙';
+}
+
+// Set initial icon based on theme
+document.getElementById('theme-btn').textContent =
+  document.body.classList.contains('light') ? '☀️' : '🌙';
+
+/* ============================================================
    AUTH
    ============================================================ */
+const USER_KEY = 'stn_current_user';
+
 document.getElementById('h-sprint-name').textContent = SPRINT;
 
-// Pre-load team from cache while lock screen is visible so colours
-// are ready the moment a member logs in successfully.
+// Pre-load team from cache
 (function preloadTeamCache() {
   const cached = localLoad('stn_team');
   if (cached.length > 0) teamMembers = cached;
 })();
+
+// ── Restore saved session (skip login screen if already logged in) ──
+(function restoreSession() {
+  try {
+    const saved = localStorage.getItem(USER_KEY);
+    if (saved) {
+      const user = JSON.parse(saved);
+      if (user && user.name) { openBoard(user); return; }
+    }
+  } catch {}
+  document.getElementById('lock-screen').style.display = 'flex';
+})();
+
+// Auto-lowercase nickname as user types
+document.getElementById('lock-nick').addEventListener('input', function() {
+  const pos = this.selectionStart;
+  this.value = this.value.toLowerCase();
+  this.setSelectionRange(pos, pos);
+});
 
 // Allow Enter key from either field to trigger login
 ['lock-nick','lock-pass'].forEach(id => {
@@ -750,6 +821,7 @@ async function tryLogin() {
 
 function openBoard(user) {
   currentUser = user;
+  localStorage.setItem(USER_KEY, JSON.stringify(user)); // remember session
   document.getElementById('lock-screen').style.display = 'none';
   const app = document.getElementById('board-app');
   app.style.display = 'flex';
@@ -758,6 +830,7 @@ function openBoard(user) {
 }
 
 function logout() {
+  localStorage.removeItem(USER_KEY); // clear session
   currentUser = null; tasks = []; teamMembers = []; filterPerson = '';
   document.getElementById('board-app').style.display = 'none';
   document.getElementById('lock-screen').style.display = 'flex';
