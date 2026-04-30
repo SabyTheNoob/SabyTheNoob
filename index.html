@@ -63,22 +63,10 @@ nav {
 }
 nav.scrolled { background: rgba(5,5,10,0.96); }
 .nav-logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.6rem; letter-spacing: 0.08em;
-  color: var(--text); text-decoration: none;
-  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+  display: flex; align-items: center;
 }
-.nav-logo-img {
-  width: 30px; height: 30px; border-radius: 50%;
-  object-fit: cover; border: 2px solid var(--border2);
-}
-.nav-logo-img.loaded + .logo-dot { display: none; }
-.logo-accent { color: var(--orange); }
-.logo-dot {
-  width: 8px; height: 8px; background: var(--orange);
-  border-radius: 50%; box-shadow: 0 0 10px var(--orange);
-  animation: blink 2s infinite;
-}
+.nav-logo img { height: 32px; width: auto; display: block; }
 @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
 .nav-links { display: flex; gap: 32px; list-style: none; }
@@ -615,7 +603,7 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
 
 <!-- ========== NAV ========== -->
 <nav id="mainNav">
-  <a class="nav-logo" href="/"><img id="navLogo" class="nav-logo-img" src="" alt="" style="display:none;"><span class="logo-dot"></span>SabyThe<span class="logo-accent">Noob</span></a>
+  <a class="nav-logo" href="/"><img src="/assets/sabythenoob.png" alt="SabyTheNoob"></a>
   <ul class="nav-links">
     <li><a href="#apps">Games</a></li>
     <li><a href="#videos">Videos</a></li>
@@ -805,7 +793,7 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
 <footer>
   <div class="foot-grid">
     <div>
-      <a class="foot-logo" href="/">SabyThe<span>Noob</span></a>
+      <a class="foot-logo" href="/"><img src="/assets/sabythenoob.png" alt="SabyTheNoob" style="height:36px;width:auto;display:block;margin-bottom:12px;"></a>
       <p class="foot-desc">Indie studio from Tamil Nadu, India. Building games, apps, VR and simulations since 2021.</p>
     </div>
     <div class="foot-col">
@@ -855,61 +843,6 @@ const MAX_VIDEOS = 6;
 // ===== DYNAMIC COPYRIGHT YEAR =====
 document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-// ===== FETCH CHANNEL LOGO (favicon + nav) =====
-(function() {
-  const RSS_LOGO_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=' + YT_CHANNEL_ID)}`;
-
-  async function fetchLogo() {
-    try {
-      const res = await fetch(RSS_LOGO_URL, { signal: AbortSignal.timeout(8000) });
-      const data = await res.json();
-      // rss2json returns feed.image which is the channel avatar
-      const logoUrl = data?.feed?.image;
-      if (logoUrl) {
-        setLogo(logoUrl);
-        return;
-      }
-    } catch(e) {}
-
-    // Fallback: try allorigins + parse XML for channel logo
-    try {
-      const res = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=' + YT_CHANNEL_ID), { signal: AbortSignal.timeout(8000) });
-      const xml = await res.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(xml, 'text/xml');
-      // YouTube RSS has <media:thumbnail> in the feed author
-      const authorUri = doc.querySelector('feed > author > uri')?.textContent;
-      if (authorUri) {
-        // Use YouTube's public thumbnail endpoint
-        const channelThumb = `https://yt3.googleusercontent.com/ytc/${YT_CHANNEL_ID}`;
-        // Actually try the parsed thumbnail
-        const thumbEl = doc.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'thumbnail');
-        if (thumbEl.length > 0) {
-          setLogo(thumbEl[0].getAttribute('url'));
-          return;
-        }
-      }
-    } catch(e) {}
-  }
-
-  function setLogo(url) {
-    // Set favicon
-    const favicon = document.getElementById('favicon');
-    const appleIcon = document.getElementById('apple-icon');
-    if (favicon) favicon.href = url;
-    if (appleIcon) appleIcon.href = url;
-
-    // Set nav logo
-    const navLogo = document.getElementById('navLogo');
-    if (navLogo) {
-      navLogo.src = url;
-      navLogo.style.display = 'block';
-      navLogo.classList.add('loaded');
-    }
-  }
-
-  fetchLogo();
-})();
 
 // ===== MOBILE MENU =====
 const hamburger = document.getElementById('hamburgerBtn');
