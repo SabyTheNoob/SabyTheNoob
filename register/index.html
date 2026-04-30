@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SabyTheNoob · Team Registration</title>
+<style>
+:root {
+  --bg:      #09090f;
+  --bg2:     #0f0f18;
+  --bg3:     #16161f;
+  --bg4:     #1e1e2a;
+  --orange:  #FF6600;
+  --orange2: #FF8833;
+  --purple:  #7B5EA7;
+  --purple2: #9B7EC7;
+  --white:   #F0F0FF;
+  --gray:    #666688;
+  --border:  rgba(255,255,255,0.08);
+  --red:     #FF5555;
+  --green:   #4CAF82;
+  --shadow:  0 32px 80px rgba(0,0,0,.6);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Background */
+.bg-glow {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 50% at 80% 10%, rgba(255,102,0,.14) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 10% 90%, rgba(123,94,167,.14) 0%, transparent 60%);
+}
+.bg-dots {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255,255,255,.4) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: .1;
+}
+
+/* Topbar — logo only, no back link */
+.topbar {
+  position: relative; z-index: 10;
+  background: rgba(15,15,24,.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.topbar-logo {
+  font-size: 12px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase;
+  display: flex; align-items: center; gap: 5px;
+}
+.topbar-logo .dot, .topbar-logo .noob { color: var(--orange); }
+
+/* Page */
+.page {
+  position: relative; z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 16px 60px;
+}
+
+/* Header */
+.form-header {
+  text-align: center;
+  max-width: 580px;
+  width: 100%;
+  margin-bottom: 28px;
+}
+.form-icon {
+  width: 60px; height: 60px; border-radius: 16px;
+  background: linear-gradient(135deg, var(--orange), var(--purple));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  margin: 0 auto 16px;
+  box-shadow: 0 8px 28px rgba(255,102,0,.3);
+}
+.form-header h1 {
+  font-size: clamp(20px, 5vw, 26px);
+  font-weight: 800;
+  letter-spacing: -.5px;
+  margin-bottom: 8px;
+}
+.form-header h1 span { color: var(--orange); }
+.form-header p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+
+/* Form card */
+.form-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px;
+  width: 100%;
+  max-width: 700px;
+  box-shadow: var(--shadow);
+}
+
+/* Section */
+.form-section { margin-bottom: 28px; }
+.form-section:last-of-type { margin-bottom: 0; }
+.section-title {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 16px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.form-grid .span-2 { grid-column: 1 / -1; }
+
+/* Fields */
+.form-group { display: flex; flex-direction: column; gap: 7px; }
+.form-label {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--gray);
+  display: flex; align-items: center; gap: 4px;
+}
+.required-star { color: var(--orange); }
+.input-wrap { position: relative; }
+.form-input {
+  width: 100%; padding: 11px 14px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 10px; color: var(--white);
+  font-size: 14px; font-family: inherit; outline: none;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+  -webkit-appearance: none;
+}
+.form-input::placeholder { color: var(--gray); opacity: .7; }
+.form-input:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,102,0,.12); background: var(--bg4); }
+.form-input.error { border-color: var(--red); box-shadow: 0 0 0 3px rgba(255,85,85,.1); }
+.form-input.valid { border-color: var(--green); }
+
+.pass-toggle {
+  position: absolute; right: 12px; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none;
+  color: var(--gray); cursor: pointer;
+  font-size: 16px; line-height: 1; padding: 0; transition: color .15s;
+}
+.pass-toggle:hover { color: var(--white); }
+
+.field-error { font-size: 11px; color: var(--red); display: none; align-items: center; gap: 4px; }
+.field-error.show { display: flex; }
+.field-hint { font-size: 11px; color: var(--gray); }
+
+/* ── AADHAR FILE UPLOAD ──────────────────────────────────── */
+.upload-zone {
+  border: 2px dashed rgba(255,255,255,.12);
+  border-radius: 14px;
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .25s;
+  background: var(--bg3);
+  position: relative;
+  overflow: hidden;
+}
+.upload-zone:hover { border-color: var(--orange); background: rgba(255,102,0,.04); }
+.upload-zone.dragover { border-color: var(--orange); background: rgba(255,102,0,.08); transform: scale(1.01); }
+.upload-zone.has-file { border-color: var(--green); border-style: solid; background: rgba(76,175,130,.06); }
+.upload-zone.error-state { border-color: var(--red); }
+
+/* Hidden native input */
+#aadhar-file { display: none; }
+
+.upload-prompt { pointer-events: none; }
+.upload-big-icon { font-size: 36px; margin-bottom: 10px; }
+.upload-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.upload-sub { font-size: 13px; color: var(--gray); margin-bottom: 8px; }
+.upload-sub span { color: var(--orange); text-decoration: underline; }
+.upload-types {
+  font-size: 11px; color: var(--gray);
+  background: var(--bg4); border-radius: 20px;
+  display: inline-block; padding: 3px 12px;
+}
+
+/* Preview after file selected */
+.upload-preview {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.upload-zone.has-file .upload-prompt { display: none; }
+.upload-zone.has-file .upload-preview { display: flex; }
+
+.preview-img {
+  max-width: 100%;
+  max-height: 160px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  object-fit: contain;
+}
+.preview-pdf {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg4); border-radius: 10px;
+  padding: 12px 18px; width: 100%;
+}
+.pdf-icon { font-size: 28px; }
+.pdf-info { text-align: left; }
+.pdf-name { font-size: 13px; font-weight: 600; word-break: break-all; }
+.pdf-size { font-size: 11px; color: var(--gray); }
+
+.preview-meta {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--green); font-weight: 600;
+}
+.remove-file {
+  background: rgba(255,85,85,.1); border: 1px solid rgba(255,85,85,.25);
+  color: var(--red); border-radius: 6px;
+  font-size: 11px; font-weight: 700; cursor: pointer;
+  padding: 4px 10px; transition: all .2s; font-family: inherit;
+}
+.remove-file:hover { background: rgba(255,85,85,.2); }
+
+/* Upload progress bar */
+.upload-progress {
+  width: 100%; height: 3px;
+  background: var(--bg4); border-radius: 3px; overflow: hidden;
+  display: none;
+}
+.upload-progress.show { display: block; }
+.upload-progress-bar {
+  height: 100%; background: var(--orange);
+  border-radius: 3px;
+  transition: width .3s;
+  width: 0%;
+}
+
+/* ── SUBMIT ───────────────────────────────────────────────── */
+.submit-wrap {
+  margin-top: 32px;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 14px;
+}
+.submit-btn {
+  width: 100%; max-width: 320px; padding: 15px;
+  background: var(--orange); color: #fff; border: none;
+  border-radius: 12px; font-size: 15px; font-weight: 800;
+  letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+  transition: background .2s, transform .1s, box-shadow .2s;
+  font-family: inherit;
+  box-shadow: 0 4px 20px rgba(255,102,0,.35);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.submit-btn:hover  { background: var(--orange2); box-shadow: 0 6px 28px rgba(255,102,0,.45); }
+.submit-btn:active { transform: scale(.98); }
+.submit-btn:disabled { background: var(--bg4); color: var(--gray); box-shadow: none; cursor: not-allowed; }
+.btn-spinner {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
+  animation: spin .7s linear infinite; display: none;
+}
+.submit-btn.loading .btn-spinner { display: block; }
+.submit-btn.loading .btn-text    { opacity: .6; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.submit-note { font-size: 11px; color: var(--gray); text-align: center; line-height: 1.6; }
+
+/* ── SUCCESS ──────────────────────────────────────────────── */
+.success-card {
+  display: none; flex-direction: column; align-items: center;
+  text-align: center; padding: 48px 32px;
+  background: var(--bg2); border: 1px solid rgba(76,175,130,.3);
+  border-radius: 20px; width: 100%; max-width: 480px; box-shadow: var(--shadow);
+}
+.success-card.show { display: flex; }
+.success-icon {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: rgba(76,175,130,.15); border: 2px solid var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; margin-bottom: 20px;
+  animation: pop .4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes pop { from { transform: scale(.5); opacity: 0; } }
+.success-card h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+.success-card h2 span { color: var(--green); }
+.success-card p { font-size: 14px; color: var(--gray); line-height: 1.7; margin-bottom: 24px; }
+.success-details {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 18px;
+  text-align: left; width: 100%; margin-bottom: 24px;
+}
+.detail-row {
+  display: flex; justify-content: space-between;
+  font-size: 13px; padding: 5px 0; gap: 12px;
+}
+.detail-row:not(:last-child) { border-bottom: 1px solid var(--border); }
+.detail-key { color: var(--gray); font-weight: 600; flex-shrink: 0; }
+.detail-val { color: var(--white); text-align: right; word-break: break-all; }
+.btn-another {
+  padding: 11px 28px; background: none;
+  border: 1px solid var(--orange); border-radius: 10px;
+  color: var(--orange); font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all .2s; font-family: inherit;
+}
+.btn-another:hover { background: rgba(255,102,0,.1); }
+
+/* Privacy note */
+.privacy-note {
+  max-width: 700px; width: 100%; margin-top: 20px;
+  padding: 12px 18px;
+  background: rgba(123,94,167,.08); border: 1px solid rgba(123,94,167,.2);
+  border-radius: 10px; font-size: 12px; color: var(--gray);
+  line-height: 1.6; display: flex; gap: 10px; align-items: flex-start;
+}
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px 20px; font-size: 13px; font-weight: 600;
+  box-shadow: 0 8px 32px rgba(0,0,0,.5); z-index: 999;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  display: flex; align-items: center; gap: 8px; white-space: nowrap;
+}
+.toast.show  { transform: translateX(-50%) translateY(0); }
+.toast.success { border-color: rgba(76,175,130,.4); color: var(--green); }
+.toast.error   { border-color: rgba(255,85,85,.4);   color: var(--red); }
+
+/* ── RESPONSIVE ───────────────────────────────────────────── */
+@media (max-width: 580px) {
+  .form-card  { padding: 22px 16px; border-radius: 16px; }
+  .form-grid  { grid-template-columns: 1fr; }
+  .form-grid .span-2 { grid-column: 1; }
+  .page       { padding: 20px 12px 48px; }
+  .upload-zone { padding: 20px 14px; }
+  .submit-btn { max-width: 100%; }
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5); cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-dots"></div>
+
+<!-- Topbar — logo only -->
+<nav class="topbar">
+  <div class="topbar-logo">
+    <span class="dot">●</span> SABYTHE<span class="noob">NOOB</span>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="form-header">
+    <div class="form-icon">👤</div>
+    <h1>Team <span>Registration</span></h1>
+    <p>Fill in your details to register as a team member.<br>
+       Your Aadhar document will be securely stored in our private Drive.</p>
+  </div>
+
+  <!-- Form Card -->
+  <div class="form-card" id="form-card">
+    <form id="reg-form" novalidate>
+
+      <!-- ── PERSONAL INFO ──────────────────────────────── -->
+      <div class="form-section">
+        <div class="section-title">👤 Personal Information</div>
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label class="form-label" for="first-name">First Name <span class="required-star">*</span></label>
+            <input type="text" class="form-input" id="first-name" placeholder="e.g. Sabesh" autocomplete="given-name">
+            <span class="field-error" id="err-first-name">⚠ Required</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="last-name">Last Name <span class="required-star">*</span></label>
+            <input type="text" class="form-input" id="last-name" placeholder="e.g. Kumar" autocomplete="family-name">
+            <span class="field-error" id="err-last-name">⚠ Required</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="nick-name">Nick Name <span class="required-star">*</span></label>
+            <input type="text" class="form-input" id="nick-name" placeholder="e.g. Sab">
+            <span class="field-error" id="err-nick-name">⚠ Required</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="father-name">Father's Name <span class="required-star">*</span></label>
+            <input type="text" class="form-input" id="father-name" placeholder="e.g. Rajesh Kumar">
+            <span class="field-error" id="err-father-name">⚠ Required</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="dob">Date of Birth <span class="required-star">*</span></label>
+            <input type="date" class="form-input" id="dob" autocomplete="bday">
+            <span class="field-error" id="err-dob">⚠ Required</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── AADHAR UPLOAD ─────────────────────────────── -->
+      <div class="form-section">
+        <div class="section-title">🪪 Aadhar Card</div>
+        <div class="form-group">
+          <label class="form-label">
+            Aadhar Document <span class="required-star">*</span>
+          </label>
+
+          <!-- Upload zone -->
+          <div class="upload-zone" id="upload-zone"
+               onclick="triggerUpload()"
+               ondragover="onDragOver(event)"
+               ondragleave="onDragLeave(event)"
+               ondrop="onDrop(event)">
+
+            <input type="file" id="aadhar-file"
+                   accept="image/jpeg,image/png,image/jpg,application/pdf"
+                   onchange="onFileSelected(this.files[0])">
+
+            <!-- Prompt (shown before file selected) -->
+            <div class="upload-prompt">
+              <div class="upload-big-icon">📎</div>
+              <div class="upload-title">Drop your Aadhar card here</div>
+              <div class="upload-sub">or <span>click to browse</span></div>
+              <div class="upload-types">JPG · PNG · PDF &nbsp;·&nbsp; Max 5 MB</div>
+            </div>
+
+            <!-- Preview (shown after file selected) -->
+            <div class="upload-preview" id="upload-preview">
+              <img id="preview-img" class="preview-img" src="" alt="Aadhar preview" style="display:none">
+              <div class="preview-pdf" id="preview-pdf" style="display:none">
+                <span class="pdf-icon">📄</span>
+                <div class="pdf-info">
+                  <div class="pdf-name" id="pdf-name"></div>
+                  <div class="pdf-size" id="pdf-size"></div>
+                </div>
+              </div>
+              <div class="preview-meta">
+                <span>✓ File ready to upload</span>
+                <button type="button" class="remove-file" onclick="removeFile(event)">✕ Remove</button>
+              </div>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="upload-progress" id="upload-progress">
+              <div class="upload-progress-bar" id="upload-progress-bar"></div>
+            </div>
+          </div>
+
+          <span class="field-error" id="err-aadhar">⚠ Please upload your Aadhar card (image or PDF)</span>
+          <span class="field-hint">Your document is stored in a private Google Drive folder accessible only to admins.</span>
+        </div>
+      </div>
+
+      <!-- ── SCRUM ACCESS ───────────────────────────────── -->
+      <div class="form-section">
+        <div class="section-title">🔐 Scrum Board Access</div>
+        <div class="form-grid">
+          <div class="form-group span-2">
+            <label class="form-label" for="scrum-pass">
+              Scrum Board Password <span class="required-star">*</span>
+            </label>
+            <div class="input-wrap">
+              <input type="password" class="form-input" id="scrum-pass"
+                     placeholder="Choose a strong password" autocomplete="new-password">
+              <button type="button" class="pass-toggle" onclick="togglePass()">👁</button>
+            </div>
+            <span class="field-error" id="err-scrum-pass">⚠ Password must be at least 6 characters</span>
+            <span class="field-hint">Used to log in to the Scrum board</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="submit-wrap">
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <div class="btn-spinner"></div>
+          <span class="btn-text">✔ &nbsp;Submit Registration</span>
+        </button>
+        <p class="submit-note">
+          Fields marked <span style="color:var(--orange)">*</span> are required.
+        </p>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Success card -->
+  <div class="success-card" id="success-card">
+    <div class="success-icon">✓</div>
+    <h2>Registration <span>Complete!</span></h2>
+    <p>Your details have been submitted successfully.<br>
+       The admin will add you to the Scrum board shortly.</p>
+    <div class="success-details" id="success-details"></div>
+    <button class="btn-another" onclick="resetForm()">+ Register Another Member</button>
+  </div>
+
+  <!-- Privacy note -->
+  <div class="privacy-note" id="privacy-note">
+    🔒 &nbsp;Your Aadhar document is uploaded to a private Google Drive folder
+    accessible only to Saby The Noob team admins. It is used solely for
+    identity verification and is not shared with third parties.
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxVLah_QO7QxZ6bfRM-eG1PMniiM_MKkQxG57sTKlRyPIpn2bIqbNWGIAKTRlChZB_9/exec';
+
+/* ============================================================
+   FILE UPLOAD STATE
+   ============================================================ */
+let selectedFile     = null;
+let selectedFileData = null; // base64 data URL
+
+/* ── Drag & drop ── */
+function triggerUpload() {
+  if (!document.getElementById('upload-zone').classList.contains('has-file')) {
+    document.getElementById('aadhar-file').click();
+  }
+}
+function onDragOver(e) {
+  e.preventDefault(); e.stopPropagation();
+  document.getElementById('upload-zone').classList.add('dragover');
+}
+function onDragLeave(e) {
+  e.stopPropagation();
+  document.getElementById('upload-zone').classList.remove('dragover');
+}
+function onDrop(e) {
+  e.preventDefault(); e.stopPropagation();
+  document.getElementById('upload-zone').classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) onFileSelected(file);
+}
+
+/* ── File selected ── */
+function onFileSelected(file) {
+  if (!file) return;
+
+  const allowed = ['image/jpeg','image/jpg','image/png','application/pdf'];
+  if (!allowed.includes(file.type)) {
+    showToast('✕ Only JPG, PNG, or PDF allowed', 'error');
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    showToast('✕ File must be under 5 MB', 'error');
+    return;
+  }
+
+  selectedFile = file;
+
+  // Read as base64
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    selectedFileData = e.target.result; // data URL
+    renderPreview(file, selectedFileData);
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderPreview(file, dataUrl) {
+  const zone = document.getElementById('upload-zone');
+  zone.classList.add('has-file');
+  zone.classList.remove('error-state');
+  document.getElementById('err-aadhar').classList.remove('show');
+
+  const isImage = file.type.startsWith('image/');
+  const imgEl   = document.getElementById('preview-img');
+  const pdfEl   = document.getElementById('preview-pdf');
+
+  if (isImage) {
+    imgEl.src = dataUrl;
+    imgEl.style.display = 'block';
+    pdfEl.style.display = 'none';
+  } else {
+    imgEl.style.display = 'none';
+    pdfEl.style.display = 'flex';
+    document.getElementById('pdf-name').textContent = file.name;
+    document.getElementById('pdf-size').textContent = formatBytes(file.size);
+  }
+}
+
+function removeFile(e) {
+  e.stopPropagation();
+  selectedFile = null;
+  selectedFileData = null;
+  document.getElementById('aadhar-file').value = '';
+  document.getElementById('upload-zone').classList.remove('has-file','dragover','error-state');
+  document.getElementById('preview-img').style.display = 'none';
+  document.getElementById('preview-pdf').style.display = 'none';
+}
+
+function formatBytes(bytes) {
+  if (bytes < 1024)      return bytes + ' B';
+  if (bytes < 1048576)   return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / 1048576).toFixed(1) + ' MB';
+}
+
+/* ============================================================
+   PASSWORD TOGGLE
+   ============================================================ */
+function togglePass() {
+  const inp = document.getElementById('scrum-pass');
+  const btn = inp.nextElementSibling;
+  if (inp.type === 'password') { inp.type = 'text';     btn.textContent = '🙈'; }
+  else                          { inp.type = 'password'; btn.textContent = '👁'; }
+}
+
+/* ============================================================
+   VALIDATION
+   ============================================================ */
+const RULES = [
+  { id: 'first-name',  err: 'err-first-name',  check: v => v.trim().length > 0 },
+  { id: 'last-name',   err: 'err-last-name',   check: v => v.trim().length > 0 },
+  { id: 'nick-name',   err: 'err-nick-name',   check: v => v.trim().length > 0 },
+  { id: 'father-name', err: 'err-father-name', check: v => v.trim().length > 0 },
+  { id: 'dob',         err: 'err-dob',         check: v => v.trim().length > 0 },
+  { id: 'scrum-pass',  err: 'err-scrum-pass',  check: v => v.trim().length >= 6 },
+];
+
+function validate() {
+  let ok = true;
+  RULES.forEach(({ id, err, check }) => {
+    const inp   = document.getElementById(id);
+    const errEl = document.getElementById(err);
+    const valid = check(inp.value);
+    inp.classList.toggle('error', !valid);
+    inp.classList.toggle('valid', valid);
+    errEl.classList.toggle('show', !valid);
+    if (!valid) ok = false;
+  });
+
+  // Validate file
+  if (!selectedFile) {
+    document.getElementById('upload-zone').classList.add('error-state');
+    document.getElementById('err-aadhar').classList.add('show');
+    ok = false;
+  }
+  return ok;
+}
+
+RULES.forEach(({ id, err }) => {
+  const inp = document.getElementById(id);
+  inp.addEventListener('blur',  () => validate());
+  inp.addEventListener('input', () => {
+    inp.classList.remove('error');
+    document.getElementById(err)?.classList.remove('show');
+  });
+});
+
+/* ============================================================
+   SUBMIT
+   ============================================================ */
+document.getElementById('reg-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!validate()) {
+    showToast('⚠ Please fix the errors above', 'error');
+    // Scroll to first error
+    document.querySelector('.error, .error-state')?.scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
+
+  const btn = document.getElementById('submit-btn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  // Show progress bar
+  const prog    = document.getElementById('upload-progress');
+  const progBar = document.getElementById('upload-progress-bar');
+  prog.classList.add('show');
+
+  // Animate progress (fake — real progress not available with fetch)
+  let pct = 0;
+  const progInterval = setInterval(() => {
+    pct = Math.min(pct + 8, 85);
+    progBar.style.width = pct + '%';
+  }, 150);
+
+  const payload = {
+    action:          'addMember',
+    firstName:       document.getElementById('first-name').value.trim(),
+    lastName:        document.getElementById('last-name').value.trim(),
+    nickName:        document.getElementById('nick-name').value.trim(),
+    dob:             document.getElementById('dob').value,
+    fatherName:      document.getElementById('father-name').value.trim(),
+    scrumPass:       document.getElementById('scrum-pass').value.trim(),
+    aadharFileData:  selectedFileData,           // base64 data URL
+    aadharFileName:  selectedFile.name,
+    aadharFileType:  selectedFile.type,
+    submittedAt:     new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+  };
+
+  try {
+    await fetch(WEBAPP_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    clearInterval(progInterval);
+    progBar.style.width = '100%';
+    setTimeout(() => { prog.classList.remove('show'); progBar.style.width = '0%'; }, 600);
+
+    showSuccess(payload);
+    showToast('✓ Registration submitted successfully!', 'success');
+
+  } catch (err) {
+    clearInterval(progInterval);
+    prog.classList.remove('show');
+    progBar.style.width = '0%';
+    showToast('✕ Submission failed — please try again', 'error');
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+});
+
+/* ============================================================
+   SUCCESS
+   ============================================================ */
+function showSuccess(data) {
+  document.getElementById('form-card').style.display    = 'none';
+  document.getElementById('privacy-note').style.display = 'none';
+  const sc = document.getElementById('success-card');
+  sc.classList.add('show');
+
+  document.getElementById('success-details').innerHTML = `
+    <div class="detail-row">
+      <span class="detail-key">Full Name</span>
+      <span class="detail-val">${esc(data.firstName)} ${esc(data.lastName)}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-key">Nick Name</span>
+      <span class="detail-val">${esc(data.nickName)}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-key">Date of Birth</span>
+      <span class="detail-val">${formatDOB(data.dob)}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-key">Aadhar File</span>
+      <span class="detail-val">✓ ${esc(data.aadharFileName)}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-key">Submitted</span>
+      <span class="detail-val">${esc(data.submittedAt)}</span>
+    </div>`;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetForm() {
+  document.getElementById('reg-form').reset();
+  removeFile({ stopPropagation: () => {} });
+  document.getElementById('success-card').classList.remove('show');
+  document.getElementById('form-card').style.display    = '';
+  document.getElementById('privacy-note').style.display = '';
+  document.querySelectorAll('.form-input').forEach(inp => inp.classList.remove('valid','error'));
+  document.querySelectorAll('.field-error').forEach(el => el.classList.remove('show'));
+  const btn = document.getElementById('submit-btn');
+  btn.classList.remove('loading'); btn.disabled = false;
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function esc(str) {
+  return String(str||'')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function formatDOB(dob) {
+  if (!dob) return '—';
+  const d = new Date(dob + 'T00:00:00');
+  return d.toLocaleDateString('en-IN', { day:'2-digit', month:'long', year:'numeric' });
+}
+
+let toastTimer;
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
