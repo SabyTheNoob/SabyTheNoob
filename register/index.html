@@ -392,6 +392,44 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
         <div class="section-title">💼 Professional Details</div>
         <div class="form-grid">
 
+          <div class="form-group span-2">
+            <label class="form-label" for="member-role">Role in Studio <span class="req">*</span></label>
+            <select class="form-select" id="member-role">
+              <option value="" disabled selected>Select your role</option>
+              <optgroup label="── Intern">
+                <option value="Intern">Intern</option>
+                <option value="Intern – Game Dev">Intern – Game Dev</option>
+                <option value="Intern – Design">Intern – Design</option>
+                <option value="Intern – Marketing">Intern – Marketing</option>
+              </optgroup>
+              <optgroup label="── Development">
+                <option value="Junior Developer">Junior Developer</option>
+                <option value="Senior Developer">Senior Developer</option>
+                <option value="Game Developer">Game Developer</option>
+                <option value="Full Stack Developer">Full Stack Developer</option>
+                <option value="Frontend Developer">Frontend Developer</option>
+                <option value="Backend Developer">Backend Developer</option>
+                <option value="Mobile Developer">Mobile Developer</option>
+                <option value="DevOps Engineer">DevOps Engineer</option>
+              </optgroup>
+              <optgroup label="── Design & Art">
+                <option value="UI/UX Designer">UI/UX Designer</option>
+                <option value="3D Artist">3D Artist</option>
+                <option value="2D Artist / Illustrator">2D Artist / Illustrator</option>
+                <option value="Motion Designer">Motion Designer</option>
+              </optgroup>
+              <optgroup label="── Management & Other">
+                <option value="Project Manager">Project Manager</option>
+                <option value="QA Engineer">QA Engineer</option>
+                <option value="Content Creator">Content Creator</option>
+                <option value="Social Media Manager">Social Media Manager</option>
+                <option value="Marketing Lead">Marketing Lead</option>
+                <option value="Other">Other</option>
+              </optgroup>
+            </select>
+            <span class="field-err" id="err-member-role">⚠ Please select your role</span>
+          </div>
+
           <div class="form-group">
             <label class="form-label" for="pan-number">PAN Number <span class="req">*</span></label>
             <input type="text" class="form-input" id="pan-number" placeholder="ABCDE1234F"
@@ -785,6 +823,7 @@ const RULES = [
   { id:'nick-name',        err:'err-nick-name',        check: v => v.trim().length > 0 },
   { id:'dob',              err:'err-dob',              check: v => isAbove18(v) },
   { id:'email',            err:'err-email',            check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
+  { id:'member-role',      err:'err-member-role',      check: v => v !== '' },
   { id:'pan-number',       err:'err-pan-number',       check: v => /^[A-Z]{5}[0-9]{4}[A-Z]$/.test(v.trim().toUpperCase()) },
   { id:'emp-status',       err:'err-emp-status',       check: v => v !== '' },
   { id:'qualification',    err:'err-qualification',    check: v => v !== '' },
@@ -867,6 +906,7 @@ document.getElementById('reg-form').addEventListener('submit', async (e) => {
     nickName:        document.getElementById('nick-name').value.trim(),
     dob:             document.getElementById('dob').value,
     email:           document.getElementById('email').value.trim(),
+    role:            document.getElementById('member-role').value,
     panNumber:       document.getElementById('pan-number').value.trim().toUpperCase(),
     empStatus:       document.getElementById('emp-status').value,
     qualification:   document.getElementById('qualification').value,
@@ -944,6 +984,10 @@ function showSuccess(data) {
     <div class="detail-row">
       <span class="detail-key">Date of Birth</span>
       <span class="detail-val">${fmtDOB(data.dob)}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-key">Role</span>
+      <span class="detail-val">${esc(data.role)}</span>
     </div>
     <div class="detail-row">
       <span class="detail-key">PAN Number</span>

@@ -181,6 +181,16 @@ main {
   transition: transform 0.15s, box-shadow 0.15s;
 }
 .btn-home:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(108,79,246,0.5); }
+.btn-scrum {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; text-decoration: none;
+  padding: 12px 28px; border-radius: 8px;
+  border: 1px solid rgba(255,106,40,0.4);
+  color: var(--orange2);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.btn-scrum:hover { background: rgba(255,106,40,0.1); border-color: var(--orange); color: var(--text); }
 .btn-back {
   font-family: 'Rajdhani', sans-serif;
   font-size: 1rem; font-weight: 600; letter-spacing: 0.06em;
@@ -227,7 +237,7 @@ footer {
   nav { padding: 0 20px; }
   .nav-back { display: none; }
   .btn-row { flex-direction: column; width: 100%; }
-  .btn-home, .btn-back { width: 100%; text-align: center; }
+  .btn-home, .btn-scrum, .btn-back { width: 100%; text-align: center; }
 }
 </style>
 </head>
@@ -248,15 +258,13 @@ footer {
 <!-- MAIN -->
 <main>
   <div class="error-code">404</div>
-  <span class="ghost">👻</span>
+  <span class="ghost" id="ghost-emoji">👻</span>
   <div class="error-title">Page Not Found</div>
-  <p class="error-sub">
-    Looks like this level doesn't exist — or got <span>deleted by a bug</span>.<br>
-    Let's get you back to safety.
-  </p>
+  <p class="error-sub" id="meme-text"></p>
 
   <div class="btn-row">
     <a class="btn-home" href="/">▶ &nbsp;Back to Home</a>
+    <a class="btn-scrum" href="/scrumboard">🎮 &nbsp;Scrum Board</a>
     <a class="btn-back" href="javascript:history.back()">← Go Back</a>
   </div>
 
@@ -276,6 +284,28 @@ footer {
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const memes = [
+    { text: 'Bro typed a URL and speedran to a 404. Skill issue. 💀', ghost: '💀' },
+    { text: 'This page left the chat. 😂 It said "I\'m not in the mood today."', ghost: '🚪' },
+    { text: 'GTA loading screen has more content than this URL. 🎮', ghost: '👾' },
+    { text: 'Sir, this is a 404. The page you wanted doesn\'t exist in any parallel universe. 🌌', ghost: '🌌' },
+    { text: 'You found the void. Congrats. Nobody else wanted this page either. 🕳️', ghost: '🕳️' },
+    { text: 'This URL hit different... ly wrong. 💅', ghost: '✨' },
+    { text: 'Error 404: Page is on vacation and forgot to tell anyone. ✈️', ghost: '🏖️' },
+    { text: 'The page doesn\'t exist. It never existed. We don\'t talk about it. 🤫', ghost: '🤫' },
+    { text: 'Imagine typing a URL this wrong and not being embarrassed. Couldn\'t be me. 😭', ghost: '😭' },
+    { text: 'POV: You followed a link from 2019. It did not survive. ☠️', ghost: '☠️' },
+    { text: 'This page got deleted faster than your browser history. 💨', ghost: '🙈' },
+    { text: 'Nahi milega bhai. Gayi page, wapas nahi aayegi. 🙏', ghost: '🫡' },
+    { text: 'You played yourself. This URL doesn\'t exist and never did. 🤡', ghost: '🤡' },
+    { text: 'Our servers looked everywhere. Even checked under the sofa. Nothing. 🛋️', ghost: '🔦' },
+    { text: 'Page.exe has stopped working. Try turning the internet off and on. 🔌', ghost: '💻' },
+  ];
+
+  const pick = memes[Math.floor(Math.random() * memes.length)];
+  document.getElementById('meme-text').innerHTML = pick.text;
+  document.getElementById('ghost-emoji').textContent = pick.ghost;
 </script>
 </body>
 </html>

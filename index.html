@@ -1142,5 +1142,12 @@ document.querySelectorAll('.stat-n[data-count]').forEach(el => counterObserver.o
   loadVideos();
 })();
 </script>
+
+<script>
+// If someone lands on /index.html, silently clean the URL to /
+if (window.location.pathname === '/index.html') {
+  window.history.replaceState(null, '', '/');
+}
+</script>
 </body>
 </html>
