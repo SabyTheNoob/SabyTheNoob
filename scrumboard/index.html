@@ -6,6 +6,9 @@
 <title>SabyTheNoob · Scrum Board</title>
 <link rel="icon" type="image/png" href="/assets/sabythenoob.png">
 <link rel="apple-touch-icon" href="/assets/sabythenoob.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:     #09090f;
@@ -779,23 +782,21 @@ async function tryLogin() {
   errEl.classList.remove('show');
 
   if (!nick || !pass) {
-    errEl.textContent = '⚠ Enter your nick name and password.';
-    errEl.classList.add('show');
+    showErr(errEl, '⚠ Enter your nick name and password.');
     return;
   }
 
-  // ── 1. Admin shortcut: check hardcoded TEAM_AUTH ──────────
-  const adminEntry = Object.entries(TEAM_AUTH)
-    .find(([p, u]) => p === pass && u.name.toLowerCase() === nick.toLowerCase());
-  if (adminEntry) {
-    openBoard({ ...adminEntry[1] });
-    return;
+  // ── 1. Admin shortcut (hardcoded) ────────────────────────
+  for (const [p, u] of Object.entries(TEAM_AUTH)) {
+    if (p === pass && u.name.toLowerCase() === nick.toLowerCase()) {
+      openBoard({ ...u });
+      return;
+    }
   }
 
-  // ── 2. Member login: verify against the Members sheet ─────
+  // ── 2. Member login via Google Sheet ─────────────────────
   if (!WEBAPP_URL) {
-    errEl.textContent = '⚠ No backend configured.';
-    errEl.classList.add('show');
+    showErr(errEl, '⚠ No backend configured.');
     return;
   }
 
@@ -806,39 +807,55 @@ async function tryLogin() {
     const res  = await fetch(WEBAPP_URL, {
       method : 'POST',
       body   : JSON.stringify({ action: 'verifyLogin', nickName: nick, scrumPass: pass }),
-      // No Content-Type — avoids CORS preflight
     });
-    const data = await res.json();
+
+    // Read as text first — avoids silent failure when server returns HTML error
+    const raw = await res.text();
+    console.log('[STN Login] raw response:', raw.slice(0, 600));
+
+    let data;
+    try { data = JSON.parse(raw); }
+    catch {
+      showErr(errEl, '⚠ Server returned an unexpected response — check console (F12).');
+      return;
+    }
+
+    console.log('[STN Login] parsed:', data);
 
     if (data.success) {
-      // Look up colour from Team sheet cache (or cycle through defaults)
-      const teamEntry = teamMembers.find(m => m.name.toLowerCase() === data.name.toLowerCase());
-      const idx       = teamMembers.findIndex(m => m.name.toLowerCase() === data.name.toLowerCase());
+      const teamEntry = teamMembers.find(m => m.name.toLowerCase() === (data.name||'').toLowerCase());
+      const idx       = teamMembers.findIndex(m => m.name.toLowerCase() === (data.name||'').toLowerCase());
       const color     = teamEntry?.color || DEFAULT_COLORS[Math.max(idx,0) % DEFAULT_COLORS.length];
       openBoard({ name: data.name, color, role: data.role || 'Member' });
     } else {
-      // Show a specific message based on reason from backend
       const msgs = {
-        no_sheet      : '⚠ No members registered yet. Register first.',
-        no_members    : '⚠ No members registered yet. Register first.',
+        empty_fields  : '⚠ Nick name and password cannot be empty.',
+        no_sheet      : '⚠ No members registered yet — register first.',
+        no_members    : '⚠ No members found in sheet — register first.',
         nick_not_found: '⚠ Nick name not found. Check spelling or register.',
         wrong_password: '⚠ Wrong password for this nick name.',
-        bad_headers   : '⚠ Sheet configuration error — contact admin.',
+        bad_headers   : '⚠ Sheet header mismatch — contact admin.',
       };
-      errEl.textContent = msgs[data.reason] || '⚠ Incorrect nick name or password.';
-      errEl.classList.add('show');
+      const reason = data.reason || 'unknown';
+      showErr(errEl, msgs[reason] || `⚠ Login failed (reason: ${reason})`);
       document.getElementById('lock-pass').value = '';
       document.getElementById('lock-pass').focus();
-      setTimeout(() => errEl.classList.remove('show'), 5000);
     }
+
   } catch (err) {
-    errEl.textContent = '⚠ Could not reach server — try again.';
-    errEl.classList.add('show');
-    setTimeout(() => errEl.classList.remove('show'), 3500);
+    console.error('[STN Login] fetch error:', err);
+    showErr(errEl, `⚠ Network error: ${err.message}`);
   } finally {
     btn.disabled = false;
-    btn.textContent = '▶  Enter Board';
+    btn.textContent = '▶  Enter Board';
   }
+}
+
+function showErr(el, msg) {
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 6000);
 }
 
 function openBoard(user) {

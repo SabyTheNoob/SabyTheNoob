@@ -540,8 +540,7 @@ section { padding: 96px 24px; }
 /* ========== FOOTER ========== */
 footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px 48px 36px; }
 .foot-grid { max-width:1120px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px; margin-bottom:48px; }
-.foot-logo { font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:0.08em; color:var(--text); text-decoration:none; display:inline-block; margin-bottom:12px; }
-.foot-logo span { color:var(--orange); }
+.foot-logo { text-decoration:none; display:inline-flex; align-items:center; gap:8px; margin-bottom:12px; }
 .foot-desc { font-size:0.85rem; font-weight:300; color:var(--muted2); max-width:280px; line-height:1.7; }
 .foot-col h4 { font-family:'Rajdhani',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:16px; }
 .foot-col ul { list-style:none; }
@@ -815,7 +814,10 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
 <footer>
   <div class="foot-grid">
     <div>
-      <a class="foot-logo" href="/"><img src="/assets/sabythenoob.png" alt="SabyTheNoob" style="height:36px;width:auto;display:block;margin-bottom:12px;"></a>
+      <a class="foot-logo" href="/">
+        <img src="/assets/sabythenoob.png" alt="SabyTheNoob" style="height:36px;width:auto;display:block;">
+        <span class="brand-name" style="font-size:1.2rem;">SabyThe<span class="brand-noob">Noob</span></span>
+      </a>
       <p class="foot-desc">Indie studio from Tamil Nadu, India. Building games, apps, VR and simulations since 2021.</p>
     </div>
     <div class="foot-col">
