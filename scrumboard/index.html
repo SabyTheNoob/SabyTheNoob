@@ -151,7 +151,7 @@ body {
 /* Sub-header */
 .board-sub {
   padding:14px 20px 12px;
-  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
   flex-shrink:0;
 }
 .board-title { font-size:18px; font-weight:800; letter-spacing:-.3px; }
@@ -164,10 +164,16 @@ body {
 }
 .stat-chip strong { color:var(--white); margin-left:4px; }
 
+/* ── FILTER + ACTION ROW ──────────────────────────────── */
+.sub-controls {
+  display:flex; align-items:center; gap:10px;
+  margin-left:auto; flex-shrink:0; flex-wrap:wrap;
+}
+
 /* ── FILTER DROPDOWN ──────────────────────────────────── */
 .filter-wrap {
   display:flex; align-items:center; gap:8px;
-  margin-left:auto; flex-shrink:0;
+  flex-shrink:0;
 }
 .filter-label-text {
   font-size:12px; font-weight:600; color:var(--gray); white-space:nowrap;
@@ -393,6 +399,87 @@ option { background:#16161f; }
 ::-webkit-scrollbar-track { background:transparent; }
 ::-webkit-scrollbar-thumb { background:var(--bg4); border-radius:3px; }
 input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); cursor:pointer; }
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE — Tablet  ≤ 768px
+   ══════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Header — hide sprint label and sync text, keep logo + user */
+  .h-sprint       { display:none; }
+  .h-sync span    { display:none; }          /* hide "Synced" text, keep dot */
+  .h-divider      { display:none; }
+  .board-header   { padding:0 14px; gap:10px; }
+  .h-logo         { font-size:11px; }
+  #h-username     { display:none; }          /* hide name, keep avatar */
+
+  /* Sub-header — stack into two rows */
+  .board-sub {
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+    padding:12px 14px 10px;
+  }
+  .board-title   { font-size:16px; }
+  .board-stats   { flex-wrap:wrap; }
+  .sub-controls  { flex-direction:row; }
+
+  /* Controls row — stack + full width */
+  .sub-controls  { margin-left:0; width:100%; flex-wrap:nowrap; }
+  .filter-wrap   { flex:1; }
+  .filter-select { min-width:0; width:100%; }
+  .btn-primary   { flex-shrink:0; white-space:nowrap; }
+
+  /* Board columns — narrower, swipe to scroll */
+  .board-cols  { padding:4px 14px 20px; gap:10px; }
+  .col         { flex:0 0 80vw; min-width:220px; }
+
+  /* Modal — full-screen on mobile */
+  .modal-overlay { padding:0; align-items:flex-end; }
+  .modal {
+    border-radius:20px 20px 0 0;
+    width:100%;
+    max-width:100%;
+    max-height:92vh;
+  }
+  .modal-head  { padding:18px 18px 0; }
+  .modal-body  { padding:16px 18px 0; gap:13px; }
+  .modal-foot  { padding:14px 18px 18px; }
+
+  /* Stack form rows on mobile */
+  .form-row { grid-template-columns:1fr; }
+
+  /* Always show the card menu button on touch */
+  .tc-menu-btn { opacity:1; }
+
+  /* Setup banner */
+  .setup-banner { margin:0 14px 6px; }
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE — Small mobile  ≤ 480px
+   ══════════════════════════════════════════════ */
+@media (max-width: 480px) {
+
+  /* Lock screen */
+  .lock-box  { padding:36px 24px; border-radius:16px; }
+  .lock-title { font-size:19px; }
+  .lock-sub   { font-size:12px; margin-bottom:26px; }
+
+  /* Wider columns — almost full viewport */
+  .col { flex:0 0 88vw; }
+
+  /* Header shrinks */
+  .board-header { height:48px; }
+  .h-logo       { letter-spacing:1px; }
+  .h-logout     { font-size:10px; padding:4px 8px; }
+
+  /* Stat chips wrap nicely */
+  .stat-chip { font-size:11px; }
+
+  /* Keep filter compact */
+  .filter-label-text { display:none; }
+}
 </style>
 </head>
 <body>
@@ -414,7 +501,12 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
     </div>
     <button class="lock-btn" id="lock-btn" onclick="tryLogin()">▶ &nbsp;Enter Board</button>
     <div class="lock-error" id="lock-error">Incorrect nick name or password.</div>
-    <div class="lock-footer">Saby The Noob · Internal Tools · Private</div>
+    <div class="lock-footer">
+      Saby The Noob · Internal Tools · Private<br>
+      <a href="/register" style="color:var(--orange);text-decoration:none;font-weight:700;margin-top:6px;display:inline-block;">
+        New member? Register here →
+      </a>
+    </div>
   </div>
 </div>
 
@@ -440,22 +532,26 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
 
   <!-- Sub-header with inline filter dropdown -->
   <div class="board-sub">
+    <!-- Row 1: title + stats -->
     <div class="board-title">Team <span>Scrum Board</span></div>
     <div class="board-stats" id="board-stats"></div>
 
-    <!-- ── FILTER DROPDOWN ──────────────────────────── -->
-    <div class="filter-wrap">
-      <span class="filter-label-text">Filter by:</span>
-      <div class="select-wrap" id="select-wrap">
-        <select class="filter-select" id="person-filter" onchange="setFilter(this.value)">
-          <option value="">👥 All Members</option>
-        </select>
+    <!-- Row 2 (mobile: full-width row) -->
+    <div class="sub-controls">
+      <!-- ── FILTER DROPDOWN ──────────────────────── -->
+      <div class="filter-wrap">
+        <span class="filter-label-text">Filter by:</span>
+        <div class="select-wrap" id="select-wrap">
+          <select class="filter-select" id="person-filter" onchange="setFilter(this.value)">
+            <option value="">👥 All Members</option>
+          </select>
+        </div>
+        <!-- ✕ clear button — visible only when a filter is active -->
+        <button class="filter-clear" id="filter-clear" title="Clear filter" onclick="clearFilter()">✕</button>
       </div>
-      <!-- ✕ clear button — visible only when a filter is active -->
-      <button class="filter-clear" id="filter-clear" title="Clear filter" onclick="clearFilter()">✕</button>
-    </div>
 
-    <button class="btn-primary" onclick="openModal()">+ New Task</button>
+      <button class="btn-primary" onclick="openModal()">+ New Task</button>
+    </div>
   </div>
 
   <div class="setup-banner" id="setup-banner">
@@ -628,13 +724,21 @@ async function tryLogin() {
       const color     = teamEntry?.color || DEFAULT_COLORS[Math.max(idx,0) % DEFAULT_COLORS.length];
       openBoard({ name: data.name, color, role: data.role || 'Member' });
     } else {
-      errEl.textContent = '⚠ Incorrect nick name or password.';
+      // Show a specific message based on reason from backend
+      const msgs = {
+        no_sheet      : '⚠ No members registered yet. Register first.',
+        no_members    : '⚠ No members registered yet. Register first.',
+        nick_not_found: '⚠ Nick name not found. Check spelling or register.',
+        wrong_password: '⚠ Wrong password for this nick name.',
+        bad_headers   : '⚠ Sheet configuration error — contact admin.',
+      };
+      errEl.textContent = msgs[data.reason] || '⚠ Incorrect nick name or password.';
       errEl.classList.add('show');
       document.getElementById('lock-pass').value = '';
       document.getElementById('lock-pass').focus();
-      setTimeout(() => errEl.classList.remove('show'), 3500);
+      setTimeout(() => errEl.classList.remove('show'), 5000);
     }
-  } catch {
+  } catch (err) {
     errEl.textContent = '⚠ Could not reach server — try again.';
     errEl.classList.add('show');
     setTimeout(() => errEl.classList.remove('show'), 3500);
