@@ -403,13 +403,17 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
     <div class="lock-brand"><span class="dot">●</span> SABYTHE<span class="noob">NOOB</span></div>
     <div class="lock-icon">🎮</div>
     <div class="lock-title">Scrum Board</div>
-    <div class="lock-sub">Team access only · Enter your password</div>
+    <div class="lock-sub">Team access only · Sign in with your registered account</div>
+    <div class="lock-field">
+      <label class="lock-label" for="lock-nick">Nick Name</label>
+      <input type="text" class="lock-input" id="lock-nick" placeholder="Your registered nick name" autocomplete="username">
+    </div>
     <div class="lock-field">
       <label class="lock-label" for="lock-pass">Password</label>
-      <input type="password" class="lock-input" id="lock-pass" placeholder="••••••••" autocomplete="off">
+      <input type="password" class="lock-input" id="lock-pass" placeholder="Your scrum password" autocomplete="current-password">
     </div>
-    <button class="lock-btn" onclick="tryLogin()">▶ &nbsp;Enter Board</button>
-    <div class="lock-error" id="lock-error">Incorrect password — try again.</div>
+    <button class="lock-btn" id="lock-btn" onclick="tryLogin()">▶ &nbsp;Enter Board</button>
+    <div class="lock-error" id="lock-error">Incorrect nick name or password.</div>
     <div class="lock-footer">Saby The Noob · Internal Tools · Private</div>
   </div>
 </div>
@@ -523,12 +527,19 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
    ★  CONFIGURATION
    ============================================================ */
 
+// Admin fallback — { 'password': { name, color, role } }
+// Members registered via the form use their scrum password + nick name instead.
 const TEAM_AUTH = {
-  'saby@2627': { name: 'Sab',  color: '#FF6600', role: 'Admin'  },
-  'team@2627': { name: 'Team', color: '#7B5EA7', role: 'Member' },
+  'saby@2627': { name: 'Sab', color: '#FF6600', role: 'Admin' },
 };
 
-const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxZsxE881Nrfho8GvKhGwmzgc9ZdT0JaUjLGGqI4OiSDqh7uwV7PivEHamfuKt6Oimh/exec';
+// Default avatar colours (cycled for members without a Team-sheet colour)
+const DEFAULT_COLORS = [
+  '#FF6600','#7B5EA7','#5B8DEF','#4CAF82',
+  '#FFB347','#AB7AE0','#FF7777','#5BC4D4'
+];
+
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyL272Qr9U5kBdm7ulR9ZD2I51M6lUdsGPw6MOTy-b3c1efNVfrjg2GA4Kr8AsXsKoX/exec';
 
 const SPRINT = 'FY2627 · Q1';
 
@@ -555,35 +566,100 @@ let dragId       = null;
    AUTH
    ============================================================ */
 document.getElementById('h-sprint-name').textContent = SPRINT;
-document.getElementById('lock-pass').addEventListener('keydown', e => {
-  if (e.key === 'Enter') tryLogin();
+
+// Pre-load team from cache while lock screen is visible so colours
+// are ready the moment a member logs in successfully.
+(function preloadTeamCache() {
+  const cached = localLoad('stn_team');
+  if (cached.length > 0) teamMembers = cached;
+})();
+
+// Allow Enter key from either field to trigger login
+['lock-nick','lock-pass'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => {
+    if (e.key === 'Enter') tryLogin();
+  });
 });
 
-function tryLogin() {
-  const pass = document.getElementById('lock-pass').value;
-  const user = TEAM_AUTH[pass];
+async function tryLogin() {
+  const nick  = document.getElementById('lock-nick').value.trim();
+  const pass  = document.getElementById('lock-pass').value.trim();
   const errEl = document.getElementById('lock-error');
-  if (user) {
-    currentUser = { ...user };
-    document.getElementById('lock-screen').style.display = 'none';
-    const app = document.getElementById('board-app');
-    app.style.display = 'flex';
-    app.style.flexDirection = 'column';
-    initBoard();
-  } else {
+  const btn   = document.getElementById('lock-btn');
+
+  errEl.classList.remove('show');
+
+  if (!nick || !pass) {
+    errEl.textContent = '⚠ Enter your nick name and password.';
     errEl.classList.add('show');
-    document.getElementById('lock-pass').value = '';
-    document.getElementById('lock-pass').focus();
-    setTimeout(() => errEl.classList.remove('show'), 3000);
+    return;
   }
+
+  // ── 1. Admin shortcut: check hardcoded TEAM_AUTH ──────────
+  const adminEntry = Object.entries(TEAM_AUTH)
+    .find(([p, u]) => p === pass && u.name.toLowerCase() === nick.toLowerCase());
+  if (adminEntry) {
+    openBoard({ ...adminEntry[1] });
+    return;
+  }
+
+  // ── 2. Member login: verify against the Members sheet ─────
+  if (!WEBAPP_URL) {
+    errEl.textContent = '⚠ No backend configured.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Checking…';
+
+  try {
+    const res  = await fetch(WEBAPP_URL, {
+      method : 'POST',
+      body   : JSON.stringify({ action: 'verifyLogin', nickName: nick, scrumPass: pass }),
+      // No Content-Type — avoids CORS preflight
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      // Look up colour from Team sheet cache (or cycle through defaults)
+      const teamEntry = teamMembers.find(m => m.name.toLowerCase() === data.name.toLowerCase());
+      const idx       = teamMembers.findIndex(m => m.name.toLowerCase() === data.name.toLowerCase());
+      const color     = teamEntry?.color || DEFAULT_COLORS[Math.max(idx,0) % DEFAULT_COLORS.length];
+      openBoard({ name: data.name, color, role: data.role || 'Member' });
+    } else {
+      errEl.textContent = '⚠ Incorrect nick name or password.';
+      errEl.classList.add('show');
+      document.getElementById('lock-pass').value = '';
+      document.getElementById('lock-pass').focus();
+      setTimeout(() => errEl.classList.remove('show'), 3500);
+    }
+  } catch {
+    errEl.textContent = '⚠ Could not reach server — try again.';
+    errEl.classList.add('show');
+    setTimeout(() => errEl.classList.remove('show'), 3500);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '▶  Enter Board';
+  }
+}
+
+function openBoard(user) {
+  currentUser = user;
+  document.getElementById('lock-screen').style.display = 'none';
+  const app = document.getElementById('board-app');
+  app.style.display = 'flex';
+  app.style.flexDirection = 'column';
+  initBoard();
 }
 
 function logout() {
   currentUser = null; tasks = []; teamMembers = []; filterPerson = '';
   document.getElementById('board-app').style.display = 'none';
   document.getElementById('lock-screen').style.display = 'flex';
+  document.getElementById('lock-nick').value = '';
   document.getElementById('lock-pass').value = '';
-  document.getElementById('lock-pass').focus();
+  document.getElementById('lock-nick').focus();
 }
 
 /* ============================================================
@@ -638,9 +714,8 @@ async function loadTeamWithCache() {
     } catch { /* Sheets unreachable — keep using cached */ }
   }
 
-  // STEP 3: Ultimate fallback — use TEAM_AUTH names
+  // STEP 3: Ultimate fallback — if still empty, nothing to show yet
   if (teamMembers.length === 0) {
-    teamMembers = Object.values(TEAM_AUTH);
     populateFilterDropdown();
     buildAssigneeDropdown();
   }
