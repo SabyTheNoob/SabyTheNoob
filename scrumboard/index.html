@@ -544,15 +544,17 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
     <div class="lock-icon">🎮</div>
     <div class="lock-title">Scrum Board</div>
     <div class="lock-sub">Team access only · Sign in with your registered account</div>
-    <div class="lock-field">
-      <label class="lock-label" for="lock-nick">Nick Name</label>
-      <input type="text" class="lock-input" id="lock-nick" placeholder="Your registered nick name" autocomplete="username">
-    </div>
-    <div class="lock-field">
-      <label class="lock-label" for="lock-pass">Password</label>
-      <input type="password" class="lock-input" id="lock-pass" placeholder="Your scrum password" autocomplete="current-password">
-    </div>
-    <button class="lock-btn" id="lock-btn" onclick="tryLogin()">▶ &nbsp;Enter Board</button>
+    <form id="lock-form" onsubmit="tryLogin(); return false;">
+      <div class="lock-field">
+        <label class="lock-label" for="lock-nick">Nick Name</label>
+        <input type="text" class="lock-input" id="lock-nick" placeholder="Your registered nick name" autocomplete="username">
+      </div>
+      <div class="lock-field">
+        <label class="lock-label" for="lock-pass">Password</label>
+        <input type="password" class="lock-input" id="lock-pass" placeholder="Your scrum password" autocomplete="current-password">
+      </div>
+      <button type="submit" class="lock-btn" id="lock-btn">▶ &nbsp;Enter Board</button>
+    </form>
     <div class="lock-error" id="lock-error">Incorrect nick name or password.</div>
     <div class="lock-footer">
       Saby The Noob · Internal Tools · Private<br>
@@ -692,7 +694,7 @@ const DEFAULT_COLORS = [
   '#FFB347','#AB7AE0','#FF7777','#5BC4D4'
 ];
 
-const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyL272Qr9U5kBdm7ulR9ZD2I51M6lUdsGPw6MOTy-b3c1efNVfrjg2GA4Kr8AsXsKoX/exec';
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxAJWbTd47WWFx__WPyXnIo1r9iz3kLXGB626-nZM4CjesUAlbyXPq2QqeAH6C2lqo-/exec';
 
 const SPRINT = 'FY2627 · Q1';
 

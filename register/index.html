@@ -384,16 +384,65 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
             <span class="field-err" id="err-email">⚠ Enter a valid email address</span>
           </div>
 
+        </div>
+      </div>
+
+      <!-- 2. PROFESSIONAL DETAILS -->
+      <div class="form-section">
+        <div class="section-title">💼 Professional Details</div>
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label class="form-label" for="pan-number">PAN Number <span class="req">*</span></label>
+            <input type="text" class="form-input" id="pan-number" placeholder="ABCDE1234F"
+                   maxlength="10" style="text-transform:uppercase">
+            <span class="field-err" id="err-pan-number">⚠ Enter a valid 10-character PAN (e.g. ABCDE1234F)</span>
+            <span class="field-hint">Required for tax compliance under Indian law</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="emp-status">Employment Status <span class="req">*</span></label>
+            <select class="form-select" id="emp-status">
+              <option value="" disabled selected>Select status</option>
+              <option value="Student">Student</option>
+              <option value="Fresher">Fresher (0–1 yr exp)</option>
+              <option value="Working Professional">Working Professional</option>
+              <option value="Freelancer">Freelancer / Independent</option>
+              <option value="Self-Employed">Self-Employed</option>
+            </select>
+            <span class="field-err" id="err-emp-status">⚠ Required</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="qualification">Highest Qualification <span class="req">*</span></label>
+            <select class="form-select" id="qualification">
+              <option value="" disabled selected>Select qualification</option>
+              <option value="10th">10th (SSLC)</option>
+              <option value="12th">12th (HSC / PUC)</option>
+              <option value="Diploma">Diploma</option>
+              <option value="B.E / B.Tech">B.E / B.Tech</option>
+              <option value="B.Sc / BCA / B.Com">B.Sc / BCA / B.Com</option>
+              <option value="M.E / M.Tech / MCA">M.E / M.Tech / MCA</option>
+              <option value="MBA">MBA</option>
+              <option value="Other">Other</option>
+            </select>
+            <span class="field-err" id="err-qualification">⚠ Required</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="linkedin-url">LinkedIn Profile <span style="color:var(--gray);font-size:11px;">(optional)</span></label>
+            <input type="url" class="form-input" id="linkedin-url" placeholder="https://linkedin.com/in/yourname">
+          </div>
+
           <div class="form-group span-2">
-            <label class="form-label" for="father-name">Father's Name <span class="req">*</span></label>
-            <input type="text" class="form-input" id="father-name" placeholder="Father's full name">
-            <span class="field-err" id="err-father-name">⚠ Required</span>
+            <label class="form-label" for="portfolio-url">Portfolio / GitHub URL <span style="color:var(--gray);font-size:11px;">(optional)</span></label>
+            <input type="url" class="form-input" id="portfolio-url" placeholder="https://github.com/yourname or your portfolio link">
           </div>
 
         </div>
       </div>
 
-      <!-- 2. AADHAR UPLOAD -->
+      <!-- 3. AADHAR UPLOAD -->
       <div class="form-section">
         <div class="section-title">🪪 Aadhar Card</div>
         <div class="form-group">
@@ -441,7 +490,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
         </div>
       </div>
 
-      <!-- 3. BANK DETAILS -->
+      <!-- 4. BANK DETAILS -->
       <div class="form-section">
         <div class="section-title">🏦 Bank Account Details</div>
         <div class="form-grid">
@@ -491,7 +540,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
         </div>
       </div>
 
-      <!-- 4. INTERESTED DOMAINS -->
+      <!-- 5. INTERESTED DOMAINS -->
       <div class="form-section">
         <div class="section-title">🎯 Interested Domains</div>
         <div class="form-group">
@@ -542,7 +591,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
         </div>
       </div>
 
-      <!-- 5. SCRUM ACCESS -->
+      <!-- 6. SCRUM ACCESS -->
       <div class="form-section">
         <div class="section-title">🔐 Scrum Board Access</div>
         <div class="form-grid">
@@ -609,7 +658,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
 /* ============================================================
    CONFIG
    ============================================================ */
-const WEBAPP_URL   = 'https://script.google.com/macros/s/AKfycbyL272Qr9U5kBdm7ulR9ZD2I51M6lUdsGPw6MOTy-b3c1efNVfrjg2GA4Kr8AsXsKoX/exec';
+const WEBAPP_URL   = 'https://script.google.com/macros/s/AKfycbxAJWbTd47WWFx__WPyXnIo1r9iz3kLXGB626-nZM4CjesUAlbyXPq2QqeAH6C2lqo-/exec';
 const STORAGE_KEY  = 'stn_registered_v1'; // change to force re-enable
 
 /* ============================================================
@@ -630,6 +679,9 @@ window.addEventListener('DOMContentLoaded', () => {
    IFSC AUTO-UPPERCASE
    ============================================================ */
 document.getElementById('ifsc').addEventListener('input', function () {
+  this.value = this.value.toUpperCase();
+});
+document.getElementById('pan-number').addEventListener('input', function () {
   this.value = this.value.toUpperCase();
 });
 
@@ -733,7 +785,9 @@ const RULES = [
   { id:'nick-name',        err:'err-nick-name',        check: v => v.trim().length > 0 },
   { id:'dob',              err:'err-dob',              check: v => isAbove18(v) },
   { id:'email',            err:'err-email',            check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
-  { id:'father-name',      err:'err-father-name',      check: v => v.trim().length > 0 },
+  { id:'pan-number',       err:'err-pan-number',       check: v => /^[A-Z]{5}[0-9]{4}[A-Z]$/.test(v.trim().toUpperCase()) },
+  { id:'emp-status',       err:'err-emp-status',       check: v => v !== '' },
+  { id:'qualification',    err:'err-qualification',    check: v => v !== '' },
   { id:'account-holder',   err:'err-account-holder',   check: v => v.trim().length > 0 },
   { id:'account-type',     err:'err-account-type',     check: v => v !== '' },
   { id:'bank-name',        err:'err-bank-name',        check: v => v.trim().length > 0 },
@@ -771,11 +825,15 @@ function validate() {
   return ok;
 }
 
-// Live validation on blur
+// Clear error styling as the user types — no validation until Submit is pressed
 RULES.forEach(({ id, err }) => {
   const inp = document.getElementById(id);
-  inp?.addEventListener('blur',  () => validate());
-  inp?.addEventListener('input', () => {
+  if (!inp) return;
+  inp.addEventListener('input', () => {
+    inp.classList.remove('err');
+    document.getElementById(err)?.classList.remove('show');
+  });
+  inp.addEventListener('change', () => {
     inp.classList.remove('err');
     document.getElementById(err)?.classList.remove('show');
   });
@@ -809,7 +867,11 @@ document.getElementById('reg-form').addEventListener('submit', async (e) => {
     nickName:        document.getElementById('nick-name').value.trim(),
     dob:             document.getElementById('dob').value,
     email:           document.getElementById('email').value.trim(),
-    fatherName:      document.getElementById('father-name').value.trim(),
+    panNumber:       document.getElementById('pan-number').value.trim().toUpperCase(),
+    empStatus:       document.getElementById('emp-status').value,
+    qualification:   document.getElementById('qualification').value,
+    linkedinUrl:     document.getElementById('linkedin-url').value.trim(),
+    portfolioUrl:    document.getElementById('portfolio-url').value.trim(),
     accountHolder:   document.getElementById('account-holder').value.trim(),
     accountType:     document.getElementById('account-type').value,
     bankName:        document.getElementById('bank-name').value.trim(),
@@ -824,11 +886,13 @@ document.getElementById('reg-form').addEventListener('submit', async (e) => {
   };
 
   try {
-    await fetch(WEBAPP_URL, {
+    const res  = await fetch(WEBAPP_URL, {
       method: 'POST',
       body:   JSON.stringify(payload),
       // No Content-Type — avoids CORS preflight with Google Apps Script
     });
+    const result = await res.json().catch(() => ({}));
+    console.log('[STN Register] backend response:', result);
 
     clearInterval(progInt);
     progBar.style.width = '100%';
@@ -838,7 +902,13 @@ document.getElementById('reg-form').addEventListener('submit', async (e) => {
     localStorage.setItem(STORAGE_KEY, new Date().toISOString());
 
     showSuccess(payload);
-    showToast('✓ Registration submitted!', 'success');
+
+    if (result.driveStatus === 'error' || result.driveStatus === 'no_data') {
+      showToast('✓ Registered! ⚠ Aadhar upload failed: ' + (result.driveError || 'unknown'), 'error', 8000);
+      console.warn('[STN Register] Drive upload failed:', result.driveError);
+    } else {
+      showToast('✓ Registration submitted!', 'success');
+    }
 
   } catch (err) {
     clearInterval(progInt);
@@ -876,6 +946,14 @@ function showSuccess(data) {
       <span class="detail-val">${fmtDOB(data.dob)}</span>
     </div>
     <div class="detail-row">
+      <span class="detail-key">PAN Number</span>
+      <span class="detail-val">${esc(data.panNumber)}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-key">Status</span>
+      <span class="detail-val">${esc(data.empStatus)} · ${esc(data.qualification)}</span>
+    </div>
+    <div class="detail-row">
       <span class="detail-key">Domains</span>
       <span class="detail-val">${esc(data.domains)}</span>
     </div>
@@ -906,11 +984,11 @@ function fmtDOB(dob) {
 }
 
 let toastTimer;
-function showToast(msg, type = 'success') {
+function showToast(msg, type = 'success', duration = 3500) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = `toast ${type} show`;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+  toastTimer = setTimeout(() => t.classList.remove('show'), duration);
 }
 </script>
 </body>
