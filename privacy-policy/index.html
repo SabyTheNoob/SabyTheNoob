@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy Policy — SabyTheNoob</title>
+<link rel="icon" type="image/png" href="/assets/sabythenoob.png">
+<link rel="apple-touch-icon" href="/assets/sabythenoob.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -51,13 +53,27 @@ nav {
   backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border);
 }
-.nav-logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.5rem; letter-spacing: 0.08em;
-  color: var(--text); text-decoration: none;
-  display: flex; align-items: center; gap: 10px;
+.nav-logo { text-decoration:none; display:flex; align-items:center; gap:8px; }
+.nav-logo img { height:30px; width:auto; display:block; }
+.brand-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  display: inline-flex; align-items: center;
+  color: var(--text);
+  white-space: nowrap;
 }
-.logo-dot { width:7px; height:7px; background:var(--orange); border-radius:50%; box-shadow:0 0 8px var(--orange); animation: blink 2s infinite; }
+.brand-noob {
+  background: #5BAD78;
+  color: #fff;
+  padding: 0 6px;
+  border-radius: 4px;
+  margin-left: 1px;
+  display: inline-flex; align-items: center;
+  height: 1.35em;
+}
 @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 .back-a {
   font-family: 'Rajdhani', sans-serif;
@@ -263,7 +279,10 @@ ul li { margin-bottom: 6px; }
 <body>
 
 <nav>
-  <a class="nav-logo" href="/"><span class="logo-dot"></span>SabyTheNoob</a>
+  <a class="nav-logo" href="/">
+    <img src="/assets/sabythenoob.png" alt="SabyTheNoob">
+    <span class="brand-name">SabyThe<span class="brand-noob">Noob</span></span>
+  </a>
   <a class="back-a" href="/">← Back to Home</a>
 </nav>
 

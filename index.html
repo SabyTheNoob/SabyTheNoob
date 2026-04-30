@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SabyTheNoob — Indie Game & App Studio</title>
 <meta name="description" content="SabyTheNoob — indie studio from India building games, mobile apps, VR experiences and virtual simulations. Play our games on Android.">
-<link rel="icon" id="favicon" type="image/png" href="">
-<link rel="apple-touch-icon" id="apple-icon" href="">
+<link rel="icon" type="image/png" href="/assets/sabythenoob.png">
+<link rel="apple-touch-icon" href="/assets/sabythenoob.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -64,9 +64,28 @@ nav {
 nav.scrolled { background: rgba(5,5,10,0.96); }
 .nav-logo {
   text-decoration: none;
-  display: flex; align-items: center;
+  display: flex; align-items: center; gap: 8px;
 }
 .nav-logo img { height: 32px; width: auto; display: block; }
+.brand-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  display: inline-flex; align-items: center;
+  color: inherit;
+  white-space: nowrap;
+}
+.brand-noob {
+  background: #5BAD78;
+  color: #fff;
+  padding: 0 6px;
+  border-radius: 4px;
+  margin-left: 1px;
+  display: inline-flex; align-items: center;
+  height: 1.35em;
+}
 @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
 .nav-links { display: flex; gap: 32px; list-style: none; }
@@ -603,7 +622,10 @@ footer { background:var(--bg1); border-top:1px solid var(--border); padding:64px
 
 <!-- ========== NAV ========== -->
 <nav id="mainNav">
-  <a class="nav-logo" href="/"><img src="/assets/sabythenoob.png" alt="SabyTheNoob"></a>
+  <a class="nav-logo" href="/">
+    <img src="/assets/sabythenoob.png" alt="SabyTheNoob">
+    <span class="brand-name">SabyThe<span class="brand-noob">Noob</span></span>
+  </a>
   <ul class="nav-links">
     <li><a href="#apps">Games</a></li>
     <li><a href="#videos">Videos</a></li>

@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SabyTheNoob · Scrum Board</title>
+<link rel="icon" type="image/png" href="/assets/sabythenoob.png">
+<link rel="apple-touch-icon" href="/assets/sabythenoob.png">
 <style>
 :root {
   --bg:     #09090f;
@@ -82,11 +84,9 @@ body {
   text-align: center; box-shadow: var(--shadow); position: relative;
 }
 .lock-brand {
-  font-size:11px; font-weight:800; letter-spacing:4px;
-  text-transform:uppercase; color:var(--gray); margin-bottom:24px;
-  display:flex; align-items:center; justify-content:center; gap:6px;
+  margin-bottom:24px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
 }
-.lock-brand .dot,.lock-brand .noob { color:var(--orange); }
 .lock-icon {
   width:56px; height:56px; border-radius:14px;
   background: linear-gradient(135deg,var(--orange),var(--purple));
@@ -145,11 +145,29 @@ body {
   position:sticky; top:0; z-index:100; flex-shrink:0;
 }
 .h-logo {
-  font-size:12px; font-weight:800; letter-spacing:2px;
-  text-transform:uppercase; white-space:nowrap;
-  display:flex; align-items:center; gap:4px;
+  white-space:nowrap;
+  display:flex; align-items:center; gap:7px;
 }
 .h-logo .dot,.h-logo .noob { color:var(--orange); }
+.brand-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  display: inline-flex; align-items: center;
+  color: var(--white);
+  white-space: nowrap;
+}
+.brand-noob {
+  background: #5BAD78;
+  color: #fff;
+  padding: 0 6px;
+  border-radius: 4px;
+  margin-left: 1px;
+  display: inline-flex; align-items: center;
+  height: 1.35em;
+}
 .h-divider { width:1px; height:22px; background:var(--border); flex-shrink:0; }
 .h-sprint  { font-size:13px; color:var(--gray); white-space:nowrap; }
 .h-sprint strong { color:var(--white); margin-left:5px; }
@@ -517,7 +535,8 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
 <div id="lock-screen" style="display:none">
   <div class="lock-box">
     <div class="lock-brand">
-      <img src="/assets/sabythenoob.png" alt="SabyTheNoob" style="height:36px;margin-bottom:4px;">
+      <img src="/assets/sabythenoob.png" alt="SabyTheNoob" style="height:36px;">
+      <span class="brand-name">SabyThe<span class="brand-noob">Noob</span></span>
     </div>
     <div class="lock-icon">🎮</div>
     <div class="lock-title">Scrum Board</div>
@@ -545,7 +564,10 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(.5); curso
 <div id="board-app">
 
   <header class="board-header">
-    <img src="/assets/sabythenoob.png" alt="SabyTheNoob" class="h-logo" style="height:28px;">
+    <div class="h-logo">
+      <img src="/assets/sabythenoob.png" alt="SabyTheNoob" style="height:28px;">
+      <span class="brand-name">SabyThe<span class="brand-noob">Noob</span></span>
+    </div>
     <div class="h-divider"></div>
     <div class="h-sprint">Sprint <strong id="h-sprint-name"></strong></div>
     <div class="h-spacer"></div>
